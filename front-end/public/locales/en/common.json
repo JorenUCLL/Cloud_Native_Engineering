@@ -1,0 +1,74 @@
+{
+  "general.loading": "loading...",
+  "general.login1": "Please log in ",
+  "general.login2": "here",
+  "general.login3": " to view this page.",
+  "header": {
+    "title": "Project Pinch",
+    "posts": "posts",
+    "profile": "profile",
+    "logout": "logout",
+    "login": "log in"
+  },
+  "home": {
+    "title": "homepage",
+    "content": "Home"
+  },
+  "posts": {
+    "title": "Posts",
+    "statistics": "statistics",
+    "createPost": "Create new post",
+    "editButton": "edit",
+    "deleteButton": "delete",
+    "gym": "gym:",
+    "edit": {
+      "title": "Edit Post",
+      "error": "Invalid post ID",
+      "gradeError": "The grade must be a capital V followed by 1 or 2 numbers",
+      "wrongPost": "You cannot edit a post that is not yours",
+      "form": {
+        "title": "title",
+        "comment": "comment",
+        "gymname": "gymname",
+        "grade": "grade",
+        "location": "location"
+      },
+      "updateButton": "Update Post"
+    },
+    "create": {
+      "title": "New post",
+      "error1": "Please fill in all fields correctly before publishing.",
+      "error2": "An error occurred while creating the post. Please try again.",
+      "gradeError": "The grade must be a capital V followed by 1 or 2 numbers",
+      "form": {
+        "title": "title",
+        "comment": "comment",
+        "gymname": "gymname",
+        "grade": "grade",
+        "location": "location"
+      },
+      "publish": "publish"
+    }
+  },
+  "login": {
+    "title": "Login",
+    "loggedIn": "You are already logged in",
+    "incorrect": "Incorrect Password or Email",
+    "success": "login success",
+    "email": "email",
+    "password": "password",
+    "submit": "submit"
+  },
+  "profile": {
+    "title": "Profile",
+    "AantalPosts": "Number Of Posts",
+    "LaatstePrestatie": "Last Achievement",
+    "NoAchievementsYet": "No achievements yet",
+    "startDate": "startDate",
+    "LastBoulder": "Last Boulder",
+    "NoBouldersAvailable": "No Boulders Available"
+  },
+  "achievements": {
+    "title": "Achievements"
+  }
+}

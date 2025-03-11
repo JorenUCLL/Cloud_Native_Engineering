@@ -1,0 +1,75 @@
+{
+  "general.loading": "cargando...",
+  "general.login1": "Por favor inicie sesión ",
+  "general.login2": "aquí",
+  "general.login3": " para ver esta página.",
+  "header": {
+    "title": "Proyecto Pinch",
+    "posts": "publicaciones",
+    "profile": "perfil",
+    "logout": "cerrar sesión",
+    "login": "iniciar sesión"
+  },
+  "home": {
+    "title": "página de inicio",
+    "content": "Inicio"
+  },
+  "posts": {
+    "title": "Publicaciones",
+    "statistics": "estadísticas",
+    "createPost": "Crear nueva publicación",
+    "editButton": "editar",
+    "deleteButton": "eliminar",
+    "gym": "gimnasio:",
+
+    "edit": {
+      "title": "Editar publicación",
+      "error": "ID de publicación inválido",
+      "gradeError": "El grado debe ser una V mayúscula seguida de 1 o 2 números",
+      "wrongPost": "No puedes editar una publicación que no es tuya",
+      "form": {
+        "title": "título",
+        "comment": "comentario",
+        "gymname": "nombre del gimnasio",
+        "grade": "calificación",
+        "location": "ubicación"
+      },
+      "updateButton": "Actualizar publicación"
+    },
+    "create": {
+      "title": "Nueva publicación",
+      "error1": "Por favor, complete todos los campos correctamente antes de publicar.",
+      "error2": "Ocurrió un error al crear la publicación. Por favor, intente de nuevo.",
+      "gradeError": "El grado debe ser una V mayúscula seguida de 1 o 2 números",
+      "form": {
+        "title": "título",
+        "comment": "comentario",
+        "gymname": "nombre del gimnasio",
+        "grade": "calificación",
+        "location": "ubicación"
+      },
+      "publish": "publicar"
+    }
+  },
+  "login": {
+    "title": "Iniciar sesión",
+    "loggedIn": "Ya has iniciado sesión",
+    "incorrect": "El correo-e o contraseña incorrectos",
+    "success": "inicio de sesión exitoso",
+    "email": "el correo-e",
+    "password": "contraseña",
+    "submit": "enviar"
+  },
+  "profile": {
+    "title": "Perfil",
+    "AantalPosts": "Número de publicaciones:",
+    "LaatstePrestatie": "Último logro:",
+    "NoAchievementsYet": "Aún no hay logros",
+    "startDate": "fecha de inicio",
+    "LastBoulder": "Última roca:",
+    "NoBouldersAvailable": "No hay rocas disponibles"
+  },
+  "achievements": {
+    "title": "Logros"
+  }
+}

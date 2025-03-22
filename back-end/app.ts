@@ -5,11 +5,7 @@ import * as bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { userRouter } from './controller/user.routes';
-import { postRouter } from './controller/post.routes';
-import { achievementRouter } from './controller/achievement.routes';
-import { climbingGymRouter } from './controller/climbingGym.routes';
-import { boulderProblemRouter } from './controller/boulderProblem.routes';
-import { imageRouter } from './controller/image.routes';
+
 import path from 'path';
 import { expressjwt } from 'express-jwt';
 import helmet from 'helmet';
@@ -39,10 +35,6 @@ app.use(
 app.use(bodyParser.json());
 
 app.use('/users', userRouter);
-app.use('/posts', postRouter);
-app.use('/achievements', achievementRouter);
-app.use('/gyms', climbingGymRouter);
-app.use('/boulders', boulderProblemRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Courses API is running...' });
@@ -72,8 +64,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
         res.status(400).json({ status: 'application error', message: err.message });
     }
 });
-
-app.use('/images', imageRouter);
 
 app.listen(port || 3000, () => {
     console.log(`Courses API is running on port ${port}.`);

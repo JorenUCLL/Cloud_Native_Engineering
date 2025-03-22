@@ -28,36 +28,39 @@ const Header: React.FC = () => {
     setIsLoggedIn(false);
   };
 
-  const { t } = useTranslation();
-
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
-        <Language />
+        <img
+          className={styles.navItem}
+          src="/pictures/home_white.png"
+          alt="HomeImage"
+        />
+        <img
+          className={styles.navItem}
+          src="/pictures/profile_white.png"
+          alt="HomeImage"
+        />
+        <img
+          className={styles.navItem}
+          src="/pictures/statisstics_white.png"
+          alt="HomeImage"
+        />
 
-        <Link href="/posts" className={styles.link}>
-          {t("header.posts")}
-        </Link>
-        <a className={styles.title}> {t("header.title")}</a>
-        <Link href="/profile" className={styles.link}>
-          {t("header.profile")}
-          {/* <Image
-            src="/pictures/pfp.png"
-            alt="pfp"
-            width={50}
-            height={50}
-          ></Image> */}
-        </Link>
         {isLoggedIn === null ? (
-          <p>{t("general.loading")}</p>
+          <p>Loading</p>
         ) : isLoggedIn ? (
-          <a href="/login" onClick={handleLogout} className={styles.link}>
-            {t("header.logout")}
-          </a>
+          <img
+            className={styles.navItem}
+            src="/pictures/logout_white.png"
+            alt="HomeImage"
+          />
         ) : (
-          <Link href="/login" className={styles.link}>
-            {t("header.login")}
-          </Link>
+          <img
+            className={styles.navItem}
+            src="/pictures/logout_white.png"
+            alt="HomeImage"
+          />
         )}
       </nav>
     </header>

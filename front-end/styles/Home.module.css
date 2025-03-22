@@ -1,0 +1,42 @@
+.header {
+  padding: 0.75rem;
+  background-image: linear-gradient(to bottom, #7d0808, #7d0808);
+}
+
+.homePage {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+}
+
+.navItem {
+  height: 3.5rem;
+  width: 3.5rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  text-align: center;
+  text-decoration: underline;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem 0;
+  color: rgb(0, 0, 0);
+}
+
+.titleP {
+  font-size: 2rem;
+  align-items: center;
+}

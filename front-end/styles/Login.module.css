@@ -1,0 +1,131 @@
+.title {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.error {
+  color: red;
+  padding-top: 0.5rem;
+}
+
+.loginMain {
+  margin-top: 1rem;
+}
+
+.page {
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  justify-self: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  justify-self: center;
+}
+
+.input {
+  margin-bottom: 1rem;
+}
+
+.field {
+  justify-self: center;
+  font-size: 1.2rem;
+  padding: 0 0 0.2rem 0;
+}
+
+.submit {
+  margin-top: 2rem;
+  padding: 1rem 0 1rem 0;
+  border-radius: 1rem;
+  background-color: rgb(235, 235, 235);
+}
+
+.submit:hover {
+  cursor: pointer;
+}
+
+.inputText {
+  padding: 0.5rem;
+}
+
+.table {
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  justify-self: center;
+  margin-top: 3rem;
+  border-collapse: collapse;
+  box-shadow: 10px 10px;
+}
+
+.tableHead {
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  padding: 1rem;
+  border-collapse: collapse;
+}
+
+.tr {
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  padding: 1rem;
+}
+
+.td {
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  padding: 1rem;
+}
+
+.notLoggedIn {
+  font-size: 1.5rem;
+  color: rgb(0, 0, 0);
+  padding: 0 2rem 2rem 2rem;
+  align-self: center;
+  text-align: center;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  margin-top: 0;
+  background-color: rgb(159, 159, 159);
+}
+
+.notLoggedInProfile {
+  font-size: 1.5rem;
+  color: rgb(0, 0, 0);
+  padding: 1rem 2rem 2rem 2rem;
+  align-self: center;
+  text-align: center;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  margin-top: 0;
+  background-color: rgb(159, 159, 159);
+}
+
+.success {
+  color: rgb(134, 205, 28);
+  text-align: center;
+  margin: 0;
+}
+
+.loginPage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 5rem;
+}

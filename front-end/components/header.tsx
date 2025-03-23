@@ -31,36 +31,46 @@ const Header: React.FC = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
-        <img
-          className={styles.navItem}
-          src="/pictures/home_white.png"
-          alt="HomeImage"
-        />
-        <img
-          className={styles.navItem}
-          src="/pictures/profile_white.png"
-          alt="HomeImage"
-        />
-        <img
-          className={styles.navItem}
-          src="/pictures/statisstics_white.png"
-          alt="HomeImage"
-        />
+        <a href="/">
+          <img
+            className={styles.navItem}
+            src="/pictures/home_white.png"
+            alt="HomeImage"
+          />
+        </a>
+        <a href="/profile">
+          <img
+            className={styles.navItem}
+            src="/pictures/profile_white.png"
+            alt="ProfileImage"
+          />
+        </a>
+        <a href="/profile">
+          <img
+            className={styles.navItem}
+            src="/pictures/statisstics_white.png"
+            alt="StatsImage"
+          />
+        </a>
 
         {isLoggedIn === null ? (
           <p>Loading</p>
         ) : isLoggedIn ? (
-          <img
-            className={styles.navItem}
-            src="/pictures/logout_white.png"
-            alt="HomeImage"
-          />
+          <a href="/login">
+            <img
+              className={styles.navItem}
+              src="/pictures/logout_white.png"
+              alt="LogoutImage"
+            />
+          </a>
         ) : (
-          <img
-            className={styles.navItem}
-            src="/pictures/logout_white.png"
-            alt="HomeImage"
-          />
+          <a href="/login">
+            <img
+              className={styles.navItem}
+              src="/pictures/logout_white.png"
+              alt="LoginImage"
+            />
+          </a>
         )}
       </nav>
     </header>

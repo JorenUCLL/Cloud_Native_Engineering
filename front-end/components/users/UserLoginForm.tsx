@@ -6,8 +6,6 @@ import LoginStyles from "../../styles/Login.module.css";
 import { useTranslation } from "next-i18next";
 
 const UserLoginForm: React.FC = () => {
-  const { t } = useTranslation();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -27,12 +25,12 @@ const UserLoginForm: React.FC = () => {
     let result = true;
 
     if (!email && email.trim() === "") {
-      setEmailError(t("login.incorrect"));
+      setEmailError("Email cannot be empty");
       result = false;
     }
 
     if (!password && password.trim() === "") {
-      setPasswordError(t("login.incorrect"));
+      setPasswordError("Password cannot be empty");
       result = false;
     }
 
@@ -54,7 +52,7 @@ const UserLoginForm: React.FC = () => {
     if (response.status === 200) {
       setStatusMessages([
         {
-          message: t("login.success"),
+          message: "Login Success",
           type: "success",
         },
       ]);
@@ -77,47 +75,20 @@ const UserLoginForm: React.FC = () => {
     } else {
       setStatusMessages([
         {
-          message: t("login.incorrect"),
+          message: "Login Failed",
           type: "error",
         },
       ]);
     }
   };
 
-  useEffect(() => {
-    setUsers([
-      {
-        name: "Joren",
-        email: "Joren.VanLaer@gmail.com",
-        password: "Joren123",
-        role: "user",
-      },
-      {
-        name: "Nathan",
-        email: "Nathan.DeKlerck@gmail.com",
-        password: "Nathan123",
-        role: "user",
-      },
-      {
-        name: "Alexandre",
-        email: "Alexandre.VanAerschot@gmail.com",
-        password: "Alexandre123",
-        role: "VIP",
-      },
-      {
-        name: "Johan",
-        email: "Johan.Pieck@gmail.com",
-        password: "Johan123",
-        role: "admin",
-      },
-    ]);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
       <div className={LoginStyles.page}>
         <h3 className={LoginStyles.title} data-testid="login-title">
-          {t("login.title")}
+          Log In
         </h3>
 
         {statusMessages.length > 0 && statusMessages[0].type === "success" && (
@@ -136,7 +107,7 @@ const UserLoginForm: React.FC = () => {
             className={LoginStyles.field}
             data-testid="email-label"
           >
-            {t("login.email")}
+            Email
           </label>
           <div className={LoginStyles.input}>
             <input
@@ -154,7 +125,7 @@ const UserLoginForm: React.FC = () => {
             className={LoginStyles.field}
             data-testid="password-label"
           >
-            {t("login.password")}
+            Password
           </label>
           <div className={LoginStyles.input}>
             <input
@@ -182,76 +153,10 @@ const UserLoginForm: React.FC = () => {
             className={LoginStyles.submit}
             data-testid="submit-button"
           >
-            {t("login.submit")}
+            Submit
           </button>
         </form>
       </div>
-      <table className={LoginStyles.table} data-testid="user-table">
-        <thead className={LoginStyles.tableHead}>
-          <tr className={LoginStyles.tableHead}>
-            <th
-              className={LoginStyles.tableHead}
-              scope="col"
-              data-testid="table-name-header"
-            >
-              Name
-            </th>
-            <th
-              className={LoginStyles.tableHead}
-              scope="col"
-              data-testid="table-email-header"
-            >
-              Email
-            </th>
-            <th
-              className={LoginStyles.tableHead}
-              scope="col"
-              data-testid="table-password-header"
-            >
-              Password
-            </th>
-            <th
-              className={LoginStyles.tableHead}
-              scope="col"
-              data-testid="table-role-header"
-            >
-              Role
-            </th>
-          </tr>
-        </thead>
-        <tbody data-testid="user-table-body">
-          {users.map((user, index) => (
-            <tr
-              className={LoginStyles.tr}
-              key={index}
-              onClick={() => {
-                setSelectedUser(user);
-              }}
-              role="button"
-              data-testid={`user-row-${index}`}
-            >
-              <td className={LoginStyles.td} data-testid={`user-name-${index}`}>
-                {user.name}
-              </td>
-              <td
-                className={LoginStyles.td}
-                data-testid={`user-email-${index}`}
-              >
-                {user.email}
-              </td>
-              <td
-                className={LoginStyles.td}
-                data-testid={`user-password-${index}`}
-              >
-                {user.password}
-              </td>
-              <td className={LoginStyles.td} data-testid={`user-role-${index}`}>
-                {user.role}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </>
   );
 };

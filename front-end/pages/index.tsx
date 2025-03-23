@@ -40,9 +40,12 @@ const Home: React.FC = () => {
       </Head>
       <div className={styles.homePage}>
         <Header />
-        <main>
+        <main className={styles.mainHome}>
           <section className={styles.title}>
-            <p className={styles.titleP}> Fitness App </p>
+            <p> Fitness App </p>
+          </section>
+          <section className={styles.mainContent}>
+            <p>Welcome!</p>
           </section>
         </main>
       </div>

@@ -9,6 +9,7 @@ import { userRouter } from './controller/user.routes';
 import path from 'path';
 import { expressjwt } from 'express-jwt';
 import helmet from 'helmet';
+import workoutRouter from './controller/workout.routes';
 
 const app = express();
 dotenv.config();
@@ -29,12 +30,21 @@ app.use(
         secret: process.env.JWT_SECRET || 'default_secret',
         algorithms: ['HS256'],
     }).unless({
-        path: ['/api-docs', /^\/api-docs\/.*/, '/users/login', '/users/signup', '/status'],
+        path: [
+            '/api-docs',
+            /^\/api-docs\/.*/,
+            '/users/login',
+            '/users/signup',
+            '/status',
+            '/users',
+            '/workouts',
+        ],
     })
 );
 app.use(bodyParser.json());
 
 app.use('/users', userRouter);
+app.use('/workouts', workoutRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Courses API is running...' });

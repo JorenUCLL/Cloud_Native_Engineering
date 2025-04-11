@@ -8,6 +8,8 @@ export class User {
     private lastName: string;
     private email: string;
     private password: string;
+    private achievements: Achievement[] = [];
+    private workouts: Workout[] = [];
 
     constructor(user: {
         id?: number;
@@ -15,6 +17,8 @@ export class User {
         lastName: string;
         email: string;
         password: string;
+        achievements?: Achievement[];
+        workouts?: Workout[];
     }) {
         this.validate(user);
         this.id = user.id;
@@ -22,6 +26,8 @@ export class User {
         this.lastName = user.lastName;
         this.email = user.email;
         this.password = user.password;
+        this.achievements = user.achievements || [];
+        this.workouts = user.workouts || [];
     }
 
     private validate(user: {
@@ -58,6 +64,13 @@ export class User {
 
     getPassword(): string {
         return this.password;
+    }
+
+    getAchievements(): Achievement[] {
+        return this.achievements;
+    }
+    getWorkouts(): Workout[] {
+        return this.workouts;
     }
 
     static from({ id, firstName, lastName, email, password }: UserPrisma) {

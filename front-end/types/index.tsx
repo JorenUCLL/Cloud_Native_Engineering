@@ -1,45 +1,37 @@
-type Post = {
-  id?: number;
-  title: string;
-  comment: string;
-  date: Date;
-  boulder: BoulderProblem;
-  image: Image;
-  user: User;
-};
-
-type Image = {
-  id?: number;
-  fileName: string;
-  path: string;
-};
-
 type User = {
   id?: number;
-  name?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
   password?: string;
   achievements?: Achievement[];
-  role?: Role;
+  workouts?: Workout[];
 };
 
-type ClimbingGym = {
+type Workout = {
   id?: number;
-  location: string;
-  gymName: string;
+  title?: string;
+  date?: Date;
+  type?: Type;
+  user?: User;
+};
+
+type Type = {
+  id?: number;
+  title?: string;
 };
 
 type Achievement = {
   id?: number;
-  title: string;
-  description: string;
-  difficulty: "easy" | "medium" | "hard" | "extreme";
+  exercise: Exercise;
+  user: User;
+  amount: number;
 };
 
-type BoulderProblem = {
+type Exercise = {
   id?: number;
-  grade: string;
-  gym: ClimbingGym;
+  title?: string;
+  type?: Type;
 };
 
 type StatusMessage = {
@@ -47,15 +39,4 @@ type StatusMessage = {
   type: "error" | "success";
 };
 
-type Role = "user" | "VIP" | "admin";
-
-export type {
-  Post,
-  User,
-  Achievement,
-  BoulderProblem,
-  ClimbingGym,
-  StatusMessage,
-  Image,
-  Role,
-};
+export type { User, Exercise, Achievement, Type, Workout, StatusMessage };

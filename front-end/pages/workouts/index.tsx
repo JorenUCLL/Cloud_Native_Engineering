@@ -19,13 +19,17 @@ const Workouts: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [workouts, setWorkouts] = useState<Array<Workout>>([]);
+  const [typeColorMap, setTypeColorMap] = useState<Record<string, string>>({});
 
   const fetchWorkouts = async () => {
     try {
       const response = await WorkoutService.getAllWorkouts();
       const data = await response.json();
-      console.log("Fetched data:", data);
-      setWorkouts(data);
+      const parsedData = data.map((workout: Workout) => ({
+        ...workout,
+        date: new Date(workout.date),
+      }));
+      setWorkouts(parsedData);
     } catch (error) {
       console.error("Failed to fetch workouts:", error);
     }
@@ -66,11 +70,11 @@ const Workouts: React.FC = () => {
       </Head>
       <div className={styles.flexHeader}>
         <Header />
-        <main className={styles.mainHome}>
-          <section className={styles.title}>
-            <p> Workouts Page </p>
-          </section>
-          <section className={styles.mainContent}>
+        <main className={styles.mainWorkouts}>
+          {/* <section className={styles.title}>
+            <p> Upcoming Workouts </p>
+          </section> */}
+          <section className={styles.workoutContent}>
             <WorkoutOverview workouts={workouts} />
           </section>
         </main>

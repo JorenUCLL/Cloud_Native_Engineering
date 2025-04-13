@@ -38,6 +38,13 @@ const Header: React.FC = () => {
             alt="HomeImage"
           />
         </a>
+        <a href="/workouts">
+          <img
+            className={styles.navItem}
+            src="/pictures/dumbbell.png"
+            alt="StatsImage"
+          />
+        </a>
         <a href="/profile">
           <img
             className={styles.navItem}
@@ -45,14 +52,13 @@ const Header: React.FC = () => {
             alt="ProfileImage"
           />
         </a>
-        <a href="/profile">
-          <img
-            className={styles.navItem}
-            src="/pictures/statisstics_white.png"
-            alt="StatsImage"
-          />
-        </a>
 
+        <a href="/"></a>
+        <a href="/"></a>
+        <a href="/"></a>
+        <a href="/"></a>
+        <a href="/"></a>
+        <a href="/"></a>
         {isLoggedIn === null ? (
           <p>Loading</p>
         ) : isLoggedIn ? (

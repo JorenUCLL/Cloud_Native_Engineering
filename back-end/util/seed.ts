@@ -2,19 +2,25 @@
 
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
-import { eachMonthOfInterval, set } from 'date-fns';
+import { addDays, eachMonthOfInterval, set } from 'date-fns';
 import { Type } from '../model/type';
 import { User } from '../model/user';
 const prisma = new PrismaClient();
 
 const date1 = set(new Date(), { hours: 0, minutes: 0 });
+const date2 = set(addDays(new Date(), 3), { hours: 12, minutes: 30 });
+const date3 = set(addDays(new Date(), 1), { hours: 10, minutes: 0 });
+const date4 = set(addDays(new Date(), 2), { hours: 11, minutes: 0 });
+const date5 = set(addDays(new Date(), 4), { hours: 4, minutes: 15 });
+const date6 = set(addDays(new Date(), 3), { hours: 8, minutes: 0 });
+const date7 = set(addDays(new Date(), 1), { hours: 9, minutes: 30 });
 
 const main = async () => {
+    await prisma.workout.deleteMany();
     await prisma.achievement.deleteMany();
     await prisma.exercise.deleteMany();
-    await prisma.type.deleteMany();
     await prisma.user.deleteMany();
-    await prisma.workout.deleteMany();
+    await prisma.type.deleteMany();
 
     const type1 = await prisma.type.create({
         data: { title: 'Legs' },
@@ -26,6 +32,10 @@ const main = async () => {
 
     const type3 = await prisma.type.create({
         data: { title: 'Back' },
+    });
+
+    const type4 = await prisma.type.create({
+        data: { title: 'Boulder' },
     });
 
     const user1 = await prisma.user.create({
@@ -79,7 +89,7 @@ const main = async () => {
                 connect: { id: exercise1.id },
             },
             user: {
-                connect: { id: 1 },
+                connect: { id: user1.id },
             },
             amount: 150,
         },
@@ -91,7 +101,7 @@ const main = async () => {
                 connect: { id: exercise2.id },
             },
             user: {
-                connect: { id: 1 },
+                connect: { id: user1.id },
             },
             amount: 100,
         },
@@ -103,7 +113,7 @@ const main = async () => {
                 connect: { id: exercise3.id },
             },
             user: {
-                connect: { id: 2 },
+                connect: { id: user2.id },
             },
             amount: 90,
         },
@@ -125,12 +135,61 @@ const main = async () => {
     const workout2 = await prisma.workout.create({
         data: {
             title: 'Arm Day',
-            date: date1,
+            date: date2,
             type: {
                 connect: { id: type2.id },
             },
             user: {
                 connect: { id: user2.id },
+            },
+        },
+    });
+
+    const workout3 = await prisma.workout.create({
+        data: {
+            title: 'Back Day',
+            date: date3,
+            type: {
+                connect: { id: type3.id },
+            },
+            user: {
+                connect: { id: user1.id },
+            },
+        },
+    });
+    const workout4 = await prisma.workout.create({
+        data: {
+            title: 'Evening Sesh',
+            date: date4,
+            type: {
+                connect: { id: type1.id },
+            },
+            user: {
+                connect: { id: user2.id },
+            },
+        },
+    });
+    const workout5 = await prisma.workout.create({
+        data: {
+            title: 'BoulderSesh',
+            date: date5,
+            type: {
+                connect: { id: type4.id },
+            },
+            user: {
+                connect: { id: user2.id },
+            },
+        },
+    });
+    const workout6 = await prisma.workout.create({
+        data: {
+            title: 'Arms',
+            date: date3,
+            type: {
+                connect: { id: type2.id },
+            },
+            user: {
+                connect: { id: user1.id },
             },
         },
     });

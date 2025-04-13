@@ -10,6 +10,7 @@ import path from 'path';
 import { expressjwt } from 'express-jwt';
 import helmet from 'helmet';
 import workoutRouter from './controller/workout.routes';
+import { typeRouter } from './controller/type.routes';
 
 const app = express();
 dotenv.config();
@@ -38,6 +39,7 @@ app.use(
             '/status',
             '/users',
             '/workouts',
+            '/types',
         ],
     })
 );
@@ -45,6 +47,7 @@ app.use(bodyParser.json());
 
 app.use('/users', userRouter);
 app.use('/workouts', workoutRouter);
+app.use('/types', typeRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Courses API is running...' });

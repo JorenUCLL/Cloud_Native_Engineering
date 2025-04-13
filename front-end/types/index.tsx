@@ -11,14 +11,14 @@ type User = {
 type Workout = {
   id?: number;
   title?: string;
-  date?: Date;
-  type?: Type;
+  date: Date;
+  type: Type;
   user?: User;
 };
 
 type Type = {
-  id?: number;
-  title?: string;
+  id: number;
+  title: string;
 };
 
 type Achievement = {

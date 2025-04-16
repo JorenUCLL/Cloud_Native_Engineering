@@ -2,6 +2,8 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
+import workoutStyles from "@/styles/Workout.module.css";
+
 import Header from "@/components/header";
 import postStyle from "../styles/Posts.module.css";
 import { useState, useEffect } from "react";
@@ -10,17 +12,45 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { GetServerSidePropsContext } from "next/types";
 import router from "next/router";
+import TodaysWorkouts from "@/components/workouts/todaysWorkouts";
+import { Workout } from "@/types";
+import WorkoutService from "@/services/WorkoutService";
+import useInterval from "use-interval";
+import { mutate } from "swr";
 
 const Home: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const [workouts, setWorkouts] = useState<Array<Workout>>([]);
+  const [token, setToken] = useState<string | null>(null);
+
+  const fetchWorkouts = async () => {
+    try {
+      const response = await WorkoutService.getAllWorkouts();
+      const data = await response.json();
+      const parsedData = data.map((workout: Workout) => ({
+        ...workout,
+        date: new Date(workout.date),
+      }));
+      setWorkouts(parsedData);
+    } catch (error) {
+      console.error("Failed to fetch workouts:", error);
+    }
+  };
+
+  useInterval(() => {
+    if (token) {
+      mutate(["workouts", token]);
+    }
+  }, 2000);
 
   useEffect(() => {
     const userData = sessionStorage.getItem("loggedInUser");
-
     if (userData) {
       try {
         const parsedData = JSON.parse(userData);
-        setIsLoggedIn(!!parsedData.token);
+        const { email, token } = parsedData;
+        setToken(token);
+        setIsLoggedIn(!!token);
       } catch (error) {
         console.error("Error parsing session storage data:", error);
         setIsLoggedIn(false);
@@ -28,6 +58,8 @@ const Home: React.FC = () => {
     } else {
       setIsLoggedIn(false);
     }
+
+    fetchWorkouts();
   }, []);
 
   return (
@@ -44,8 +76,12 @@ const Home: React.FC = () => {
           <section className={styles.title}>
             <p> Fitness App </p>
           </section>
-          <section className={styles.mainContent}>
-            <p>Welcome!</p>
+
+          <section className={workoutStyles.todaysWorkoutsPage}>
+            <p className={workoutStyles.todaysWorkoutsTitle}>
+              Today's Workouts
+            </p>
+            <TodaysWorkouts workouts={workouts}></TodaysWorkouts>
           </section>
         </main>
       </div>

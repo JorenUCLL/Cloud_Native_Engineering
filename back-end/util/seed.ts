@@ -12,7 +12,7 @@ const date2 = set(addDays(new Date(), 3), { hours: 12, minutes: 30 });
 const date3 = set(addDays(new Date(), 1), { hours: 10, minutes: 0 });
 const date4 = set(addDays(new Date(), 2), { hours: 11, minutes: 0 });
 const date5 = set(addDays(new Date(), 4), { hours: 4, minutes: 15 });
-const date6 = set(addDays(new Date(), 3), { hours: 8, minutes: 0 });
+const date6 = set(new Date(), { hours: 20, minutes: 0 });
 const date7 = set(addDays(new Date(), 1), { hours: 9, minutes: 30 });
 
 const main = async () => {
@@ -190,6 +190,19 @@ const main = async () => {
             },
             user: {
                 connect: { id: user1.id },
+            },
+        },
+    });
+
+    const workout7 = await prisma.workout.create({
+        data: {
+            title: 'Evening',
+            date: date6,
+            type: {
+                connect: { id: type3.id },
+            },
+            user: {
+                connect: { id: user2.id },
             },
         },
     });

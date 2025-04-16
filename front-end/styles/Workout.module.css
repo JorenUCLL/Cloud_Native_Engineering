@@ -86,3 +86,43 @@
   margin-right: 0;
   justify-content: flex-end;
 }
+
+.todaysWorkouts {
+  display: flex;
+  gap: 4rem;
+}
+
+.todaysWorkoutsPage {
+  margin-left: 2rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  align-items: center;
+}
+
+.workoutSelfHome {
+  padding: 0.5rem;
+  border-radius: 6px;
+  justify-content: center;
+  justify-items: center;
+  padding: 0.8rem;
+  border: 1px rgb(62, 62, 62) solid;
+  width: 15rem;
+}
+
+.todaysWorkoutsTitle {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.legendHome {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+  border-radius: 6px;
+  align-self: flex-end;
+}

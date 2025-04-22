@@ -1,15 +1,23 @@
-import userDb from '../repository/user.db';
+import userRepository from '../repository/user.db';
 import { User } from '../model/user';
 import { AuthenticationResponse, UserInput } from '../types/index';
 import bcrypt from 'bcrypt';
 import { generateJwtToken } from '../util/jwt';
 
-const getAllUsers = async (): Promise<User[]> => userDb.getAllUsers();
+const getAllUsers = async (): Promise<User[]> => userRepository.getAllUsers();
+
+const getUserByEmail = async (email: string): Promise<User> => {
+    const user = await userRepository.getUserByEmail(email);
+    if (!user) {
+        throw new Error('There is no user with that email adress.');
+    }
+    return user;
+};
 
 const authenticate = async ({ email, password }: UserInput): Promise<AuthenticationResponse> => {
     console.log('begin');
     const newEmail = email.trim().toLowerCase();
-    const user = await userDb.getUserByEmail(newEmail);
+    const user = await userRepository.getUserByEmail(newEmail);
     console.log(user);
 
     if (!user) {
@@ -31,4 +39,5 @@ const authenticate = async ({ email, password }: UserInput): Promise<Authenticat
 export default {
     getAllUsers,
     authenticate,
+    getUserByEmail,
 };

@@ -13,6 +13,15 @@ userRouter.get('/', async (req, res) => {
     }
 });
 
+userRouter.get('/:email', async (req, res) => {
+    try {
+        const users = await userService.getUserByEmail(req.params.email);
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch users.' });
+    }
+});
+
 userRouter.post('/login', async (req, res) => {
     try {
         const userInput = <UserInput>req.body;

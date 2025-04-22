@@ -5,4 +5,12 @@ type UserInput = {
     password: string;
 };
 
-export { UserInput };
+type AuthenticationResponse = {
+    token: string;
+    email: string;
+    role: string;
+};
+
+type Role = 'user' | 'admin';
+
+export { UserInput, AuthenticationResponse, Role };

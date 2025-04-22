@@ -65,7 +65,7 @@ export class Workout {
             title,
             date,
             type: new Type(type),
-            user: new User(user),
+            user: User.from(user),
         });
     }
 }

@@ -42,7 +42,7 @@ const main = async () => {
         data: {
             firstName: 'John',
             lastName: 'Doe',
-            email: 'John.Doe@gmail.com',
+            email: 'john.doe@gmail.com',
             password: await bcrypt.hash('John123', 12),
         },
     });
@@ -51,7 +51,7 @@ const main = async () => {
         data: {
             firstName: 'Jane',
             lastName: 'Doe',
-            email: 'Jane.Doe@gmail.com',
+            email: 'jane.doe@gmail.com',
             password: await bcrypt.hash('Jane123', 12),
         },
     });

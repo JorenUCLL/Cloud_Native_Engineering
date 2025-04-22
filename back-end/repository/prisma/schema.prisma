@@ -1,3 +1,5 @@
+// command: npx prisma migrate dev --schema ./repository/prisma/schema.prisma
+// ni vergete env file te checken
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,6 +17,8 @@ model User {
   password   String
   achievements Achievement[]
   workouts   Workout[]
+  role String @default("user")
+
 }
 
 model Workout {

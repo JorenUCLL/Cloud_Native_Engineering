@@ -22,17 +22,15 @@ const Workouts: React.FC = () => {
   const [typeColorMap, setTypeColorMap] = useState<Record<string, string>>({});
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
-  const fetchWorkouts = async () => {
+  const fetchWorkouts = async (email: string) => {
     try {
-      if (userEmail) {
-        const response = await WorkoutService.getWorkoutsByUser(userEmail);
-        const data = await response.json();
-        const parsedData = data.map((workout: Workout) => ({
-          ...workout,
-          date: new Date(workout.date),
-        }));
-        setWorkouts(parsedData);
-      }
+      const response = await WorkoutService.getWorkoutsByUser(email);
+      const data = await response.json();
+      const parsedData = data.map((workout: Workout) => ({
+        ...workout,
+        date: new Date(workout.date),
+      }));
+      setWorkouts(parsedData);
     } catch (error) {
       console.error("Failed to fetch workouts:", error);
     }
@@ -48,8 +46,9 @@ const Workouts: React.FC = () => {
   );
 
   useInterval(() => {
-    if (token) {
+    if (token && userEmail) {
       mutate(["workouts", token]);
+      fetchWorkouts(userEmail);
     }
   }, 2000);
 
@@ -57,11 +56,11 @@ const Workouts: React.FC = () => {
     const userData = sessionStorage.getItem("loggedInUser");
     if (userData) {
       try {
-        const parsedData = JSON.parse(userData);
-        const { email, token } = parsedData;
+        const parsed = JSON.parse(userData);
+        const { email, token } = parsed;
+        setUserEmail(email);
         setToken(token);
         setIsLoggedIn(!!token);
-        setUserEmail(email);
       } catch (error) {
         console.error("Error parsing session storage data:", error);
         setIsLoggedIn(false);
@@ -69,9 +68,13 @@ const Workouts: React.FC = () => {
     } else {
       setIsLoggedIn(false);
     }
+  }, [userEmail]);
 
-    fetchWorkouts();
-  }, []);
+  useEffect(() => {
+    if (userEmail) {
+      fetchWorkouts(userEmail);
+    }
+  }, [userEmail]);
 
   return (
     <>

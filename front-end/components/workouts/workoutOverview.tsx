@@ -6,6 +6,7 @@ import TypeService from "@/services/TypeService";
 
 type Props = {
   workouts: Array<Workout>;
+  user: User;
 };
 
 const WorkoutOverview: React.FC<Props> = ({ workouts }) => {

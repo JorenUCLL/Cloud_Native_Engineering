@@ -11,29 +11,41 @@ import WorkoutService from "@/services/WorkoutService";
 import useSWR, { mutate } from "swr";
 import useInterval from "use-interval";
 import WorkoutOverview from "@/components/workouts/workoutOverview";
+import UserService from "@/services/UserService";
 
 const Workouts: React.FC = () => {
   const { t } = useTranslation();
   const [token, setToken] = useState<string | null>(null);
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-  const [user, setUser] = useState<User | null>(null);
   const [workouts, setWorkouts] = useState<Array<Workout>>([]);
   const [typeColorMap, setTypeColorMap] = useState<Record<string, string>>({});
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   const fetchWorkouts = async () => {
     try {
-      const response = await WorkoutService.getAllWorkouts();
-      const data = await response.json();
-      const parsedData = data.map((workout: Workout) => ({
-        ...workout,
-        date: new Date(workout.date),
-      }));
-      setWorkouts(parsedData);
+      if (userEmail) {
+        const response = await WorkoutService.getWorkoutsByUser(userEmail);
+        const data = await response.json();
+        const parsedData = data.map((workout: Workout) => ({
+          ...workout,
+          date: new Date(workout.date),
+        }));
+        setWorkouts(parsedData);
+      }
     } catch (error) {
       console.error("Failed to fetch workouts:", error);
     }
   };
+
+  const fetchUser = async (email: string, token: string) => {
+    return await UserService.getUserByEmail(email, token);
+  };
+
+  const { data: user, error: userError } = useSWR(
+    userEmail && token ? ["user", userEmail, token] : null,
+    ([, email, token]) => fetchUser(email, token)
+  );
 
   useInterval(() => {
     if (token) {
@@ -49,6 +61,7 @@ const Workouts: React.FC = () => {
         const { email, token } = parsedData;
         setToken(token);
         setIsLoggedIn(!!token);
+        setUserEmail(email);
       } catch (error) {
         console.error("Error parsing session storage data:", error);
         setIsLoggedIn(false);
@@ -75,7 +88,7 @@ const Workouts: React.FC = () => {
             <p> Upcoming Workouts </p>
           </section> */}
           <section className={styles.workoutContent}>
-            <WorkoutOverview workouts={workouts} />
+            {user && <WorkoutOverview workouts={workouts} user={user} />}
           </section>
         </main>
       </div>

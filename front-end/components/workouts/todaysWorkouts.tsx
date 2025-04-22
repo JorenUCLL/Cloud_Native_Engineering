@@ -61,29 +61,33 @@ const TodaysWorkouts: React.FC<Props> = ({ workouts }) => {
 
   return (
     <>
-      <div className={workoutStyles.todaysWorkouts}>
-        {todaysWorkouts.map((workout) => (
-          <div
-            key={workout.id}
-            className={workoutStyles.workoutSelfHome}
-            style={{
-              background: typeColorMap[workout.type?.title || ""] || "#ccc",
-            }}
-          >
-            <p>
-              <strong>{workout.title}</strong>
-            </p>
-            <p>
-              {new Date(workout.date).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </p>
-            <p>{workout.type?.title}</p>
-            <p>By: {workout.user?.firstName}</p>
-          </div>
-        ))}
-      </div>
+      {todaysWorkouts.length ? (
+        <div className={workoutStyles.todaysWorkouts}>
+          {todaysWorkouts.map((workout) => (
+            <div
+              key={workout.id}
+              className={workoutStyles.workoutSelfHome}
+              style={{
+                background: typeColorMap[workout.type?.title || ""] || "#ccc",
+              }}
+            >
+              <p>
+                <strong>{workout.title}</strong>
+              </p>
+              <p>
+                {new Date(workout.date).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
+              <p>{workout.type?.title}</p>
+              <p>By: {workout.user?.firstName}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className={workoutStyles.noWorkout}>No workouts</p>
+      )}
       <div className={workoutStyles.legendHome}>
         {Object.entries(typeColorMap).map(([typeTitle, color], index) => (
           <div key={index} className={workoutStyles.typeColors}>

@@ -11,6 +11,15 @@ workoutRouter.get('/', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch workouts.' });
     }
 });
+workoutRouter.get('/user/:email', async (req, res) => {
+    try {
+        const workouts = await workoutService.getWorkoutByUser(req.params.email);
+        res.json(workouts);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch workouts.' });
+    }
+});
+
 // router.post('/', async (req, res) => {
 //     try {
 //         const newWorkout = await workoutService.createWorkout(req.body);

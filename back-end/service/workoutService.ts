@@ -1,8 +1,18 @@
 import workoutRepository from '../repository/workout.db';
+import userRepository from '../repository/user.db';
+
 import { Workout } from '../model/workout';
 
 const getAllWorkouts = async (): Promise<Workout[]> => {
     return await workoutRepository.getAllWorkouts();
+};
+
+const getWorkoutByUser = async (email: string): Promise<Workout[]> => {
+    const user = await userRepository.getUserByEmail(email);
+    if (!user) {
+        throw new Error('There is no user with that email adress.');
+    }
+    return await workoutRepository.getWorkoutsByUser(user);
 };
 
 // const createWorkout = async (workoutData: any): Promise<Workout> => {
@@ -17,5 +27,6 @@ const getAllWorkouts = async (): Promise<Workout[]> => {
 
 export default {
     getAllWorkouts,
+    getWorkoutByUser,
     // createWorkout,
 };

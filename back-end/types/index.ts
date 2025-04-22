@@ -6,6 +6,7 @@ type UserInput = {
     lastname: string;
     email: string;
     password: string;
+    role: string;
 };
 
 type WorkoutInput = {

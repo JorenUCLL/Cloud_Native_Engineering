@@ -1,9 +1,32 @@
+import { Exercise } from '@prisma/client';
+
 type UserInput = {
     id?: number;
-    name: string;
+    firstname: string;
+    lastname: string;
     email: string;
     password: string;
     role: string;
+};
+
+type WorkoutInput = {
+    id?: number;
+    title: string;
+    date: Date;
+    type: TypeInput;
+    user: UserInput;
+};
+
+type TypeInput = {
+    id?: number;
+    title: string;
+};
+
+type AchievementInput = {
+    id?: number;
+    exercise: Exercise;
+    user: UserInput;
+    amount: Number;
 };
 
 type AuthenticationResponse = {
@@ -14,4 +37,4 @@ type AuthenticationResponse = {
 
 type Role = 'user' | 'admin';
 
-export { UserInput, AuthenticationResponse, Role };
+export { UserInput, AuthenticationResponse, Role, WorkoutInput, AchievementInput };

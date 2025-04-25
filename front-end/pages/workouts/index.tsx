@@ -10,8 +10,8 @@ import { User, Workout } from "@/types";
 import WorkoutService from "@/services/WorkoutService";
 import useSWR, { mutate } from "swr";
 import useInterval from "use-interval";
-import WorkoutOverview from "@/components/workouts/workoutOverview";
 import UserService from "@/services/UserService";
+import WorkoutOverview from "@/components/workouts/WorkoutOverview";
 
 const Workouts: React.FC = () => {
   const { t } = useTranslation();

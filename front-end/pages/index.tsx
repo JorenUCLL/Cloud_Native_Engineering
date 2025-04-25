@@ -12,11 +12,11 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { GetServerSidePropsContext } from "next/types";
 import router from "next/router";
-import TodaysWorkouts from "@/components/workouts/todaysWorkouts";
 import { Workout } from "@/types";
 import WorkoutService from "@/services/WorkoutService";
 import useInterval from "use-interval";
 import { mutate } from "swr";
+import TodaysWorkouts from "@/components/workouts/TodaysWorkouts";
 
 const Home: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);

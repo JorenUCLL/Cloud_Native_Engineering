@@ -17,6 +17,7 @@ import WorkoutService from "@/services/WorkoutService";
 import useInterval from "use-interval";
 import { mutate } from "swr";
 import TodaysWorkouts from "@/components/workouts/TodaysWorkouts";
+import WeekWorkouts from "@/components/workouts/WeekWorkouts";
 
 const Home: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
@@ -74,14 +75,24 @@ const Home: React.FC = () => {
         <Header />
         <main className={styles.mainHome}>
           <section className={styles.title}>
-            <p> Fitness App </p>
+            <Image
+              src="/pictures/logo.png" // pad binnen public
+              alt="Fitness-Cloud logo"
+              width={200} // pas aan wat je mooi vindt
+              height={130} // idem
+              priority // preload: sneller zichtbaar
+            />
           </section>
 
-          <section className={workoutStyles.todaysWorkoutsPage}>
-            <p className={workoutStyles.todaysWorkoutsTitle}>
-              Today's Workouts
-            </p>
+          <section
+            className={`${workoutStyles.todaysWorkoutsPage} ${workoutStyles.sectionGap}`}
+          >
             <TodaysWorkouts workouts={workouts}></TodaysWorkouts>
+          </section>
+          <section
+            className={`${workoutStyles.weekWorkoutsPage} ${workoutStyles.sectionGap}`}
+          >
+            <WeekWorkouts workouts={workouts} />
           </section>
         </main>
       </div>

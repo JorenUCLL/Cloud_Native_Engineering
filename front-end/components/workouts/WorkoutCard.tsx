@@ -1,5 +1,5 @@
 import { Workout } from "@/types";
-import styles from "@/styles/Workout.module.css";
+import styles from "@/styles/HomePage.module.css";
 
 type Props = {
   workout: Workout;

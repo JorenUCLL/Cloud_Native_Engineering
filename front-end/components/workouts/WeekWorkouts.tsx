@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Workout, Type } from "@/types";
 import TypeService from "@/services/TypeService";
-import workoutStyles from "@/styles/Workout.module.css";
+import workoutStyles from "@/styles/HomePage.module.css";
 import WorkoutCard from "./WorkoutCard";
 
 type Props = { workouts: Workout[] };

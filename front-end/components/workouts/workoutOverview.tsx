@@ -3,7 +3,6 @@ import { Workout, User, Type } from "../../types/index";
 import Link from "next/link";
 import workoutStyles from "../../styles/Workout.module.css";
 import TypeService from "@/services/TypeService";
-import WorkoutCard from "./WorkoutCard";
 
 type Props = {
   workouts: Array<Workout>;
@@ -77,20 +76,46 @@ const WorkoutOverview: React.FC<Props> = ({ workouts }) => {
           <div key={day} className={workoutStyles.workoutRow}>
             <h3 className={workoutStyles.dayTitles}>{day}</h3>
             <div className={workoutStyles.workoutContainer}>
-              <div className={workoutStyles.workoutContainer}>
-                {groupedWorkouts[day]?.length ? (
-                  groupedWorkouts[day].map((w) => (
-                    <WorkoutCard
-                      key={w.id}
-                      workout={w}
-                      bgColor={typeColorMap[w.type?.title || ""] || "#ccc"}
-                    />
-                  ))
-                ) : (
-                  <p className={workoutStyles.noWorkout}>Geen workouts</p>
-                )}
-              </div>
+              {groupedWorkouts[day]?.length ? (
+                groupedWorkouts[day].map((workout, index) => (
+                  <div
+                    key={index}
+                    className={workoutStyles.workoutSelf}
+                    style={{
+                      background:
+                        typeColorMap[workout.type?.title || ""] || "#ccc",
+                    }}
+                  >
+                    <p>
+                      <strong>{workout.title}</strong>
+                    </p>
+                    <p>
+                      {new Date(workout.date).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                    <p>{workout.type?.title}</p>
+                    <p>By: {workout.user?.firstName}</p>
+                  </div>
+                ))
+              ) : (
+                <p className={workoutStyles.noWorkout}>No workouts</p>
+              )}
             </div>
+          </div>
+        ))}
+      </div>
+      <div className={workoutStyles.legend}>
+        {Object.entries(typeColorMap).map(([typeTitle, color], index) => (
+          <div key={index} className={workoutStyles.typeColors}>
+            <div
+              className={workoutStyles.typeTitle}
+              style={{
+                backgroundColor: color,
+              }}
+            />
+            <span style={{ fontSize: "0.9rem" }}>{typeTitle}</span>
           </div>
         ))}
       </div>

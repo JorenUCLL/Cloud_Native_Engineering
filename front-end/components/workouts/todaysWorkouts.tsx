@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Workout, User, Type } from "../../types/index";
 import Link from "next/link";
-import workoutStyles from "../../styles/Workout.module.css";
+import workoutStyles from "../../styles/HomePage.module.css";
 import TypeService from "@/services/TypeService";
 import WorkoutCard from "./WorkoutCard";
 

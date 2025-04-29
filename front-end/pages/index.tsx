@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-import workoutStyles from "@/styles/Workout.module.css";
+import workoutStyles from "@/styles/HomePage.module.css";
 
 import Header from "@/components/header";
 import postStyle from "../styles/Posts.module.css";
@@ -16,7 +16,7 @@ import { Workout } from "@/types";
 import WorkoutService from "@/services/WorkoutService";
 import useInterval from "use-interval";
 import { mutate } from "swr";
-import TodaysWorkouts from "@/components/workouts/TodaysWorkouts";
+import TodaysWorkouts from "@/components/workouts/todaysWorkouts";
 import WeekWorkouts from "@/components/workouts/WeekWorkouts";
 
 const Home: React.FC = () => {

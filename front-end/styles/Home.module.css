@@ -67,3 +67,35 @@
   height: 100%;
   min-height: 0;
 }
+
+.buttonsPlusWorkoutOverview {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.NextWeekButtons {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nextWeekButton {
+  padding: 0.5rem;
+  justify-self: flex-end;
+  width: 3rem;
+}
+
+.previousWeekButton {
+  padding: 0.5rem;
+  justify-self: flex-start;
+  width: 3rem;
+}
+
+.weekDateRange {
+  margin: 0 1rem;
+  font-weight: bold;
+  font-size: 1rem;
+  align-self: center;
+}

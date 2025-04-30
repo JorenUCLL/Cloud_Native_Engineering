@@ -8,12 +8,12 @@ import { User } from '../model/user';
 const prisma = new PrismaClient();
 
 const date1 = set(new Date(), { hours: 0, minutes: 0 });
-const date2 = set(addDays(new Date(), 3), { hours: 12, minutes: 30 });
-const date3 = set(addDays(new Date(), 1), { hours: 10, minutes: 0 });
-const date4 = set(addDays(new Date(), 2), { hours: 11, minutes: 0 });
-const date5 = set(addDays(new Date(), 4), { hours: 4, minutes: 15 });
+const date2 = set(addDays(new Date(), 1), { hours: 12, minutes: 30 });
+const date3 = set(addDays(new Date(), 2), { hours: 10, minutes: 0 });
+const date4 = set(addDays(new Date(), 4), { hours: 11, minutes: 0 });
+const date5 = set(addDays(new Date(), 7), { hours: 4, minutes: 15 });
 const date6 = set(new Date(), { hours: 20, minutes: 0 });
-const date7 = set(addDays(new Date(), 1), { hours: 9, minutes: 30 });
+const date7 = set(addDays(new Date(), 9), { hours: 9, minutes: 30 });
 
 const main = async () => {
     await prisma.workout.deleteMany();
@@ -203,6 +203,32 @@ const main = async () => {
             },
             user: {
                 connect: { id: user2.id },
+            },
+        },
+    });
+
+    const workout8 = await prisma.workout.create({
+        data: {
+            title: 'Evening',
+            date: date5,
+            type: {
+                connect: { id: type3.id },
+            },
+            user: {
+                connect: { id: user1.id },
+            },
+        },
+    });
+
+    const workout9 = await prisma.workout.create({
+        data: {
+            title: 'Evening',
+            date: date7,
+            type: {
+                connect: { id: type2.id },
+            },
+            user: {
+                connect: { id: user1.id },
             },
         },
     });

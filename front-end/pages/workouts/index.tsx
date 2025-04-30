@@ -21,6 +21,24 @@ const Workouts: React.FC = () => {
   const [workouts, setWorkouts] = useState<Array<Workout>>([]);
   const [typeColorMap, setTypeColorMap] = useState<Record<string, string>>({});
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [weekOffset, setWeekOffset] = useState(0);
+
+  const getStartOfWeek = (date: Date): Date => {
+    const day = date.getDay();
+    const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(date.setDate(diff));
+  };
+
+  const getEndOfWeek = (start: Date): Date => {
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+    return end;
+  };
+  const currentDate = new Date();
+  const currentWeekStart = getStartOfWeek(
+    new Date(currentDate.setDate(currentDate.getDate() + weekOffset * 7))
+  );
+  const currentWeekEnd = getEndOfWeek(currentWeekStart);
 
   const fetchWorkouts = async (email: string) => {
     try {
@@ -36,6 +54,11 @@ const Workouts: React.FC = () => {
     }
   };
 
+  const weeklyWorkouts = workouts.filter((workout) => {
+    const workoutDate = new Date(workout.date);
+    return workoutDate >= currentWeekStart && workoutDate <= currentWeekEnd;
+  });
+
   const fetchUser = async (email: string, token: string) => {
     return await UserService.getUserByEmail(email, token);
   };
@@ -44,6 +67,13 @@ const Workouts: React.FC = () => {
     userEmail && token ? ["user", userEmail, token] : null,
     ([, email, token]) => fetchUser(email, token)
   );
+
+  const formatDate = (date: Date): string => {
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+  };
 
   useInterval(() => {
     if (token && userEmail) {
@@ -91,7 +121,33 @@ const Workouts: React.FC = () => {
             <p> Upcoming Workouts </p>
           </section> */}
           <section className={styles.workoutContent}>
-            {user && <WorkoutOverview workouts={workouts} user={user} />}
+            {user ? (
+              <>
+                <div className={styles.buttonsPlusWorkoutOverview}>
+                  <div className={styles.NextWeekButtons}>
+                    <button
+                      onClick={() => setWeekOffset(weekOffset - 1)}
+                      className={styles.previousWeekButton}
+                    >
+                      {"<"}
+                    </button>
+                    <div className={styles.weekDateRange}>
+                      {formatDate(currentWeekStart)} -{" "}
+                      {formatDate(currentWeekEnd)}
+                    </div>
+                    <button
+                      onClick={() => setWeekOffset(weekOffset + 1)}
+                      className={styles.nextWeekButton}
+                    >
+                      {">"}
+                    </button>
+                  </div>
+                  <WorkoutOverview workouts={weeklyWorkouts} user={user} />
+                </div>
+              </>
+            ) : (
+              <p>Please Log In</p>
+            )}
           </section>
         </main>
       </div>

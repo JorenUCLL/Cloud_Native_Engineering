@@ -1,6 +1,10 @@
 .title {
+  font-family: 'Arial', sans-serif;
   font-size: 2rem;
   text-align: center;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
 }
 
 .error {
@@ -24,6 +28,7 @@
   justify-content: center;
   justify-items: center;
   justify-self: center;
+  background-color: rgb(221, 213, 213);
 }
 
 .form {
@@ -53,10 +58,13 @@
 
 .submit:hover {
   cursor: pointer;
+  background-color: rgb(108, 36, 36);
+  color: white;
 }
 
 .inputText {
   padding: 0.5rem;
+  border-radius: 0.5rem;
 }
 
 .table {

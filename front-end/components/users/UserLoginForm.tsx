@@ -58,17 +58,22 @@ const UserLoginForm: React.FC = () => {
       ]);
 
       const user = await response.json();
-
-      sessionStorage.setItem(
-        "loggedInUser",
-        JSON.stringify({
-          token: user.token,
-          email: user.email,
-          username: user.username,
-          role: user.role,
-          numPosts: user.numPosts,
-        })
-      );
+        const profile = await UserService.getUserByEmail(user.email, user.token);
+        sessionStorage.setItem(
+          "loggedInUser",
+          JSON.stringify({
+            token: user.token,
+            email: user.email,
+            username: user.username,
+            role: user.role,
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+            workouts: profile.workouts,
+            achievements: profile.achievements,
+            
+          })
+        );
+      
       setTimeout(() => {
         router.push("/");
       }, 2000);

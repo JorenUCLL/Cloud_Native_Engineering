@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-import workoutStyles from "@/styles/Workout.module.css";
+import workoutStyles from "@/styles/HomePage.module.css";
 
 import Header from "@/components/header";
 import postStyle from "../styles/Posts.module.css";
@@ -12,11 +12,12 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { GetServerSidePropsContext } from "next/types";
 import router from "next/router";
-import TodaysWorkouts from "@/components/workouts/todaysWorkouts";
 import { Workout } from "@/types";
 import WorkoutService from "@/services/WorkoutService";
 import useInterval from "use-interval";
 import { mutate } from "swr";
+import TodaysWorkouts from "@/components/workouts/todaysWorkouts";
+import WeekWorkouts from "@/components/workouts/WeekWorkouts";
 
 const Home: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
@@ -74,14 +75,24 @@ const Home: React.FC = () => {
         <Header />
         <main className={styles.mainHome}>
           <section className={styles.title}>
-            <p> Fitness App </p>
+            <Image
+              src="/pictures/logo.png" // pad binnen public
+              alt="Fitness-Cloud logo"
+              width={200} // pas aan wat je mooi vindt
+              height={130} // idem
+              priority // preload: sneller zichtbaar
+            />
           </section>
 
-          <section className={workoutStyles.todaysWorkoutsPage}>
-            <p className={workoutStyles.todaysWorkoutsTitle}>
-              Today's Workouts
-            </p>
+          <section
+            className={`${workoutStyles.todaysWorkoutsPage} ${workoutStyles.sectionGap}`}
+          >
             <TodaysWorkouts workouts={workouts}></TodaysWorkouts>
+          </section>
+          <section
+            className={`${workoutStyles.weekWorkoutsPage} ${workoutStyles.sectionGap}`}
+          >
+            <WeekWorkouts workouts={workouts} />
           </section>
         </main>
       </div>

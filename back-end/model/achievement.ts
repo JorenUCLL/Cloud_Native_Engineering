@@ -51,7 +51,7 @@ export class Achievement {
             id,
             amount,
             exercise: Exercise.from(exercise),
-            user: new User(user),
+            user: User.from(user),
         });
     }
 }

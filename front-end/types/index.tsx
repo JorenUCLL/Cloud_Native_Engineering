@@ -1,11 +1,29 @@
-type User = {
-  id?: number;
+export type User = {
+  id: string;
+  name?: string;
   firstName?: string;
   lastName?: string;
-  email?: string;
-  password?: string;
+  email: string;
   achievements?: Achievement[];
-  workouts?: Workout[];
+};
+
+export type Achievement = {
+  id: string;
+  title: string;
+  description: string;
+};
+
+export type Post = {
+  id: string;
+  image: {
+    path: string;
+  };
+  boulder: {
+    gym: {
+      gymName: string;
+    };
+    grade: string;
+  };
 };
 
 type Workout = {
@@ -21,13 +39,6 @@ type Type = {
   title: string;
 };
 
-type Achievement = {
-  id?: number;
-  exercise: Exercise;
-  user: User;
-  amount: number;
-};
-
 type Exercise = {
   id?: number;
   title?: string;
@@ -39,4 +50,4 @@ type StatusMessage = {
   type: "error" | "success";
 };
 
-export type { User, Exercise, Achievement, Type, Workout, StatusMessage };
+export type { Exercise, Type, Workout, StatusMessage };

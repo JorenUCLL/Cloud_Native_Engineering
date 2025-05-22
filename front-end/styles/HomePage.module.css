@@ -2,7 +2,8 @@
 .card {
   position: relative;
   border-radius: 20px;
-  padding: 4.5rem 1.6rem 1.6rem; /* extra top-space voor header */
+  padding: 4.5rem 1.6rem 1.6rem;
+  /* extra top-space voor header */
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
   border: 1px solid rgba(0, 0, 0, 0.08);
   min-width: 260px;
@@ -31,12 +32,14 @@
   gap: 1.4rem;
   flex-wrap: wrap;
 }
+
 .leftCol {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
   min-width: 6rem;
 }
+
 .rightCol {
   flex: 1;
   display: flex;
@@ -50,16 +53,19 @@
   font-weight: 700;
   line-height: 1.25;
 }
+
 .time {
   font-size: 1.15rem;
   font-weight: 600;
   margin-top: 5px;
   margin-bottom: 2px;
 }
+
 .type {
   font-size: 1.05rem;
   font-weight: 500;
 }
+
 .by {
   margin-top: auto;
   font-style: italic;
@@ -79,11 +85,13 @@
   border-radius: 4px;
   border: 1px solid #000;
 }
+
 .typeColors {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
+
 .legend,
 .legendHome,
 .legendGlobal {
@@ -94,12 +102,15 @@
   border-radius: 6px;
   padding-left: 0;
 }
+
 .legend {
   justify-content: flex-end;
 }
+
 .legendHome {
   align-self: flex-end;
 }
+
 .legendGlobal {
   gap: 0.75rem;
 }
@@ -128,6 +139,7 @@
   color: #111;
   font-family: "Segoe UI", sans-serif;
 }
+
 .todaysworks {
   font-size: 1.75rem;
   font-weight: 600;
@@ -158,12 +170,108 @@
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
 }
+
 .rowScroll::-webkit-scrollbar,
 .scrollArea::-webkit-scrollbar {
   height: 8px;
 }
+
 .rowScroll::-webkit-scrollbar-thumb,
 .scrollArea::-webkit-scrollbar-thumb {
   background: #999;
   border-radius: 4px;
+}
+
+/* ────────────── responsive dinges ────────────── */
+
+@media (max-width: 1024px) {
+  .card {
+    min-width: 200px;
+    padding: 3.5rem 1rem 1rem;
+  }
+
+  .cardGrid {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .todaysWorkoutsPage,
+  .weekWorkoutsPage {
+    width: 98%;
+    padding-left: 0.5rem;
+    max-height: none;
+  }
+
+  .sectionTitle,
+  .todaysworks {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .card {
+    min-width: 140px;
+    padding: 2.5rem 0.5rem 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .dayHeader {
+    font-size: 1rem;
+    padding: 0.3rem 0;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .cardGrid {
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .leftCol,
+  .rightCol {
+    min-width: unset;
+    gap: 0.2rem;
+  }
+
+  .title {
+    font-size: 1.1rem;
+  }
+
+  .time,
+  .type {
+    font-size: 0.95rem;
+  }
+
+  .by {
+    font-size: 0.8rem;
+  }
+
+  .todaysWorkoutsPage,
+  .weekWorkoutsPage {
+    width: 100%;
+    padding-left: 0;
+    max-height: none;
+  }
+
+  .sectionTitle,
+  .todaysworks {
+    font-size: 1.05rem;
+    text-align: center;
+  }
+
+  .legend,
+  .legendHome,
+  .legendGlobal {
+    gap: 0.5rem;
+    padding: 0.3rem;
+    font-size: 0.9rem;
+  }
+
+  .workoutTop {
+    margin: 1rem 0 1rem 0.5rem;
+  }
+
+  .scrollContainer,
+  .scrollArea {
+    width: 100%;
+  }
 }

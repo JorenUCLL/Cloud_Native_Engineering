@@ -11,12 +11,13 @@ const getAllUsers = async (): Promise<User[]> => {
                 achievements: true,
             },
         });
-        return userPrisma.map((userPrisma) => User.from(userPrisma));
+        return userPrisma.map((user: any) => User.from(user));
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
 };
+
 const createUser = async (user: User): Promise<User> => {
     try {
         const userPrisma = await database.user.create({

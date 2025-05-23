@@ -4,12 +4,10 @@
     "description": "Courses API",
     "author": "johanpck",
     "license": "ISC",
-    "main": "dist/app.js",
+    "main": "app.ts",
     "scripts": {
         "test": "jest",
-        "start": "node dist/app.js",
-        "dev": "nodemon -L app.ts --delay 3",
-        "build": "tsc"
+        "start": "nodemon -L app.ts --delay 3"
     },
     "nodemonConfig": {
         "ext": "ts",

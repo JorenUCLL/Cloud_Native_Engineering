@@ -8,7 +8,8 @@
     "scripts": {
         "test": "jest",
         "start": "node dist/app.js",
-        "dev": "nodemon -L app.ts --delay 3"
+        "dev": "nodemon -L app.ts --delay 3",
+        "build": "tsc"
     },
     "nodemonConfig": {
         "ext": "ts",

@@ -61,3 +61,4 @@ jobs:
           app-name: "Cloud-Native-Engineering"
           slot-name: "Production"
           package: ./front-end
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FRONTEND }}

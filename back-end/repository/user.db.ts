@@ -1,61 +1,21 @@
-import { User } from '../model/user';
-import { set } from 'date-fns';
-import database from './database';
+import UserModel, { IUser } from '../mongo-models/User';
 
-const start = set(new Date(), { hours: 8, minutes: 30 });
-
-const getAllUsers = async (): Promise<User[]> => {
+const getAllUsers = async (): Promise<IUser[]> => {
     try {
-        const userPrisma = await database.user.findMany({
-            include: {
-                achievements: true,
-            },
-        });
-        return userPrisma.map((user: any) => User.from(user));
+        return await UserModel.find().populate('achievements').populate('workouts');
     } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
+        console.log('Error fetch users:', error);
+        throw new Error('Failed to fetch users');
     }
 };
 
-const createUser = async (user: User): Promise<User> => {
-    try {
-        const userPrisma = await database.user.create({
-            data: {
-                firstName: user.getFirstName(),
-                lastName: user.getLastName(),
-                email: user.getEmail(),
-                password: user.getPassword(),
-                achievements: {
-                    connect: user.getAchievements().map((ach) => ({ id: ach.getId() })),
-                },
-                workouts: {
-                    connect: user.getWorkouts().map((workout) => ({ id: workout.getId() })),
-                },
-            },
-            include: {
-                achievements: true,
-            },
-        });
-
-        return User.from(userPrisma);
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
-    }
+const createUser = async (userData: Partial<IUser>): Promise<IUser> => {
+    const user = new UserModel(userData);
+    return await user.save();
 };
 
-const getUserByEmail = async (email: string): Promise<User | null> => {
-    try {
-        const userPrisma = await database.user.findUnique({
-            where: { email },
-        });
-
-        return userPrisma ? User.from(userPrisma) : null;
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
-    }
+const getUserByEmail = async (email: string): Promise<IUser | null> => {
+    return await UserModel.findOne({ email }).populate('achievements').populate('workouts');
 };
 
 export default {

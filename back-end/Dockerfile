@@ -8,7 +8,6 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-RUN npx prisma generate
 # Expose the port the app runs on
 EXPOSE 3000
 # Start the app

@@ -1,40 +1,39 @@
-import { Exercise } from '@prisma/client';
+type Role = 'user' | 'admin';
 
 type UserInput = {
-    id?: number;
-    firstname: string;
-    lastname: string;
+    id?: string;
+    firstName: string;
+    lastName: string;
     email: string;
     password: string;
-    role: string;
+    role?: Role;
+};
+
+type TypeInput = {
+    id?: string;
+    title: string;
 };
 
 type WorkoutInput = {
-    id?: number;
+    id?: string;
     title: string;
     date: Date;
     type: TypeInput;
     user: UserInput;
-};
-
-type TypeInput = {
-    id?: number;
-    title: string;
+    exercises?: string[];
 };
 
 type AchievementInput = {
-    id?: number;
-    exercise: Exercise;
+    id?: string;
+    title: string;
+    description?: string;
     user: UserInput;
-    amount: Number;
 };
 
 type AuthenticationResponse = {
     token: string;
     email: string;
-    role: string;
+    role: Role;
 };
 
-type Role = 'user' | 'admin';
-
-export { UserInput, AuthenticationResponse, Role, WorkoutInput, AchievementInput };
+export { UserInput, AuthenticationResponse, Role, WorkoutInput, AchievementInput, TypeInput };

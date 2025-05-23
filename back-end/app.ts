@@ -5,20 +5,36 @@ import * as bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { userRouter } from './controller/user.routes';
+import './mongo-models/Achievement';
+import './mongo-models/Workout';
+import './mongo-models/Exercise';
+import './mongo-models/Type';
+import './mongo-models/User';
 
 import path from 'path';
 import { expressjwt } from 'express-jwt';
 import helmet from 'helmet';
 import workoutRouter from './controller/workout.routes';
 import { typeRouter } from './controller/type.routes';
+import mongoose from 'mongoose';
 
 const app = express();
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
+const mongoUri = process.env.MONGODB_URI || 'your-cosmos-connection-string';
+
+mongoose
+    .connect(mongoUri)
+    .then(() => {
+        console.log('Connected to MongoDB');
+    })
+    .catch((err) => {
+        console.error('MongoDB connection error:', err);
+    });
 
 app.use(
     cors({
-        origin: 'http://localhost:8080',
+        origin: 'http://localhost:8081',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         credentials: true,
     })

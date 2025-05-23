@@ -1,21 +1,15 @@
-import { Exercise } from '../model/exercise';
-import database from './database';
+import ExerciseModel, { IExercise } from '../mongo-models/Exercise';
 
-const getAllExercises = async (): Promise<Exercise[]> => {
-    try {
-        const exercisePrisma = await database.exercise.findMany({
-            include: {
-                type: true,
-                achievements: true,
-            },
-        });
-        return exercisePrisma.map((exercise) => Exercise.from(exercise));
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
-    }
+const getAllExercises = async (): Promise<IExercise[]> => {
+    return await ExerciseModel.find().populate('workout');
+};
+
+const createExercise = async (data: Partial<IExercise>): Promise<IExercise> => {
+    const exercise = new ExerciseModel(data);
+    return await exercise.save();
 };
 
 export default {
     getAllExercises,
+    createExercise,
 };

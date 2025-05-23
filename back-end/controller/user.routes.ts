@@ -6,9 +6,12 @@ const userRouter = express.Router();
 
 userRouter.get('/', async (req, res) => {
     try {
+        console.log('test');
         const users = await userService.getAllUsers();
         res.json(users);
     } catch (error) {
+        console.log('Error in GET /users:', error);
+
         res.status(500).json({ error: 'Failed to fetch users.' });
     }
 });

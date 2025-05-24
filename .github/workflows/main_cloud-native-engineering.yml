@@ -43,10 +43,7 @@ jobs:
 
       - name: Prepare deployment package
         run: |
-          mkdir package
-          cp -r dist node_modules package.json package-lock.json ./package/
-          cd package
-          zip -r ../app.zip .
+          zip -r app.zip dist package.json package-lock.json
         working-directory: ./back-end
 
       - name: Deploy backend to Azure Web App
@@ -56,7 +53,6 @@ jobs:
           slot-name: "Production"
           package: ./back-end/app.zip
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BACKEND }}
-
   # Frontend build and deploy
   # build-frontend:
   #   runs-on: ubuntu-latest

@@ -1,10 +1,11 @@
-import * as dotenv from 'dotenv';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import * as bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { userRouter } from './controller/user.routes';
+import { achievementRouter } from './controller/achievement.routes';
+
 import './mongo-models/Achievement';
 import './mongo-models/Workout';
 import './mongo-models/Exercise';
@@ -19,7 +20,7 @@ import { typeRouter } from './controller/type.routes';
 import mongoose from 'mongoose';
 
 const app = express();
-dotenv.config();
+
 const port = process.env.APP_PORT || 3000;
 const mongoUri = process.env.MONGODB_URI || 'your-cosmos-connection-string';
 
@@ -65,6 +66,7 @@ app.use(bodyParser.json());
 app.use('/users', userRouter);
 app.use('/workouts', workoutRouter);
 app.use('/types', typeRouter);
+app.use('/achievements', achievementRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Courses API is running...' });

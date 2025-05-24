@@ -9,7 +9,12 @@ const createAchievement = async (data: Partial<IAchievement>): Promise<IAchievem
     return await achievement.save();
 };
 
+const getAchievementsByUser = async (userId: string): Promise<IAchievement[]> => {
+    return await AchievementModel.find({ user: userId });
+};
+
 export default {
     getAllAchievements,
     createAchievement,
+    getAchievementsByUser,
 };

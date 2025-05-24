@@ -1,38 +1,35 @@
 import userRepository from '../repository/user.db';
-import { User } from '../model/user';
-import { AuthenticationResponse, UserInput } from '../types/index';
+import { AuthenticationResponse, Role, UserInput } from '../types/index';
 import bcrypt from 'bcrypt';
 import { generateJwtToken } from '../util/jwt';
 
-const getAllUsers = async (): Promise<User[]> => userRepository.getAllUsers();
+const getAllUsers = async () => userRepository.getAllUsers();
 
-const getUserByEmail = async (email: string): Promise<User> => {
+const getUserByEmail = async (email: string) => {
     const user = await userRepository.getUserByEmail(email);
     if (!user) {
-        throw new Error('There is no user with that email adress.');
+        throw new Error('There is no user with that email address.');
     }
     return user;
 };
 
 const authenticate = async ({ email, password }: UserInput): Promise<AuthenticationResponse> => {
-    console.log('begin');
     const newEmail = email.trim().toLowerCase();
     const user = await userRepository.getUserByEmail(newEmail);
-    console.log(user);
 
     if (!user) {
-        throw new Error('no user with that email');
+        throw new Error('No user with that email');
     }
 
-    const isValidPassword = await bcrypt.compare(password, user.getPassword());
+    const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
         throw new Error('Incorrect password.');
     }
     return {
-        token: generateJwtToken({ email, role: user.getRole() }),
-        email: email,
-        role: user.getRole(),
+        token: generateJwtToken({ email, role: user.role as Role }),
+        email: user.email,
+        role: user.role as Role,
     };
 };
 

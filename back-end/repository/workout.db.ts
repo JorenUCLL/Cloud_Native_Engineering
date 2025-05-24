@@ -1,68 +1,23 @@
-import { Workout } from '../model/workout';
-import { set } from 'date-fns';
-import database from './database';
-import { User } from '../model/user';
+import WorkoutModel, { IWorkout } from '../mongo-models/Workout';
 
-const start = set(new Date(), { hours: 8, minutes: 30 });
-
-const getAllWorkouts = async (): Promise<Workout[]> => {
-    try {
-        const workoutPrisma = await database.workout.findMany({
-            include: {
-                type: true,
-                user: true,
-            },
-        });
-        return workoutPrisma.map((workoutPrisma) => Workout.from(workoutPrisma));
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
-    }
-};
-const getWorkoutsByUser = async (user: User): Promise<Workout[]> => {
-    try {
-        const workoutPrisma = await database.workout.findMany({
-            where: { userId: user.getId() },
-            include: {
-                type: true,
-                user: true,
-            },
-        });
-        return workoutPrisma.map((workoutPrisma) => Workout.from(workoutPrisma));
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
-    }
+const getAllWorkouts = async (): Promise<IWorkout[]> => {
+    return await WorkoutModel.find().populate('type').populate('user').populate('exercises');
 };
 
-const createWorkout = async (workout: Workout): Promise<Workout> => {
-    try {
-        const workoutPrisma = await database.workout.create({
-            data: {
-                title: workout.getTitle(),
-                date: workout.getDate(),
-                type: {
-                    connect: { id: workout.getType().getId() },
-                },
-                user: {
-                    connect: { id: workout.getUser().getId() },
-                },
-            },
-            include: {
-                type: true,
-                user: true,
-            },
-        });
+const getWorkoutsByUser = async (userId: string): Promise<IWorkout[]> => {
+    return await WorkoutModel.find({ user: userId })
+        .populate('type')
+        .populate('user')
+        .populate('exercises');
+};
 
-        return Workout.from(workoutPrisma);
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
-    }
+const createWorkout = async (data: Partial<IWorkout>): Promise<IWorkout> => {
+    const workout = new WorkoutModel(data);
+    return await workout.save();
 };
 
 export default {
     getAllWorkouts,
-    createWorkout,
     getWorkoutsByUser,
+    createWorkout,
 };

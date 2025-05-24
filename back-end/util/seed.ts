@@ -1,11 +1,14 @@
 // Execute: npx ts-node util/seed.ts
-
-import { PrismaClient } from '@prisma/client';
+import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-import { addDays, eachMonthOfInterval, set } from 'date-fns';
-import { Type } from '../model/type';
-import { User } from '../model/user';
-const prisma = new PrismaClient();
+import { addDays, set } from 'date-fns';
+import UserModel from '../mongo-models/User';
+import TypeModel from '../mongo-models/Type';
+import ExerciseModel from '../mongo-models/Exercise';
+import AchievementModel from '../mongo-models/Achievement';
+import WorkoutModel from '../mongo-models/Workout';
+
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/cloudnative';
 
 const date1 = set(new Date(), { hours: 0, minutes: 0 });
 const date2 = set(addDays(new Date(), 1), { hours: 12, minutes: 30 });
@@ -16,231 +19,136 @@ const date6 = set(new Date(), { hours: 20, minutes: 0 });
 const date7 = set(addDays(new Date(), 9), { hours: 9, minutes: 30 });
 
 const main = async () => {
-    await prisma.workout.deleteMany();
-    await prisma.achievement.deleteMany();
-    await prisma.exercise.deleteMany();
-    await prisma.user.deleteMany();
-    await prisma.type.deleteMany();
+    await mongoose.connect(mongoUri);
 
-    const type1 = await prisma.type.create({
-        data: { title: 'Legs' },
-    });
+    await Promise.all([
+        AchievementModel.deleteMany({}),
+        ExerciseModel.deleteMany({}),
+        WorkoutModel.deleteMany({}),
+        UserModel.deleteMany({}),
+        TypeModel.deleteMany({}),
+    ]);
 
-    const type2 = await prisma.type.create({
-        data: { title: 'Arms' },
-    });
+    const [type1, type2, type3, type4] = await Promise.all([
+        TypeModel.create({ title: 'Legs' }),
+        TypeModel.create({ title: 'Arms' }),
+        TypeModel.create({ title: 'Back' }),
+        TypeModel.create({ title: 'Boulder' }),
+    ]);
 
-    const type3 = await prisma.type.create({
-        data: { title: 'Back' },
-    });
-
-    const type4 = await prisma.type.create({
-        data: { title: 'Boulder' },
-    });
-
-    const user1 = await prisma.user.create({
-        data: {
+    const [user1, user2] = await Promise.all([
+        UserModel.create({
             firstName: 'John',
             lastName: 'Doe',
             email: 'john.doe@gmail.com',
             password: await bcrypt.hash('John123', 12),
-        },
-    });
-
-    const user2 = await prisma.user.create({
-        data: {
+            role: 'user',
+        }),
+        UserModel.create({
             firstName: 'Jane',
             lastName: 'Doe',
             email: 'jane.doe@gmail.com',
             password: await bcrypt.hash('Jane123', 12),
-        },
-    });
+            role: 'user',
+        }),
+    ]);
 
-    const exercise1 = await prisma.exercise.create({
-        data: {
-            title: 'Squats',
-            type: {
-                connect: { id: type1.id },
-            },
-        },
-    });
+    const [exercise1, exercise2, exercise3] = await Promise.all([
+        ExerciseModel.create({ name: 'Squats', workout: null }),
+        ExerciseModel.create({ name: 'Bench Press', workout: null }),
+        ExerciseModel.create({ name: 'Lat Pulldown', workout: null }),
+    ]);
 
-    const exercise2 = await prisma.exercise.create({
-        data: {
-            title: 'Bench Press',
-            type: {
-                connect: { id: type2.id },
-            },
-        },
-    });
+    await Promise.all([
+        AchievementModel.create({
+            title: 'Squat PR',
+            description: 'Personal record for squats',
+            user: user1._id,
+        }),
+        AchievementModel.create({
+            title: 'Bench PR',
+            description: 'Personal record for bench press',
+            user: user1._id,
+        }),
+        AchievementModel.create({
+            title: 'Lat Pulldown PR',
+            description: 'Personal record for lat pulldown',
+            user: user2._id,
+        }),
+    ]);
 
-    const exercise3 = await prisma.exercise.create({
-        data: {
-            title: 'Lat Pulldown',
-            type: {
-                connect: { id: type3.id },
-            },
-        },
-    });
-
-    const achievement1 = await prisma.achievement.create({
-        data: {
-            exercise: {
-                connect: { id: exercise1.id },
-            },
-            user: {
-                connect: { id: user1.id },
-            },
-            amount: 150,
-        },
-    });
-
-    const achievement2 = await prisma.achievement.create({
-        data: {
-            exercise: {
-                connect: { id: exercise2.id },
-            },
-            user: {
-                connect: { id: user1.id },
-            },
-            amount: 100,
-        },
-    });
-
-    const achievement3 = await prisma.achievement.create({
-        data: {
-            exercise: {
-                connect: { id: exercise3.id },
-            },
-            user: {
-                connect: { id: user2.id },
-            },
-            amount: 90,
-        },
-    });
-
-    const workout1 = await prisma.workout.create({
-        data: {
+    await Promise.all([
+        WorkoutModel.create({
             title: 'Leg Day',
             date: date1,
-            type: {
-                connect: { id: type1.id },
-            },
-            user: {
-                connect: { id: user1.id },
-            },
-        },
-    });
-
-    const workout2 = await prisma.workout.create({
-        data: {
+            type: type1._id,
+            user: user1._id,
+            exercises: [exercise1._id],
+        }),
+        WorkoutModel.create({
             title: 'Arm Day',
             date: date2,
-            type: {
-                connect: { id: type2.id },
-            },
-            user: {
-                connect: { id: user2.id },
-            },
-        },
-    });
-
-    const workout3 = await prisma.workout.create({
-        data: {
+            type: type2._id,
+            user: user2._id,
+            exercises: [exercise2._id],
+        }),
+        WorkoutModel.create({
             title: 'Back Day',
             date: date3,
-            type: {
-                connect: { id: type3.id },
-            },
-            user: {
-                connect: { id: user1.id },
-            },
-        },
-    });
-    const workout4 = await prisma.workout.create({
-        data: {
+            type: type3._id,
+            user: user1._id,
+            exercises: [exercise3._id],
+        }),
+        WorkoutModel.create({
             title: 'Evening Sesh',
             date: date4,
-            type: {
-                connect: { id: type1.id },
-            },
-            user: {
-                connect: { id: user2.id },
-            },
-        },
-    });
-    const workout5 = await prisma.workout.create({
-        data: {
+            type: type1._id,
+            user: user2._id,
+            exercises: [],
+        }),
+        WorkoutModel.create({
             title: 'BoulderSesh',
             date: date5,
-            type: {
-                connect: { id: type4.id },
-            },
-            user: {
-                connect: { id: user2.id },
-            },
-        },
-    });
-    const workout6 = await prisma.workout.create({
-        data: {
+            type: type4._id,
+            user: user2._id,
+            exercises: [],
+        }),
+        WorkoutModel.create({
             title: 'Arms',
             date: date3,
-            type: {
-                connect: { id: type2.id },
-            },
-            user: {
-                connect: { id: user1.id },
-            },
-        },
-    });
-
-    const workout7 = await prisma.workout.create({
-        data: {
+            type: type2._id,
+            user: user1._id,
+            exercises: [],
+        }),
+        WorkoutModel.create({
             title: 'Evening',
             date: date6,
-            type: {
-                connect: { id: type3.id },
-            },
-            user: {
-                connect: { id: user2.id },
-            },
-        },
-    });
-
-    const workout8 = await prisma.workout.create({
-        data: {
+            type: type3._id,
+            user: user2._id,
+            exercises: [],
+        }),
+        WorkoutModel.create({
             title: 'Evening',
             date: date5,
-            type: {
-                connect: { id: type3.id },
-            },
-            user: {
-                connect: { id: user1.id },
-            },
-        },
-    });
-
-    const workout9 = await prisma.workout.create({
-        data: {
+            type: type3._id,
+            user: user1._id,
+            exercises: [],
+        }),
+        WorkoutModel.create({
             title: 'Evening',
             date: date7,
-            type: {
-                connect: { id: type2.id },
-            },
-            user: {
-                connect: { id: user1.id },
-            },
-        },
-    });
+            type: type2._id,
+            user: user1._id,
+            exercises: [],
+        }),
+    ]);
+
+    await mongoose.disconnect();
+    console.log('Database seeded successfully!');
 };
 
-(async () => {
-    try {
-        await main();
-        await prisma.$disconnect();
-    } catch (error) {
-        console.error(error);
-        await prisma.$disconnect();
-        process.exit(1);
-    }
-})();
+main().catch((err) => {
+    console.error(err);
+    mongoose.disconnect();
+    process.exit(1);
+});

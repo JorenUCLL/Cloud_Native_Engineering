@@ -8,8 +8,8 @@ typeRouter.get('/', async (req, res) => {
         const types = await typeService.getAllTypes();
         res.json(types);
     } catch (error) {
+        console.error('Error in GET /types:', error);
         res.status(500).json({ error: 'Failed to fetch users.' });
     }
 });
-
 export { typeRouter };

@@ -1,49 +1,36 @@
 import workoutRepository from '../repository/workout.db';
 import userRepository from '../repository/user.db';
 import typeRepository from '../repository/type.db';
-
-import { Workout } from '../model/workout';
 import { WorkoutInput } from '../types';
-import { User } from '../model/user';
 
-const getAllWorkouts = async (): Promise<Workout[]> => {
+const getAllWorkouts = async () => {
     return await workoutRepository.getAllWorkouts();
 };
 
-const getWorkoutByUser = async (email: string): Promise<Workout[]> => {
+const getWorkoutByUser = async (email: string) => {
     const user = await userRepository.getUserByEmail(email);
     if (!user) {
-        throw new Error('There is no user with that email adress.');
+        throw new Error('There is no user with that email address.');
     }
-    return await workoutRepository.getWorkoutsByUser(user);
+    return await workoutRepository.getWorkoutsByUser(user.id);
 };
 
-const createWorkout = async ({
-    title,
-    date,
-    type: typeInput,
-    user: userInput,
-}: WorkoutInput): Promise<Workout> => {
-    console.log('1');
+const createWorkout = async ({ title, date, type: typeInput, user: userInput }: WorkoutInput) => {
     const type = await typeRepository.getTypeById(typeInput.title);
     if (!type) {
         throw new Error('There is no type like that');
     }
-    console.log('2');
-
     const user = await userRepository.getUserByEmail(userInput.email);
     if (!user) {
         throw new Error('There is no user like that');
     }
-
-    const workout = new Workout({
+    const workoutData = {
         title,
         date,
-        type,
-        user,
-    });
-    console.log(workout);
-    return await workoutRepository.createWorkout(workout);
+        type: type.id,
+        user: user.id,
+    };
+    return await workoutRepository.createWorkout(workoutData);
 };
 
 export default {

@@ -1,26 +1,15 @@
-import { Achievement } from '../model/achievement';
-import database from './database';
+import AchievementModel, { IAchievement } from '../mongo-models/Achievement';
 
-const getAllAchievements = async (): Promise<Achievement[]> => {
-    try {
-        const achievementPrisma = await database.achievement.findMany({
-            include: {
-                exercise: {
-                    include: {
-                        type: true,
-                    },
-                },
-                user: true,
-            },
-        });
+const getAllAchievements = async (): Promise<IAchievement[]> => {
+    return await AchievementModel.find().populate('user');
+};
 
-        return achievementPrisma.map((achievement) => Achievement.from(achievement));
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
-    }
+const createAchievement = async (data: Partial<IAchievement>): Promise<IAchievement> => {
+    const achievement = new AchievementModel(data);
+    return await achievement.save();
 };
 
 export default {
     getAllAchievements,
+    createAchievement,
 };

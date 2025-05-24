@@ -2,6 +2,7 @@ import express from 'express';
 import workoutService from '../service/workoutService';
 import { WorkoutInput } from '../types';
 import { expressjwt } from 'express-jwt';
+import userService from '../service/userService';
 
 const workoutRouter = express.Router();
 
@@ -24,22 +25,33 @@ workoutRouter.get('/user/:email', async (req, res) => {
 
 workoutRouter.post(
     '/',
-    expressjwt({ secret: process.env.JWT_SECRET!, algorithms: ['HS256'] }),
+    expressjwt({
+        secret: process.env.JWT_SECRET!,
+        algorithms: ['HS256'],
+        requestProperty: 'auth',
+    }),
     async (req: any, res) => {
         try {
             const { title, date, time, typeId } = req.body;
+            const userEmail: string = req.auth.email;
+
+            // Bouw je Date-object
+            const [hrs, mins] = (time as string).split(':').map(Number);
             const workoutDate = new Date(date);
-            const [hrs, mins] = time.split(':').map(Number);
             workoutDate.setHours(hrs, mins);
+
+            // Roep service aan met het nieuwe DTO
             const newWorkout = await workoutService.createWorkout({
                 title,
                 date: workoutDate,
-                type: typeId,
-                user: req.user.id,
+                typeId,
+                userEmail,
             });
-            res.status(201).json(newWorkout);
-        } catch {
-            res.status(500).json({ error: 'Failed to create workout.' });
+
+            return res.status(201).json(newWorkout);
+        } catch (err: any) {
+            console.error('💥 createWorkout error:', err);
+            return res.status(400).json({ error: err.message || 'Failed to create workout.' });
         }
     }
 );

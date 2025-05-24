@@ -7,8 +7,8 @@ const Type_1 = __importDefault(require("../mongo-models/Type"));
 const getAllTypes = async () => {
     return await Type_1.default.find();
 };
-const getTypeById = async (title) => {
-    return await Type_1.default.findOne({ title });
+const getTypeById = async (id) => {
+    return await Type_1.default.findById(id);
 };
 const createType = async (data) => {
     const type = new Type_1.default(data);

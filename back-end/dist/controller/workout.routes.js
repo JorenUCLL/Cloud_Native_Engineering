@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const workoutService_1 = __importDefault(require("../service/workoutService"));
+const express_jwt_1 = require("express-jwt");
 const workoutRouter = express_1.default.Router();
 workoutRouter.get('/', async (req, res) => {
     try {
@@ -24,14 +25,30 @@ workoutRouter.get('/user/:email', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch workouts.' });
     }
 });
-workoutRouter.post('/', async (req, res) => {
+workoutRouter.post('/', (0, express_jwt_1.expressjwt)({
+    secret: process.env.JWT_SECRET,
+    algorithms: ['HS256'],
+    requestProperty: 'auth',
+}), async (req, res) => {
     try {
-        const Data = req.body;
-        const newWorkout = await workoutService_1.default.createWorkout(req.body);
-        res.status(201).json(newWorkout);
+        const { title, date, time, typeId } = req.body;
+        const userEmail = req.auth.email;
+        // Bouw je Date-object
+        const [hrs, mins] = time.split(':').map(Number);
+        const workoutDate = new Date(date);
+        workoutDate.setHours(hrs, mins);
+        // Roep service aan met het nieuwe DTO
+        const newWorkout = await workoutService_1.default.createWorkout({
+            title,
+            date: workoutDate,
+            typeId,
+            userEmail,
+        });
+        return res.status(201).json(newWorkout);
     }
-    catch (error) {
-        res.status(500).json({ error: 'Failed to create workout.' });
+    catch (err) {
+        console.error('💥 createWorkout error:', err);
+        return res.status(400).json({ error: err.message || 'Failed to create workout.' });
     }
 });
 exports.default = workoutRouter;

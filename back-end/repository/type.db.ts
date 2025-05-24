@@ -4,8 +4,8 @@ const getAllTypes = async (): Promise<IType[]> => {
     return await TypeModel.find();
 };
 
-const getTypeById = async (title: string): Promise<IType | null> => {
-    return await TypeModel.findOne({ title });
+const getTypeById = async (id: string): Promise<IType | null> => {
+    return await TypeModel.findById(id);
 };
 
 const createType = async (data: Partial<IType>): Promise<IType> => {

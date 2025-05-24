@@ -16,21 +16,23 @@ const getWorkoutByUser = async (email) => {
     }
     return await workout_db_1.default.getWorkoutsByUser(user.id);
 };
-const createWorkout = async ({ title, date, type: typeInput, user: userInput }) => {
-    const type = await type_db_1.default.getTypeById(typeInput.title);
-    if (!type) {
+const createWorkout = async (data) => {
+    // 1) Lookup type by ID
+    const type = await type_db_1.default.getTypeById(data.typeId);
+    if (!type)
         throw new Error('There is no type like that');
-    }
-    const user = await user_db_1.default.getUserByEmail(userInput.email);
-    if (!user) {
+    // 2) Lookup user by email
+    const user = await user_db_1.default.getUserByEmail(data.userEmail);
+    if (!user)
         throw new Error('There is no user like that');
-    }
+    // 3) Build payload for repository
     const workoutData = {
-        title,
-        date,
-        type: type.id,
-        user: user.id,
+        title: data.title,
+        date: data.date,
+        type: type._id,
+        user: user._id,
     };
+    // 4) Save
     return await workout_db_1.default.createWorkout(workoutData);
 };
 exports.default = {

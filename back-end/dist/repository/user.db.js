@@ -20,8 +20,12 @@ const createUser = async (userData) => {
 const getUserByEmail = async (email) => {
     return await User_1.default.findOne({ email }).populate('achievements').populate('workouts');
 };
+const getUserById = async (id) => {
+    return await User_1.default.findById(id).populate('achievements').populate('workouts');
+};
 exports.default = {
     getAllUsers,
     createUser,
     getUserByEmail,
+    getUserById,
 };

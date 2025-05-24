@@ -10,6 +10,8 @@ import workoutStyles from "@/styles/Workout.module.css";
 interface Props {
   isOpen: boolean;
   initialDate: string | null;
+  token: string;
+  userId: string;
   onClose: () => void;
   onSaved: () => void;
 }
@@ -17,6 +19,8 @@ interface Props {
 export default function WorkoutModal({
   isOpen,
   initialDate,
+  token,
+  userId,
   onClose,
   onSaved,
 }: Props) {
@@ -36,10 +40,12 @@ export default function WorkoutModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await WorkoutService.createWorkout({ title, date, time, typeId });
+    await WorkoutService.createWorkout(
+      { title, date, time, typeId, userId },
+      token
+    );
     onSaved();
   };
-
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(

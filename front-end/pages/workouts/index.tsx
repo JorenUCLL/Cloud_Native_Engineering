@@ -27,7 +27,6 @@ const Workouts: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   const handleAddClick = (isoDate: string | null) => {
-    console.log("opening modal voor:", isoDate); // zie in je browser console
     setSelectedDate(isoDate);
     setModalOpen(true);
   };
@@ -180,12 +179,16 @@ const Workouts: React.FC = () => {
           </section>
         </main>
       </div>
-      <CreateWorkoutModal
-        isOpen={modalOpen}
-        initialDate={selectedDate}
-        onClose={handleCloseModal}
-        onSaved={handleSaved}
-      />
+      {user && (
+        <CreateWorkoutModal
+          isOpen={modalOpen}
+          initialDate={selectedDate}
+          token={token!}
+          userId={user.id}
+          onClose={handleCloseModal}
+          onSaved={handleSaved}
+        />
+      )}
     </>
   );
 };

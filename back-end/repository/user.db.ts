@@ -18,8 +18,13 @@ const getUserByEmail = async (email: string): Promise<IUser | null> => {
     return await UserModel.findOne({ email }).populate('achievements').populate('workouts');
 };
 
+const getUserById = async (id: string): Promise<IUser | null> => {
+    return await UserModel.findById(id).populate('achievements').populate('workouts');
+};
+
 export default {
     getAllUsers,
     createUser,
     getUserByEmail,
+    getUserById,
 };

@@ -32,7 +32,7 @@ jobs:
         with:
           app-name: "cloud-native-backEnd"
           slot-name: "Production"
-          package: ./back-end/dist
+          package: ./back-end
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BACKEND }}
 
   # Frontend build and deploy

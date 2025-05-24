@@ -2,11 +2,8 @@ import Header from "@/components/header";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { GetServerSidePropsContext } from "next/types";
 import styles from "@/styles/Home.module.css";
-import profileStyles from "@/styles/Profile.module.css";
-import { User, Workout } from "@/types";
+import { Workout } from "@/types";
 import WorkoutService from "@/services/WorkoutService";
 import useSWR, { mutate } from "swr";
 import useInterval from "use-interval";
@@ -15,7 +12,6 @@ import WorkoutOverview from "@/components/workouts/workoutOverview";
 import CreateWorkoutModal from "@/components/workouts/CreateWorkoutModal";
 
 const Workouts: React.FC = () => {
-  const { t } = useTranslation();
   const [token, setToken] = useState<string | null>(null);
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);

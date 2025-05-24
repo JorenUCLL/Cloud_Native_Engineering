@@ -24,15 +24,12 @@ const getWorkoutByUser = async (email: string) => {
 };
 
 const createWorkout = async (data: CreateWorkoutDto): Promise<IWorkout> => {
-    // 1) Lookup type by ID
     const type = await typeRepository.getTypeById(data.typeId);
     if (!type) throw new Error('There is no type like that');
 
-    // 2) Lookup user by email
     const user = await userRepository.getUserByEmail(data.userEmail);
     if (!user) throw new Error('There is no user like that');
 
-    // 3) Build payload for repository
     const workoutData = {
         title: data.title,
         date: data.date,
@@ -40,7 +37,6 @@ const createWorkout = async (data: CreateWorkoutDto): Promise<IWorkout> => {
         user: user._id,
     };
 
-    // 4) Save
     return await workoutRepository.createWorkout(workoutData);
 };
 

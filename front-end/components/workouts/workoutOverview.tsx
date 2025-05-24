@@ -20,7 +20,6 @@ const WorkoutOverview: React.FC<Props> = ({
   const [typeColorMap, setTypeColorMap] = useState<Record<string, string>>({});
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Groepeer workouts per daglabel
   const groupedWorkouts: Record<string, Workout[]> = {};
   workouts.forEach((workout) => {
     const weekday = new Date(workout.date).toLocaleDateString("en-US", {
@@ -30,7 +29,6 @@ const WorkoutOverview: React.FC<Props> = ({
     groupedWorkouts[weekday].push(workout);
   });
 
-  // Laad types en wijs kleuren toe
   const colors = [
     "#ffe5e5",
     "#e6ffe6",

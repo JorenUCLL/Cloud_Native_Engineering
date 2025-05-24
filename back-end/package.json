@@ -12,10 +12,7 @@
     },
     "nodemonConfig": {
         "ext": "ts",
-        "delay": "3",
-        "execMap": {
-            "ts": "ts-node"
-        }
+        "delay": "3"
     },
     "dependencies": {
         "bcrypt": "^5.1.1",

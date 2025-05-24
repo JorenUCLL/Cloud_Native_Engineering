@@ -1,4 +1,3 @@
-import * as dotenv from 'dotenv';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import * as bodyParser from 'body-parser';
@@ -19,7 +18,7 @@ import { typeRouter } from './controller/type.routes';
 import mongoose from 'mongoose';
 
 const app = express();
-dotenv.config();
+
 const port = process.env.APP_PORT || 3000;
 const mongoUri = process.env.MONGODB_URI || 'your-cosmos-connection-string';
 

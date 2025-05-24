@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: "20.x"
       - run: npm install
-      - run: npm run build --if-present
+      - run: npm run build
 
   deploy-backend:
     runs-on: ubuntu-latest
@@ -32,7 +32,7 @@ jobs:
         with:
           app-name: "cloud-native-backEnd"
           slot-name: "Production"
-          package: ./back-end
+          package: ./back-end/dist
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BACKEND }}
 
   # Frontend build and deploy

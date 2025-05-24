@@ -1,8 +1,11 @@
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import { Role } from '../types';
 
 const generateJwtToken = ({ email, role }: { email: string; role: Role }): string => {
-    const options = { expiresIn: `${process.env.JWT_EXPIRES_HOURS}h`, issuer: 'courses_app' };
+    const options: SignOptions = {
+        expiresIn: `8h`,
+        issuer: 'courses_app',
+    };
 
     try {
         return jwt.sign({ email, role }, process.env.JWT_SECRET!, options);

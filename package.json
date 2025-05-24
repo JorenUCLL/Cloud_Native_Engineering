@@ -1,5 +1,12 @@
 {
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "back-end",
+    "azure-functions"
+  ],
   "dependencies": {
+    "@azure/functions": "^4.7.2",
     "@prisma/client": "^6.7.0",
     "dotenv": "^16.4.5",
     "express": "^5.1.0",
@@ -7,9 +14,9 @@
     "next-i18next": "^15.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "root": "file:",
     "swr": "^2.3.3",
-    "use-interval": "^1.4.0",
-    "@azure/functions": "^4.7.2"
+    "use-interval": "^1.4.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

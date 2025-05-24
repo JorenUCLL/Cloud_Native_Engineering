@@ -56,9 +56,15 @@ const Workouts: React.FC = () => {
     }
   };
 
+  const normalizeDate = (date: Date): Date =>
+    new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
   const weeklyWorkouts = workouts.filter((workout) => {
-    const workoutDate = new Date(workout.date);
-    return workoutDate >= currentWeekStart && workoutDate <= currentWeekEnd;
+    const workoutDate = normalizeDate(new Date(workout.date));
+    return (
+      workoutDate >= normalizeDate(currentWeekStart) &&
+      workoutDate <= normalizeDate(currentWeekEnd)
+    );
   });
 
   const fetchUser = async (email: string, token: string) => {

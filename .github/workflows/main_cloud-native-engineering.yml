@@ -27,15 +27,30 @@ jobs:
     needs: build-backend
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+
       - name: Install dependencies
         run: npm install
         working-directory: ./back-end
+
+      - name: Build the app
+        run: npm run build
+        working-directory: ./back-end
+
+      - name: Zip artifact for deployment
+        run: zip -r app.zip ./*
+        working-directory: ./back-end
+
       - name: Deploy backend to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: "cloud-native-backEnd"
           slot-name: "Production"
-          package: back-end
+          package: ./back-end/app.zip
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BACKEND }}
 
   # Frontend build and deploy

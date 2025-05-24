@@ -22,11 +22,6 @@ jobs:
       - run: npm install
       - run: npm run build
 
-      - name: Zip backend package
-        run: |
-          cd back-end
-          zip -r ../back-end.zip .
-
   deploy-backend:
     runs-on: ubuntu-latest
     needs: build-backend
@@ -40,7 +35,7 @@ jobs:
         with:
           app-name: "cloud-native-backEnd"
           slot-name: "Production"
-          package: back-end.zip
+          package: back-end
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BACKEND }}
 
   # Frontend build and deploy

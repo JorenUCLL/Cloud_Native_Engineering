@@ -4,6 +4,8 @@ import * as bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { userRouter } from './controller/user.routes';
+import { achievementRouter } from './controller/achievement.routes';
+
 import './mongo-models/Achievement';
 import './mongo-models/Workout';
 import './mongo-models/Exercise';
@@ -64,6 +66,7 @@ app.use(bodyParser.json());
 app.use('/users', userRouter);
 app.use('/workouts', workoutRouter);
 app.use('/types', typeRouter);
+app.use('/achievements', achievementRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Courses API is running...' });
@@ -82,7 +85,6 @@ const swaggerOpts = {
     apis: ['./controller/*.routes.ts'],
 };
 const swaggerSpec = swaggerJSDoc(swaggerOpts);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     if (err.name === 'UnauthorizedError') {

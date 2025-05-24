@@ -1,6 +1,4 @@
 // Execute: npx ts-node util/seed.ts
-import * as dotenv from 'dotenv';
-dotenv.config();
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import { addDays, set } from 'date-fns';

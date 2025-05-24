@@ -35,7 +35,7 @@ type Workout = {
 };
 
 type Type = {
-  id: number;
+  id: string; // backend geeft id als string mee ipv number
   title: string;
 };
 

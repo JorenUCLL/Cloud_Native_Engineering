@@ -1,34 +1,36 @@
 import { useEffect, useState } from "react";
-import { Workout, User, Type } from "../../types/index";
-import Link from "next/link";
+import { Workout, User, Type } from "@/types/index";
 import workoutStyles from "../../styles/Workout.module.css";
 import TypeService from "@/services/TypeService";
 
+export type Day = { label: string; iso: string };
+
 type Props = {
-  workouts: Array<Workout>;
+  weekDays: Day[];
+  workouts: Workout[];
   user: User;
+  onAddClick: (isoDate: string | null) => void;
 };
 
-const WorkoutOverview: React.FC<Props> = ({ workouts }) => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+const WorkoutOverview: React.FC<Props> = ({
+  weekDays,
+  workouts,
+  onAddClick,
+}) => {
   const [typeColorMap, setTypeColorMap] = useState<Record<string, string>>({});
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const groupedWorkouts: { [key: string]: Workout[] } = {};
-
+  // Groepeer workouts per daglabel
+  const groupedWorkouts: Record<string, Workout[]> = {};
   workouts.forEach((workout) => {
-    const date = new Date(workout.date);
-    const weekday = date.toLocaleDateString("en-US", { weekday: "long" });
-
-    if (!groupedWorkouts[weekday]) {
-      groupedWorkouts[weekday] = [];
-    }
+    const weekday = new Date(workout.date).toLocaleDateString("en-US", {
+      weekday: "long",
+    });
+    if (!groupedWorkouts[weekday]) groupedWorkouts[weekday] = [];
     groupedWorkouts[weekday].push(workout);
   });
 
-  const typeToColor = () => {
-    const color = TypeService.getAllTypes();
-  };
-
+  // Laad types en wijs kleuren toe
   const colors = [
     "#ffe5e5",
     "#e6ffe6",
@@ -37,49 +39,49 @@ const WorkoutOverview: React.FC<Props> = ({ workouts }) => {
     "#f3e6ff",
     "#fff0e6",
   ];
-
-  const orderedDays = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
-
   useEffect(() => {
-    const fetchTypesAndAssignColors = async () => {
+    async function fetchTypes() {
       try {
         const types: Type[] = await TypeService.getAllTypes();
-        const newColorMap: Record<string, string> = {};
-
-        types.forEach((type, index) => {
-          const color = colors[index % colors.length];
-          newColorMap[type.title] = color;
+        const map: Record<string, string> = {};
+        types.forEach((type, idx) => {
+          map[type.title] = colors[idx % colors.length];
         });
-
-        setTypeColorMap(newColorMap);
+        setTypeColorMap(map);
       } catch (error) {
         setErrorMessage("Failed to load types.");
         console.error(error);
       }
-    };
-
-    fetchTypesAndAssignColors();
+    }
+    fetchTypes();
   }, []);
 
   return (
     <>
+      <p
+        style={{
+          textAlign: "center",
+          color: "#e57373",
+          margin: 0,
+          marginTop: "0.5rem",
+        }}
+      >
+        Klik op een dag om een nieuwe workout toe te voegen.
+      </p>
       <div className={workoutStyles.agendaContainer}>
-        {orderedDays.map((day) => (
-          <div key={day} className={workoutStyles.workoutRow}>
-            <h3 className={workoutStyles.dayTitles}>{day}</h3>
+        {weekDays.map((day) => (
+          <div
+            key={day.iso}
+            className={workoutStyles.workoutRow}
+            onClick={() => onAddClick(day.iso)}
+            style={{ cursor: "pointer" }}
+          >
+            <h3 className={workoutStyles.dayTitles}>{day.label}</h3>
             <div className={workoutStyles.workoutContainer}>
-              {groupedWorkouts[day]?.length ? (
-                groupedWorkouts[day].map((workout, index) => (
+              {groupedWorkouts[day.label]?.length ? (
+                groupedWorkouts[day.label].map((workout, idx) => (
                   <div
-                    key={index}
+                    key={idx}
                     className={workoutStyles.workoutSelf}
                     style={{
                       background:
@@ -118,6 +120,12 @@ const WorkoutOverview: React.FC<Props> = ({ workouts }) => {
             <span style={{ fontSize: "0.9rem" }}>{typeTitle}</span>
           </div>
         ))}
+        <button
+          className={workoutStyles.addButton}
+          onClick={() => onAddClick(null)}
+        >
+          + Add Workout
+        </button>
       </div>
     </>
   );

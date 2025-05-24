@@ -14,7 +14,7 @@
   overflow-x: auto;
 }
 
-.agendaContainer>div {
+.agendaContainer > div {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -41,6 +41,7 @@
   text-align: center;
   background: #f5f7fa;
   border-radius: 10px 10px 0 0;
+  margin-top: 0;
 }
 
 .workoutContainer {
@@ -57,6 +58,31 @@
   word-break: break-word;
   overflow-x: hidden;
   padding: 0 0.5rem;
+}
+
+.addButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #1976d2;
+  color: #fff;
+  padding: 0.7rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.15rem;
+  border: none;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+  margin-left: auto;
+  margin-right: 0;
+  outline: none;
+}
+
+.addButton:hover,
+.addButton:focus {
+  background: #1565c0;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.13);
 }
 
 .workoutSelf {
@@ -190,4 +216,77 @@
   border-radius: 6px;
   align-self: flex-end;
   background: #f0f4f8;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.title {
+  margin: 0 0 16px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.input,
+.select {
+  margin-top: 4px;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fbfcfd;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.buttonCancel {
+  background: transparent;
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.buttonSubmit {
+  background: #0070f3;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
 }

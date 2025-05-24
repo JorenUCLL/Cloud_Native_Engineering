@@ -12,6 +12,7 @@ import useSWR, { mutate } from "swr";
 import useInterval from "use-interval";
 import UserService from "@/services/UserService";
 import WorkoutOverview from "@/components/workouts/workoutOverview";
+import CreateWorkoutModal from "@/components/workouts/CreateWorkoutModal";
 
 const Workouts: React.FC = () => {
   const { t } = useTranslation();
@@ -22,6 +23,23 @@ const Workouts: React.FC = () => {
   const [typeColorMap, setTypeColorMap] = useState<Record<string, string>>({});
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [weekOffset, setWeekOffset] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+
+  const handleAddClick = (isoDate: string | null) => {
+    console.log("opening modal voor:", isoDate); // zie in je browser console
+    setSelectedDate(isoDate);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleSaved = () => {
+    if (userEmail) fetchWorkouts(userEmail);
+    setModalOpen(false);
+  };
 
   const getStartOfWeek = (date: Date): Date => {
     const day = date.getDay();
@@ -39,6 +57,15 @@ const Workouts: React.FC = () => {
     new Date(currentDate.setDate(currentDate.getDate() + weekOffset * 7))
   );
   const currentWeekEnd = getEndOfWeek(currentWeekStart);
+
+  const weekDays = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(currentWeekStart);
+    d.setDate(currentWeekStart.getDate() + i);
+    return {
+      label: d.toLocaleDateString("en-US", { weekday: "long" }),
+      iso: d.toISOString().slice(0, 10),
+    };
+  });
 
   const fetchWorkouts = async (email: string) => {
     try {
@@ -117,9 +144,6 @@ const Workouts: React.FC = () => {
       <div className={styles.flexHeader}>
         <Header />
         <main className={styles.mainWorkouts}>
-          {/* <section className={styles.title}>
-            <p> Upcoming Workouts </p>
-          </section> */}
           <section className={styles.workoutContent}>
             {user ? (
               <>
@@ -142,7 +166,12 @@ const Workouts: React.FC = () => {
                       {">"}
                     </button>
                   </div>
-                  <WorkoutOverview workouts={weeklyWorkouts} user={user} />
+                  <WorkoutOverview
+                    weekDays={weekDays}
+                    workouts={weeklyWorkouts}
+                    user={user}
+                    onAddClick={handleAddClick}
+                  />
                 </div>
               </>
             ) : (
@@ -151,6 +180,12 @@ const Workouts: React.FC = () => {
           </section>
         </main>
       </div>
+      <CreateWorkoutModal
+        isOpen={modalOpen}
+        initialDate={selectedDate}
+        onClose={handleCloseModal}
+        onSaved={handleSaved}
+      />
     </>
   );
 };

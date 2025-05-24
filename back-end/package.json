@@ -4,7 +4,7 @@
     "description": "Courses API",
     "author": "johanpck",
     "license": "ISC",
-    "main": "app.ts",
+    "main": "dist/app.js",
     "scripts": {
         "test": "jest",
         "start": "node dist/app.js",

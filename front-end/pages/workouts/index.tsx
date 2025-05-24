@@ -12,6 +12,7 @@ import useSWR, { mutate } from "swr";
 import useInterval from "use-interval";
 import UserService from "@/services/UserService";
 import WorkoutOverview from "@/components/workouts/workoutOverview";
+import React from "react";
 
 const Workouts: React.FC = () => {
   const { t } = useTranslation();
@@ -22,6 +23,7 @@ const Workouts: React.FC = () => {
   const [typeColorMap, setTypeColorMap] = useState<Record<string, string>>({});
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [weekOffset, setWeekOffset] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
   const getStartOfWeek = (date: Date): Date => {
     const day = date.getDay();
@@ -122,29 +124,28 @@ const Workouts: React.FC = () => {
           </section> */}
           <section className={styles.workoutContent}>
             {user ? (
-              <>
-                <div className={styles.buttonsPlusWorkoutOverview}>
-                  <div className={styles.NextWeekButtons}>
-                    <button
-                      onClick={() => setWeekOffset(weekOffset - 1)}
-                      className={styles.previousWeekButton}
-                    >
-                      {"<"}
-                    </button>
-                    <div className={styles.weekDateRange}>
-                      {formatDate(currentWeekStart)} -{" "}
-                      {formatDate(currentWeekEnd)}
-                    </div>
-                    <button
-                      onClick={() => setWeekOffset(weekOffset + 1)}
-                      className={styles.nextWeekButton}
-                    >
-                      {">"}
-                    </button>
+              <div className={styles.buttonsPlusWorkoutOverview}>
+                <div className={styles.NextWeekButtons}>
+                  <button
+                    onClick={() => setWeekOffset(weekOffset - 1)}
+                    className={styles.previousWeekButton}
+                  >
+                    {"<"}
+                  </button>
+                  <div className={styles.weekDateRange}>
+                    {formatDate(currentWeekStart)} -{" "}
+                    {formatDate(currentWeekEnd)}
                   </div>
-                  <WorkoutOverview workouts={weeklyWorkouts} user={user} />
+                  <button
+                    onClick={() => setWeekOffset(weekOffset + 1)}
+                    className={styles.nextWeekButton}
+                  >
+                    {">"}
+                  </button>
                 </div>
-              </>
+
+                <WorkoutOverview workouts={weeklyWorkouts} user={user} />
+              </div>
             ) : (
               <p>Please Log In</p>
             )}
@@ -154,4 +155,5 @@ const Workouts: React.FC = () => {
     </>
   );
 };
+
 export default Workouts;

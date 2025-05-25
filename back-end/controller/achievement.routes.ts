@@ -11,6 +11,7 @@ achievementRouter.get('/user/:email', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch achievements.' });
     }
 });
+// test
 
 achievementRouter.get('/', async (req, res) => {
     try {

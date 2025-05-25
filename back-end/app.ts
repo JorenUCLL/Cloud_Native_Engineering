@@ -6,6 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 import { userRouter } from './controller/user.routes';
 import { achievementRouter } from './controller/achievement.routes';
 import redisService from './service/redisService';
+import { connectRedis } from './util/redis';
 
 import './mongo-models/Achievement';
 import './mongo-models/Workout';
@@ -26,13 +27,13 @@ const app = express();
 const port = process.env.APP_PORT || 3000;
 const mongoUri = process.env.MONGODB_URI || 'your-cosmos-connection-string';
 
-// Initialize Redis connection
-redisService.connect().catch(console.error);
-
+// Connect to MongoDB
 mongoose
     .connect(mongoUri)
     .then(() => {
         console.log('Connected to MongoDB');
+        // Initialize Redis connection
+        connectRedis();
     })
     .catch((err) => {
         console.error('MongoDB connection error:', err);
@@ -63,14 +64,14 @@ app.get('/status', (req, res) => {
 app.get('/health', async (req, res) => {
     try {
         const redisStatus = await redisService.exists('health-check');
-        res.json({ 
-            status: 'OK', 
+        res.json({
+            status: 'OK',
             database: 'Connected',
             cache: 'Connected'
         });
     } catch (error) {
-        res.status(503).json({ 
-            status: 'Error', 
+        res.status(503).json({
+            status: 'Error',
             database: 'Connected',
             cache: 'Disconnected'
         });

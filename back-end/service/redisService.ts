@@ -4,21 +4,25 @@ class RedisService {
     private client: any;
 
     constructor() {
-        const redisUrl = process.env.REDIS_URL;
+        const redisHost = process.env.REDIS_HOST;
         const redisPassword = process.env.REDIS_PASSWORD;
         const redisPort = process.env.REDIS_PORT || '6380';
+        const redisUseTLS = process.env.REDIS_USE_TLS === 'true';
 
-        if (!redisUrl || !redisPassword) {
-            throw new Error('Redis configuration missing: REDIS_URL and REDIS_PASSWORD are required');
+        if (!redisHost || !redisPassword) {
+            throw new Error('Redis configuration missing: REDIS_HOST and REDIS_PASSWORD are required');
         }
 
         this.client = createClient({
             password: redisPassword,
-            socket: {
-                host: redisUrl,
+            socket: redisUseTLS ? {
+                host: redisHost,
                 port: parseInt(redisPort),
                 tls: true,
-                servername: redisUrl
+                servername: redisHost
+            } : {
+                host: redisHost,
+                port: parseInt(redisPort)
             }
         });
 
@@ -39,7 +43,7 @@ class RedisService {
 
     async disconnect() {
         if (this.client.isOpen) {
-            await this.client.disconnect();
+            await this.client.quit();
         }
     }
 
@@ -67,4 +71,60 @@ class RedisService {
     }
 }
 
-export default new RedisService();
+const redisService = new RedisService();
+
+const get = async (key: string): Promise<string | null> => {
+    try {
+        return await redisService.get(key);
+    } catch (error) {
+        console.error(`Redis GET error for key ${key}:`, error);
+        return null;
+    }
+};
+
+const set = async (key: string, value: string, ttl?: number): Promise<void> => {
+    try {
+        if (ttl) {
+            await redisService.set(key, value, ttl);
+        } else {
+            await redisService.set(key, value);
+        }
+    } catch (error) {
+        console.error(`Redis SET error for key ${key}:`, error);
+    }
+};
+
+const del = async (key: string): Promise<void> => {
+    try {
+        await redisService.del(key);
+    } catch (error) {
+        console.error(`Redis DEL error for key ${key}:`, error);
+    }
+};
+
+const exists = async (key: string): Promise<boolean> => {
+    try {
+        const result = await redisService.exists(key);
+        return result === 1;
+    } catch (error) {
+        console.error(`Redis EXISTS error for key ${key}:`, error);
+        return false;
+    }
+};
+
+const disconnect = async (): Promise<void> => {
+    try {
+        await redisService.disconnect();
+        console.log('Redis disconnected');
+    } catch (error) {
+        console.error('Redis disconnect error:', error);
+    }
+};
+
+export default {
+    get,
+    set,
+    del,
+    exists,
+    disconnect
+};

@@ -5,14 +5,33 @@ import redisService from './redisService';
 import { WorkoutInput } from '../types';
 
 const getAllWorkouts = async () => {
-    return await workoutRepository.getAllWorkouts();
+    const cacheKey = 'workouts:all';
+
+    try {
+        const cachedWorkouts = await redisService.get(cacheKey);
+        if (cachedWorkouts) {
+            console.log('Cache hit for all workouts');
+            return JSON.parse(cachedWorkouts);
+        }
+    } catch (error) {
+        console.error('Redis error, continuing without cache:', error);
+    }
+
+    const workouts = await workoutRepository.getAllWorkouts();
+
+    try {
+        await redisService.set(cacheKey, JSON.stringify(workouts), 300);
+    } catch (error) {
+        console.error('Failed to cache all workouts:', error);
+    }
+
+    return workouts;
 };
 
 const getWorkoutByUser = async (email: string) => {
     const cacheKey = `workouts:user:${email}`;
-    
+
     try {
-        //  cache eerst
         const cachedWorkouts = await redisService.get(cacheKey);
         if (cachedWorkouts) {
             console.log('Cache hit for user workouts:', email);
@@ -26,16 +45,15 @@ const getWorkoutByUser = async (email: string) => {
     if (!user) {
         throw new Error('There is no user with that email address.');
     }
-    
+
     const workouts = await workoutRepository.getWorkoutsByUser(user.id);
-    
-    // 
+
     try {
         await redisService.set(cacheKey, JSON.stringify(workouts), 300);
     } catch (error) {
         console.error('Failed to cache workouts:', error);
     }
-    
+
     return workouts;
 };
 
@@ -54,17 +72,17 @@ const createWorkout = async ({ title, date, type: typeInput, user: userInput }: 
         type: type.id,
         user: user.id,
     };
-    
+
     const newWorkout = await workoutRepository.createWorkout(workoutData);
-    
-    // Invalidate cache for this user
+
+    // Invalidate related caches
     try {
         await redisService.del(`workouts:user:${userInput.email}`);
-        await redisService.del('cache:/workouts'); // Clear general workouts cache
+        await redisService.del('workouts:all');
     } catch (error) {
         console.error('Failed to invalidate cache:', error);
     }
-    
+
     return newWorkout;
 };
 

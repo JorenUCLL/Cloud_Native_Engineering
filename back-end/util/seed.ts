@@ -1,6 +1,4 @@
 // Execute: npx ts-node util/seed.ts
-import * as dotenv from 'dotenv';
-dotenv.config();
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import { addDays, set } from 'date-fns';
@@ -65,17 +63,17 @@ const main = async () => {
         AchievementModel.create({
             title: 'Squat PR',
             description: 'Personal record for squats',
-            user: user1._id,
+            user: user1.id,
         }),
         AchievementModel.create({
             title: 'Bench PR',
             description: 'Personal record for bench press',
-            user: user1._id,
+            user: user1.id,
         }),
         AchievementModel.create({
             title: 'Lat Pulldown PR',
             description: 'Personal record for lat pulldown',
-            user: user2._id,
+            user: user2.id,
         }),
     ]);
 
@@ -83,64 +81,64 @@ const main = async () => {
         WorkoutModel.create({
             title: 'Leg Day',
             date: date1,
-            type: type1._id,
-            user: user1._id,
-            exercises: [exercise1._id],
+            type: type1.id,
+            user: user1.id,
+            exercises: [exercise1.id],
         }),
         WorkoutModel.create({
             title: 'Arm Day',
             date: date2,
-            type: type2._id,
-            user: user2._id,
-            exercises: [exercise2._id],
+            type: type2.id,
+            user: user2.id,
+            exercises: [exercise2.id],
         }),
         WorkoutModel.create({
             title: 'Back Day',
             date: date3,
-            type: type3._id,
-            user: user1._id,
-            exercises: [exercise3._id],
+            type: type3.id,
+            user: user1.id,
+            exercises: [exercise3.id],
         }),
         WorkoutModel.create({
             title: 'Evening Sesh',
             date: date4,
-            type: type1._id,
-            user: user2._id,
+            type: type1.id,
+            user: user2.id,
             exercises: [],
         }),
         WorkoutModel.create({
             title: 'BoulderSesh',
             date: date5,
-            type: type4._id,
-            user: user2._id,
+            type: type4.id,
+            user: user2.id,
             exercises: [],
         }),
         WorkoutModel.create({
             title: 'Arms',
             date: date3,
-            type: type2._id,
-            user: user1._id,
+            type: type2.id,
+            user: user1.id,
             exercises: [],
         }),
         WorkoutModel.create({
             title: 'Evening',
             date: date6,
-            type: type3._id,
-            user: user2._id,
+            type: type3.id,
+            user: user2.id,
             exercises: [],
         }),
         WorkoutModel.create({
             title: 'Evening',
             date: date5,
-            type: type3._id,
-            user: user1._id,
+            type: type3.id,
+            user: user1.id,
             exercises: [],
         }),
         WorkoutModel.create({
             title: 'Evening',
             date: date7,
-            type: type2._id,
-            user: user1._id,
+            type: type2.id,
+            user: user1.id,
             exercises: [],
         }),
     ]);

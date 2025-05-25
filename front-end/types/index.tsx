@@ -32,10 +32,11 @@ type Workout = {
   date: Date;
   type: Type;
   user?: User;
+  exercises?: String[];
 };
 
 type Type = {
-  id: string; // backend geeft id als string mee ipv number
+  id?: number;
   title: string;
 };
 

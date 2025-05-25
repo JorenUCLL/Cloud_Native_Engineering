@@ -9,7 +9,7 @@ import useSWR, { mutate } from "swr";
 import useInterval from "use-interval";
 import UserService from "@/services/UserService";
 import WorkoutOverview from "@/components/workouts/workoutOverview";
-import CreateWorkoutModal from "@/components/workouts/CreateWorkoutModal";
+import React from "react";
 
 const Workouts: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -19,22 +19,7 @@ const Workouts: React.FC = () => {
   const [typeColorMap, setTypeColorMap] = useState<Record<string, string>>({});
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [weekOffset, setWeekOffset] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
-
-  const handleAddClick = (isoDate: string | null) => {
-    setSelectedDate(isoDate);
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
-
-  const handleSaved = () => {
-    if (userEmail) fetchWorkouts(userEmail);
-    setModalOpen(false);
-  };
+  const [showModal, setShowModal] = useState(false);
 
   const getStartOfWeek = (date: Date): Date => {
     const day = date.getDay();
@@ -76,9 +61,15 @@ const Workouts: React.FC = () => {
     }
   };
 
+  const normalizeDate = (date: Date): Date =>
+    new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
   const weeklyWorkouts = workouts.filter((workout) => {
-    const workoutDate = new Date(workout.date);
-    return workoutDate >= currentWeekStart && workoutDate <= currentWeekEnd;
+    const workoutDate = normalizeDate(new Date(workout.date));
+    return (
+      workoutDate >= normalizeDate(currentWeekStart) &&
+      workoutDate <= normalizeDate(currentWeekEnd)
+    );
   });
 
   const fetchUser = async (email: string, token: string) => {
@@ -141,34 +132,28 @@ const Workouts: React.FC = () => {
         <main className={styles.mainWorkouts}>
           <section className={styles.workoutContent}>
             {user ? (
-              <>
-                <div className={styles.buttonsPlusWorkoutOverview}>
-                  <div className={styles.NextWeekButtons}>
-                    <button
-                      onClick={() => setWeekOffset(weekOffset - 1)}
-                      className={styles.previousWeekButton}
-                    >
-                      {"<"}
-                    </button>
-                    <div className={styles.weekDateRange}>
-                      {formatDate(currentWeekStart)} -{" "}
-                      {formatDate(currentWeekEnd)}
-                    </div>
-                    <button
-                      onClick={() => setWeekOffset(weekOffset + 1)}
-                      className={styles.nextWeekButton}
-                    >
-                      {">"}
-                    </button>
+              <div className={styles.buttonsPlusWorkoutOverview}>
+                <div className={styles.NextWeekButtons}>
+                  <button
+                    onClick={() => setWeekOffset(weekOffset - 1)}
+                    className={styles.previousWeekButton}
+                  >
+                    {"<"}
+                  </button>
+                  <div className={styles.weekDateRange}>
+                    {formatDate(currentWeekStart)} -{" "}
+                    {formatDate(currentWeekEnd)}
                   </div>
-                  <WorkoutOverview
-                    weekDays={weekDays}
-                    workouts={weeklyWorkouts}
-                    user={user}
-                    onAddClick={handleAddClick}
-                  />
+                  <button
+                    onClick={() => setWeekOffset(weekOffset + 1)}
+                    className={styles.nextWeekButton}
+                  >
+                    {">"}
+                  </button>
                 </div>
-              </>
+
+                <WorkoutOverview workouts={weeklyWorkouts} user={user} />
+              </div>
             ) : (
               <p>Please Log In</p>
             )}
@@ -188,4 +173,5 @@ const Workouts: React.FC = () => {
     </>
   );
 };
+
 export default Workouts;

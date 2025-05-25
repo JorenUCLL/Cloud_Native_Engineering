@@ -1,6 +1,6 @@
 import userRepository from '../repository/user.db';
 import { AuthenticationResponse, Role, UserInput } from '../types/index';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 import { generateJwtToken } from '../util/jwt';
 
 const getAllUsers = async () => userRepository.getAllUsers();

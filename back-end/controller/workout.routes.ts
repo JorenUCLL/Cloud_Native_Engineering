@@ -21,34 +21,14 @@ workoutRouter.get('/user/:email', async (req, res) => {
     }
 });
 
-workoutRouter.post(
-    '/',
-    expressjwt({
-        secret: process.env.JWT_SECRET!,
-        algorithms: ['HS256'],
-        requestProperty: 'auth',
-    }),
-    async (req: any, res) => {
-        try {
-            const { title, date, time, typeId } = req.body;
-            const userEmail: string = req.auth.email;
-
-            const [hrs, mins] = (time as string).split(':').map(Number);
-            const workoutDate = new Date(date);
-            workoutDate.setHours(hrs, mins);
-
-            const newWorkout = await workoutService.createWorkout({
-                title,
-                date: workoutDate,
-                typeId,
-                userEmail,
-            });
-
-            return res.status(201).json(newWorkout);
-        } catch (err: any) {
-            return res.status(400).json({ error: err.message || 'Failed to create workout.' });
-        }
+workoutRouter.post('/', async (req, res) => {
+    try {
+        const Data: WorkoutInput = req.body;
+        const newWorkout = await workoutService.createWorkout(req.body);
+        res.status(201).json(newWorkout);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to create workout.' });
     }
-);
+});
 
 export default workoutRouter;

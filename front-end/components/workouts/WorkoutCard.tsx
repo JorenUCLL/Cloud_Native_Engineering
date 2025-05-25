@@ -37,7 +37,7 @@ const WorkoutCard: React.FC<Props> = ({ workout, bgColor }) => {
 
         <div className={styles.rightCol}>
           <h3 className={styles.title}>{workout.title}</h3>
-          <p className={styles.by}>Door {workout.user?.firstName}</p>
+          <p className={styles.by}>By {workout.user?.firstName}</p>
         </div>
       </div>
     </article>

@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../styles/WorkoutModal.module.css";
+import { Exercise, Type } from "@/types";
+import TypeService from "@/services/TypeService";
+import ExerciseService from "@/services/ExerciseService";
 
 type WorkoutModalProps = {
   onClose: () => void;
@@ -17,12 +20,36 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({ onClose, onCreate }) => {
   const [typeTitle, setTypeTitle] = useState("");
   const [exercises, setExercises] = useState<string[]>([]);
   const [exerciseInput, setExerciseInput] = useState("");
+  const [allTypes, setAllTypes] = useState<Type[]>([]);
+  const [selectedExercise, setSelectedExercise] = useState<string>("");
+
+  const [allExercises, setAllExercises] = useState<Exercise[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const types = await TypeService.getAllTypes();
+        setAllTypes(types);
+        const exercises = await ExerciseService.getAllExercises();
+        setAllExercises(exercises);
+      } catch (err) {}
+    })();
+  }, []);
+
+  const handleExerciseChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selected = Array.from(e.target.selectedOptions, (opt) => opt.value);
+    setExercises(selected);
+  };
 
   const handleAddExercise = () => {
-    if (exerciseInput.trim()) {
-      setExercises((prev) => [...prev, exerciseInput.trim()]);
-      setExerciseInput("");
+    if (selectedExercise && !exercises.includes(selectedExercise)) {
+      setExercises((prev) => [...prev, selectedExercise]);
+      setSelectedExercise("");
     }
+  };
+
+  const handleRemoveExercise = (exercise: string) => {
+    setExercises((prev) => prev.filter((ex) => ex !== exercise));
   };
 
   const handleCreate = () => {
@@ -57,34 +84,65 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({ onClose, onCreate }) => {
           />
         </label>
 
-        <label>
-          Type:
-          <input
-            type="text"
-            value={typeTitle}
-            onChange={(e) => setTypeTitle(e.target.value)}
-          />
-        </label>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>
+            Type:
+            <select
+              value={typeTitle}
+              onChange={(e) => setTypeTitle(e.target.value)}
+              className={styles.select}
+            >
+              <option value="">Select type</option>
+              {allTypes.map((type) => (
+                <option key={type.title} value={type.title}>
+                  {type.title}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
 
-        <label>
-          Add Exercise:
-          <input
-            type="text"
-            value={exerciseInput}
-            onChange={(e) => setExerciseInput(e.target.value)}
-          />
-          <button
-            type="button"
-            className={styles.addExerciseBtn}
-            onClick={handleAddExercise}
-          >
-            Add
-          </button>
-        </label>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>
+            Exercise:
+            <div className={styles.exerciseRow}>
+              <select
+                value={selectedExercise}
+                onChange={(e) => setSelectedExercise(e.target.value)}
+                className={styles.select}
+              >
+                <option value="">Select exercise</option>
+                {allExercises.map((ex) => (
+                  <option key={ex.name} value={ex.name}>
+                    {ex.name}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                className={styles.addExerciseBtn}
+                onClick={handleAddExercise}
+                disabled={!selectedExercise}
+              >
+                Add Exercise
+              </button>
+            </div>
+          </label>
+        </div>
 
         <ul className={styles.exerciseList}>
           {exercises.map((exercise, index) => (
-            <li key={index}>{exercise}</li>
+            <li key={index} className={styles.exerciseListItem}>
+              {exercise}
+              <button
+                type="button"
+                className={styles.removeExerciseBtn}
+                onClick={() => handleRemoveExercise(exercise)}
+                aria-label="Remove exercise"
+              >
+                ×
+              </button>
+            </li>
           ))}
         </ul>
 

@@ -1,44 +1,9 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // Execute: npx ts-node util/seed.ts
-const dotenv = __importStar(require("dotenv"));
-dotenv.config();
 const mongoose_1 = __importDefault(require("mongoose"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const date_fns_1 = require("date-fns");
@@ -95,81 +60,81 @@ const main = async () => {
         Achievement_1.default.create({
             title: 'Squat PR',
             description: 'Personal record for squats',
-            user: user1._id,
+            user: user1.id,
         }),
         Achievement_1.default.create({
             title: 'Bench PR',
             description: 'Personal record for bench press',
-            user: user1._id,
+            user: user1.id,
         }),
         Achievement_1.default.create({
             title: 'Lat Pulldown PR',
             description: 'Personal record for lat pulldown',
-            user: user2._id,
+            user: user2.id,
         }),
     ]);
     await Promise.all([
         Workout_1.default.create({
             title: 'Leg Day',
             date: date1,
-            type: type1._id,
-            user: user1._id,
-            exercises: [exercise1._id],
+            type: type1.id,
+            user: user1.id,
+            exercises: [exercise1.id],
         }),
         Workout_1.default.create({
             title: 'Arm Day',
             date: date2,
-            type: type2._id,
-            user: user2._id,
-            exercises: [exercise2._id],
+            type: type2.id,
+            user: user2.id,
+            exercises: [exercise2.id],
         }),
         Workout_1.default.create({
             title: 'Back Day',
             date: date3,
-            type: type3._id,
-            user: user1._id,
-            exercises: [exercise3._id],
+            type: type3.id,
+            user: user1.id,
+            exercises: [exercise3.id],
         }),
         Workout_1.default.create({
             title: 'Evening Sesh',
             date: date4,
-            type: type1._id,
-            user: user2._id,
+            type: type1.id,
+            user: user2.id,
             exercises: [],
         }),
         Workout_1.default.create({
             title: 'BoulderSesh',
             date: date5,
-            type: type4._id,
-            user: user2._id,
+            type: type4.id,
+            user: user2.id,
             exercises: [],
         }),
         Workout_1.default.create({
             title: 'Arms',
             date: date3,
-            type: type2._id,
-            user: user1._id,
+            type: type2.id,
+            user: user1.id,
             exercises: [],
         }),
         Workout_1.default.create({
             title: 'Evening',
             date: date6,
-            type: type3._id,
-            user: user2._id,
+            type: type3.id,
+            user: user2.id,
             exercises: [],
         }),
         Workout_1.default.create({
             title: 'Evening',
             date: date5,
-            type: type3._id,
-            user: user1._id,
+            type: type3.id,
+            user: user1.id,
             exercises: [],
         }),
         Workout_1.default.create({
             title: 'Evening',
             date: date7,
-            type: type2._id,
-            user: user1._id,
+            type: type2.id,
+            user: user1.id,
             exercises: [],
         }),
     ]);

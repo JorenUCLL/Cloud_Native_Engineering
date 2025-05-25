@@ -31,6 +31,7 @@ workoutRouter.post('/', async (req, res) => {
         res.status(201).json(newWorkout);
     }
     catch (error) {
+        console.error('Error creating workout:', error);
         res.status(500).json({ error: 'Failed to create workout.' });
     }
 });

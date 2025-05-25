@@ -18,6 +18,7 @@ import helmet from 'helmet';
 import workoutRouter from './controller/workout.routes';
 import { typeRouter } from './controller/type.routes';
 import mongoose from 'mongoose';
+import { exerciseRouter } from './controller/exercise.routes';
 
 const app = express();
 
@@ -67,6 +68,7 @@ app.use('/users', userRouter);
 app.use('/workouts', workoutRouter);
 app.use('/types', typeRouter);
 app.use('/achievements', achievementRouter);
+app.use('/exercises', exerciseRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Courses API is running...' });

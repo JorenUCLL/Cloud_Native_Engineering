@@ -42,7 +42,7 @@ type Type = {
 
 type Exercise = {
   id?: number;
-  title?: string;
+  name?: string;
   type?: Type;
 };
 

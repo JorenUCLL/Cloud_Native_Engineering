@@ -36,13 +36,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv = __importStar(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const bodyParser = __importStar(require("body-parser"));
 const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
-const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const user_routes_1 = require("./controller/user.routes");
+const achievement_routes_1 = require("./controller/achievement.routes");
 require("./mongo-models/Achievement");
 require("./mongo-models/Workout");
 require("./mongo-models/Exercise");
@@ -53,8 +52,8 @@ const helmet_1 = __importDefault(require("helmet"));
 const workout_routes_1 = __importDefault(require("./controller/workout.routes"));
 const type_routes_1 = require("./controller/type.routes");
 const mongoose_1 = __importDefault(require("mongoose"));
+const exercise_routes_1 = require("./controller/exercise.routes");
 const app = (0, express_1.default)();
-dotenv.config();
 const port = process.env.APP_PORT || 3000;
 const mongoUri = process.env.MONGODB_URI || 'your-cosmos-connection-string';
 mongoose_1.default
@@ -93,6 +92,8 @@ app.use(bodyParser.json());
 app.use('/users', user_routes_1.userRouter);
 app.use('/workouts', workout_routes_1.default);
 app.use('/types', type_routes_1.typeRouter);
+app.use('/achievements', achievement_routes_1.achievementRouter);
+app.use('/exercises', exercise_routes_1.exerciseRouter);
 app.get('/status', (req, res) => {
     res.json({ message: 'Courses API is running...' });
 });
@@ -108,7 +109,6 @@ const swaggerOpts = {
     apis: ['./controller/*.routes.ts'],
 };
 const swaggerSpec = (0, swagger_jsdoc_1.default)(swaggerOpts);
-app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerSpec));
 app.use((err, req, res, next) => {
     if (err.name === 'UnauthorizedError') {
         res.status(401).json({ status: 'unauthorized', message: err.message });

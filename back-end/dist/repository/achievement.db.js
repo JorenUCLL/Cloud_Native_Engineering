@@ -11,7 +11,11 @@ const createAchievement = async (data) => {
     const achievement = new Achievement_1.default(data);
     return await achievement.save();
 };
+const getAchievementsByUser = async (userId) => {
+    return await Achievement_1.default.find({ user: userId });
+};
 exports.default = {
     getAllAchievements,
     createAchievement,
+    getAchievementsByUser,
 };

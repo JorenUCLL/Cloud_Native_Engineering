@@ -83,3 +83,78 @@
   font-size: 0.9rem;
   margin-top: 0.5rem;
 }
+
+.modalTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.label {
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  margin-top: 0.2rem;
+}
+
+.exerciseRow {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  margin-top: 0.2rem;
+}
+
+.exerciseList {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+}
+
+.exerciseListItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.removeExerciseBtn {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.5rem;
+  transition: background 0.2s;
+}
+
+.removeExerciseBtn:hover {
+  background: #b52a37;
+}

@@ -79,7 +79,7 @@ const TodaysWorkouts: React.FC<Props> = ({ workouts }) => {
           </div>
 
           {/* Legende NA de scrollende workouts */}
-          <div className={workoutStyles.legendGlobal}>
+          {/* <div className={workoutStyles.legendGlobal}>
             {Object.entries(typeColorMap).map(([title, col]) => (
               <div key={title} className={workoutStyles.typeColors}>
                 <div
@@ -89,7 +89,7 @@ const TodaysWorkouts: React.FC<Props> = ({ workouts }) => {
                 <span style={{ fontSize: "0.9rem" }}>{title}</span>
               </div>
             ))}
-          </div>
+          </div> */}
         </>
       ) : (
         <p className={workoutStyles.noWorkout}>No workouts</p>

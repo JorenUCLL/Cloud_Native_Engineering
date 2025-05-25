@@ -1,15 +1,27 @@
 .title {
-  font-family: 'Arial', sans-serif;
-  font-size: 2rem;
+  font-family: "Inter", "Segoe UI", "Arial", sans-serif;
+  font-size: 2.5rem;
   text-align: center;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 3rem;
+  margin-top: 0.5rem;
+  letter-spacing: -0.02em;
 }
 
 .error {
-  color: red;
-  padding-top: 0.5rem;
+  color: #dc2626;
+  padding-top: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error::before {
+  content: "⚠";
+  font-size: 1rem;
 }
 
 .loginMain {
@@ -17,123 +29,252 @@
 }
 
 .page {
-  border-color: black;
-  border-style: solid;
-  border-width: 2px;
-  padding: 2rem;
-  border-radius: 1rem;
-  width: fit-content;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  padding: 3rem;
+  border-radius: 1.5rem;
+  width: 100%;
+  max-width: 420px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  justify-items: center;
-  justify-self: center;
-  background-color: rgb(221, 213, 213);
+  margin: 0 auto;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 1.5rem 1.5rem 0 0;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  justify-items: center;
-  justify-self: center;
+  gap: 1.5rem;
 }
 
 .input {
-  margin-bottom: 1rem;
+  margin-bottom: 0;
+  position: relative;
 }
 
 .field {
-  justify-self: center;
-  font-size: 1.2rem;
-  padding: 0 0 0.2rem 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  display: block;
+  letter-spacing: 0.025em;
 }
 
 .submit {
-  margin-top: 2rem;
-  padding: 1rem 0 1rem 0;
-  border-radius: 1rem;
-  background-color: rgb(235, 235, 235);
+  margin-top: 1rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, #a53e3e 0%, #8b2635 100%);
+  color: white;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 6px -1px rgba(165, 62, 62, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.submit::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
 }
 
 .submit:hover {
-  cursor: pointer;
-  background-color: rgb(108, 36, 36);
-  color: white;
+  background: linear-gradient(135deg, #8b2635 0%, #7c1d28 100%);
+  box-shadow: 0 8px 15px -3px rgba(165, 62, 62, 0.4);
+}
+
+.submit:active {
+  transform: translateY(0);
 }
 
 .inputText {
-  padding: 0.5rem;
-  border-radius: 0.5rem;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+.inputText:focus {
+  outline: none;
+  border-color: #a53e3e;
+  box-shadow: 0 0 0 3px rgba(165, 62, 62, 0.1);
+  background-color: #fefefe;
+}
+
+.inputText:hover {
+  border-color: #d1d5db;
 }
 
 .table {
-  border-color: black;
-  border-style: solid;
-  border-width: 2px;
-  justify-self: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  overflow: hidden;
   margin-top: 3rem;
-  border-collapse: collapse;
-  box-shadow: 10px 10px;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background-color: white;
 }
 
 .tableHead {
-  border-color: black;
-  border-style: solid;
-  border-width: 2px;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
   padding: 1rem;
-  border-collapse: collapse;
+  font-weight: 600;
+  color: #374151;
 }
 
 .tr {
-  border-color: black;
-  border-style: solid;
-  border-width: 2px;
-  padding: 1rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.tr:last-child {
+  border-bottom: none;
+}
+
+.tr:hover {
+  background-color: #f9fafb;
 }
 
 .td {
-  border-color: black;
-  border-style: solid;
-  border-width: 2px;
   padding: 1rem;
+  color: #6b7280;
 }
 
 .notLoggedIn {
-  font-size: 1.5rem;
-  color: rgb(0, 0, 0);
-  padding: 0 2rem 2rem 2rem;
-  align-self: center;
+  font-size: 1.25rem;
+  color: #374151;
+  padding: 2rem;
   text-align: center;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  margin-top: 0;
-  background-color: rgb(159, 159, 159);
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  border-radius: 1rem;
+  border: 1px solid #cbd5e1;
+  margin-top: 2rem;
 }
 
 .notLoggedInProfile {
-  font-size: 1.5rem;
-  color: rgb(0, 0, 0);
-  padding: 1rem 2rem 2rem 2rem;
-  align-self: center;
+  font-size: 1.25rem;
+  color: #374151;
+  padding: 2rem;
   text-align: center;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  margin-top: 0;
-  background-color: rgb(159, 159, 159);
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  border-radius: 1rem;
+  border: 1px solid #cbd5e1;
+  margin-top: 2rem;
 }
 
 .success {
-  color: rgb(134, 205, 28);
+  color: #059669;
   text-align: center;
-  margin: 0;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.75rem;
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.success::before {
+  content: "✓";
+  font-weight: bold;
 }
 
 .loginPage {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
-  margin-top: 5rem;
+  min-height: calc(100vh - 200px);
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  justify-content: center;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .page {
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+    max-width: none;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .loginPage {
+    padding: 1rem;
+  }
+}
+
+/* Loading state for submit button */
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submit:disabled:hover {
+  transform: none;
+  background: linear-gradient(135deg, #a53e3e 0%, #8b2635 100%);
+}
+
+/* Focus visible for accessibility */
+.submit:focus-visible {
+  outline: 2px solid #a53e3e;
+  outline-offset: 2px;
+}
+
+.inputText:focus-visible {
+  outline: 2px solid #a53e3e;
+  outline-offset: 2px;
+}
+
+/* Additional red theme enhancements */
+.field:focus-within {
+  color: #a53e3e;
+}
+
+/* Subtle red accent for form container */
+.page:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(165, 62, 62, 0.05);
 }

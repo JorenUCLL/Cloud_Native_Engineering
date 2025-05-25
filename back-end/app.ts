@@ -6,7 +6,6 @@ import swaggerUi from 'swagger-ui-express';
 import { userRouter } from './controller/user.routes';
 import { achievementRouter } from './controller/achievement.routes';
 import redisService from './service/redisService';
-import { connectRedis } from './util/redis';
 
 import './mongo-models/Achievement';
 import './mongo-models/Workout';
@@ -32,8 +31,6 @@ mongoose
     .connect(mongoUri)
     .then(() => {
         console.log('Connected to MongoDB');
-        // Initialize Redis connection
-        connectRedis();
     })
     .catch((err) => {
         console.error('MongoDB connection error:', err);

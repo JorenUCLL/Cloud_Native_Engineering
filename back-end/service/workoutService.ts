@@ -3,6 +3,8 @@ import userRepository from '../repository/user.db';
 import typeRepository from '../repository/type.db';
 import redisService from './redisService';
 import { WorkoutInput } from '../types';
+import { cacheMiddleware } from '../util/cacheMiddleware';
+
 
 const getAllWorkouts = async () => {
     const cacheKey = 'workouts:all';

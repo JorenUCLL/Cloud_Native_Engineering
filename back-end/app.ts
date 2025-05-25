@@ -5,6 +5,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { userRouter } from './controller/user.routes';
 import { achievementRouter } from './controller/achievement.routes';
+import redisService from './service/redisService';
 
 import './mongo-models/Achievement';
 import './mongo-models/Workout';
@@ -25,6 +26,9 @@ const app = express();
 const port = process.env.APP_PORT || 3000;
 const mongoUri = process.env.MONGODB_URI || 'your-cosmos-connection-string';
 
+// Initialize Redis connection
+redisService.connect().catch(console.error);
+
 mongoose
     .connect(mongoUri)
     .then(() => {
@@ -43,25 +47,6 @@ app.use(
 );
 
 app.use(helmet());
-
-// app.use(
-//     expressjwt({
-//         secret: process.env.JWT_SECRET || 'default_secret',
-//         algorithms: ['HS256'],
-//     }).unless({
-//         path: [
-//             '/api-docs',
-//             /^\/api-docs\/.*/,
-//             '/users/login',
-//             '/users/signup',
-//             '/status',
-//             '/users',
-//             '/workouts',
-//             '/types',
-//             '/workouts/user',
-//         ],
-//     })
-// );
 app.use(bodyParser.json());
 
 app.use('/users', userRouter);
@@ -72,6 +57,24 @@ app.use('/exercises', exerciseRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Courses API is running...' });
+});
+
+// Health check endpoint including Redis
+app.get('/health', async (req, res) => {
+    try {
+        const redisStatus = await redisService.exists('health-check');
+        res.json({ 
+            status: 'OK', 
+            database: 'Connected',
+            cache: 'Connected'
+        });
+    } catch (error) {
+        res.status(503).json({ 
+            status: 'Error', 
+            database: 'Connected',
+            cache: 'Disconnected'
+        });
+    }
 });
 
 app.use('/public', express.static(path.join(__dirname, '../front-end/public')));
@@ -96,6 +99,13 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     } else {
         res.status(400).json({ status: 'application error', message: err.message });
     }
+});
+
+// Graceful shutdown
+process.on('SIGTERM', async () => {
+    console.log('SIGTERM received, shutting down gracefully');
+    await redisService.disconnect();
+    process.exit(0);
 });
 
 app.listen(port || 3000, () => {

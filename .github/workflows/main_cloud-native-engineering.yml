@@ -8,51 +8,51 @@ on:
 
 jobs:
   # Backend build and deploy
-  # build-backend:
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: ./back-end
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Set up Node.js
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: "20.x"
-  #     - run: npm install
-  #     - run: npm run build
+  build-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./back-end
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+      - run: npm install
+      - run: npm run build
 
-  # deploy-backend:
-  #   runs-on: ubuntu-latest
-  #   needs: build-backend
-  #   steps:
-  #     - uses: actions/checkout@v4
+  deploy-backend:
+    runs-on: ubuntu-latest
+    needs: build-backend
+    steps:
+      - uses: actions/checkout@v4
 
-  #     - name: Set up Node.js
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: "20.x"
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
 
-  #     - name: Install dependencies
-  #       run: npm install
-  #       working-directory: ./back-end
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./back-end
 
-  #     - name: Build the app
-  #       run: npm run build
-  #       working-directory: ./back-end
+      - name: Build the app
+        run: npm run build
+        working-directory: ./back-end
 
-  #     - name: Prepare deployment package
-  #       run: |
-  #         zip -r app.zip dist package.json package-lock.json
-  #       working-directory: ./back-end
+      - name: Prepare deployment package
+        run: |
+          zip -r app.zip dist package.json package-lock.json
+        working-directory: ./back-end
 
-  #     - name: Deploy backend to Azure Web App
-  #       uses: azure/webapps-deploy@v3
-  #       with:
-  #         app-name: "cloud-native-backEnd"
-  #         slot-name: "Production"
-  #         package: ./back-end/app.zip
-  #         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BACKEND }}
+      - name: Deploy backend to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: "cloud-native-backEnd"
+          slot-name: "Production"
+          package: ./back-end/app.zip
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BACKEND }}
   # Frontend build and deploy
   build-frontend:
     runs-on: ubuntu-latest

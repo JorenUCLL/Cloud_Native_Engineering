@@ -11,11 +11,11 @@ Aangezien Azure last minute een 409 error geeft, moet het opstarten van de appli
 
 # Informatie
 
-Onze applicatie bezorgt een simpele manier om workouts in te plannen voor jezelf, mijlpalen te stellen en te bereiken. \
+Onze applicatie bezorgt een simpele manier om workouts in te plannen voor jezelf, mijlpalen te stellen en te bereiken.
 Op de Home-pagina kan je de workouts van vandaag en van komende week zien.
 
-Op de Workout-pagina (Dumbell in de sidebar), zie je een kalender waar je eigen workouts per dag staan. Je kan hier door de weken scrollen. \
+Op de Workout-pagina (Dumbell in de sidebar), zie je een kalender waar je eigen workouts per dag staan. Je kan hier door de weken scrollen.
 
-Door te klikken op het plus-icoontje in de sidebar, kan je een nieuwe workout toevoegen. Hier kan je titel, datum, type en exercises kiezen. \
+Door te klikken op het plus-icoontje in de sidebar, kan je een nieuwe workout toevoegen. Hier kan je titel, datum, type en exercises kiezen.
 
-Op de Profiel-pagina (mannetje in de sidebar), zie je je eigen profiel met nogmaals de workouts van die dag + je beste prestaties onderaan en voltooide workouts. \
+Op de Profiel-pagina (mannetje in de sidebar), zie je je eigen profiel met nogmaals de workouts van die dag + je beste prestaties onderaan en voltooide workouts.

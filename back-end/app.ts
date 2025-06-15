@@ -36,7 +36,7 @@ mongoose
 
 app.use(
     cors({
-        origin: 'http://localhost:8081',
+        origin: 'cloud-native-engineering-afa3a4cpd5dxexfq.westeurope-01.azurewebsites.net',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         credentials: true,
     })

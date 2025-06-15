@@ -59,4 +59,4 @@ jobs:
         with:
           app-name: "functionCloudNativeGroup25"
           package: "./azure-functions/"
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_35C53822D0FF4C238E2B32BD25CEC1FF }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FUNCTIONAPP }}

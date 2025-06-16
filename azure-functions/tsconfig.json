@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es6",
     "outDir": "dist",
-    "rootDir": "src",
-    "sourceMap": true,
-    "strict": false,
+    "rootDir": "./",
+    "target": "ES2020",
+    "module": "commonjs",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "back-end/**/*"]
 }

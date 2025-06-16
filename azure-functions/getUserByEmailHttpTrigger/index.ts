@@ -9,11 +9,11 @@ app.http("getUserByEmail", {
   route: "users/{email}",
   authLevel: "anonymous",
   handler: async (request, context) => {
-    context.log("Function triggered successfully.");
+    context.log("test Function triggered successfully.");
 
     return {
       status: 200,
-      jsonBody: { message: "Function triggered successfully." },
+      jsonBody: { message: "test Function triggered successfully." },
     };
   },
 });

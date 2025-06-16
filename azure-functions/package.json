@@ -2,9 +2,10 @@
   "name": "",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/azure-functions/*/*.js",
+  "main": "dist/*/*.js",
   "scripts": {
     "build": "tsc",
+    "predeploy": "npm run build",
     "watch": "tsc -w",
     "clean": "rimraf dist",
     "prestart": "npm run clean && npm run build",

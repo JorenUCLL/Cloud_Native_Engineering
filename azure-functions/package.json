@@ -2,7 +2,7 @@
   "name": "",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/azure-functions/src/functions/HTTPgetUserByEmail/*.js",
+  "main": "dist/azure-functions/*/*.js",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",

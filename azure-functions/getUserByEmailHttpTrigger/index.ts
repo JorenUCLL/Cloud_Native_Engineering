@@ -1,5 +1,5 @@
 import { app } from "@azure/functions";
-import userService from "../../../../back-end/service/userService";
+import userService from "../../back-end/service/userService";
 
 interface RequestBody {
   email?: string;

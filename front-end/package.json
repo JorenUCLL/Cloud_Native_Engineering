@@ -4,7 +4,8 @@
     "dev": "next dev -p 8081",
     "build": "next build",
     "start": "next start",
-    "test": "jest"
+    "test": "jest",
+    "export": "next export"
   },
   "dependencies": {
     "@types/react": "18.0.28",

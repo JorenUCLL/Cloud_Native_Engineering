@@ -58,11 +58,11 @@ jobs:
         run: |
           $root = "./azure-functions"
           $distRoot = "$root/dist"
-          Get-ChildItem -Path $root -Recurse -Filter "function.json" | ForEach-Object {
+          Get-ChildItem -Path $root/src -Recurse -Filter "function.json" | ForEach-Object {
             if ($_.FullName -like "*dist*") { return }  # Skip ones already in dist
             $srcFuncDir = Split-Path $_.FullName -Parent
-            $funcName = Split-Path $srcFuncDir -Leaf
-            $destDir = Join-Path $distRoot $funcName
+            $relativePath = $srcFuncDir.Substring($root.Length + 1)  # To keep folder structure
+            $destDir = Join-Path $distRoot $relativePath
             Copy-Item -Path $_.FullName -Destination $destDir -Force
           }
 

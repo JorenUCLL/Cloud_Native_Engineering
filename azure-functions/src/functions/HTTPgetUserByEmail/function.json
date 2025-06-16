@@ -14,5 +14,5 @@
       "name": "$return"
     }
   ],
-  "scriptFile": "../../dist/functions/HTTPgetUserByEmail/index.js"
+  "scriptFile": "../../dist/azure-functions/src/functions/HTTPgetUserByEmail/index.js"
 }

@@ -5,7 +5,7 @@
       "type": "httpTrigger",
       "direction": "in",
       "name": "request",
-      "methods": ["get"],
+      "methods": ["get", "post"],
       "route": "users/{email}"
     },
     {
@@ -14,5 +14,5 @@
       "name": "$return"
     }
   ],
-  "scriptFile": "../../dist/azure-functions/src/functions/getUserByEmailHttpTrigger/index.js"
+  "scriptFile": "../dist/azure-functions/getUserByEmailHttpTrigger/index.js"
 }

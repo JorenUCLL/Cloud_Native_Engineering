@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/*/*.js",
   "scripts": {
-    "build": "tsc && cpx './*/function.json' dist/**",
+    "build": "tsc",
     "predeploy": "npm run build",
     "watch": "tsc -w",
     "clean": "rimraf dist",

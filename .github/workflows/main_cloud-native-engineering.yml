@@ -14,7 +14,7 @@ on:
 # 2. Change these variables for your configuration:
 env:
   AZURE_FUNCTIONAPP_NAME: "functionCloudNativeGroup25"
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: "./azure-functions/"
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "../azure-functions/dist"
   NODE_VERSION: "20.x"
 
 jobs:
@@ -58,5 +58,5 @@ jobs:
         uses: Azure/functions-action@v1
         with:
           app-name: "functionCloudNativeGroup25"
-          package: "./azure-functions/"
+          package: "./azure-functions/dist"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FUNCTIONAPP }}

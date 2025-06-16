@@ -7,7 +7,7 @@ RUN npm install
 # Bundle app source
 COPY . .
 # Expose the port the app runs on
-EXPOSE 8080
+EXPOSE 8081
 # Start the app
 CMD [ "npm", "run", "dev", "--", "-H", "0.0.0.0" ]
 

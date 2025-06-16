@@ -61,7 +61,7 @@ jobs:
           Get-ChildItem -Path $root/src -Recurse -Filter "function.json" | ForEach-Object {
             if ($_.FullName -like "*dist*") { return }  # Skip ones already in dist
             $srcFuncDir = Split-Path $_.FullName -Parent
-            $relativePath = $srcFuncDir.Substring($root.Length + 1)  # To keep folder structure
+            $relativePath = $srcFuncDir.Substring(($root + "\src").Length + 1)
             $destDir = Join-Path $distRoot $relativePath
             Copy-Item -Path $_.FullName -Destination $destDir -Force
           }

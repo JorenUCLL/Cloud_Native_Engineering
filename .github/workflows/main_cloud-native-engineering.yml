@@ -53,27 +53,27 @@ jobs:
           npm run build
           popd
 
-      - name: "Copy function.json files to dist"
-        shell: pwsh
-        run: |
-          $root = "./azure-functions"
-          $distRoot = "$root/dist"
-          Get-ChildItem -Path $root/src -Recurse -Filter "function.json" | ForEach-Object {
-            if ($_.FullName -like "*dist*") { return }  # Skip ones already in dist
-            $srcFuncDir = Split-Path $_.FullName -Parent
-            $relativePath = $srcFuncDir.Substring(($root + "\src").Length + 1)
-            $destDir = Join-Path $distRoot $relativePath
-            Copy-Item -Path $_.FullName -Destination $destDir -Force
-          }
+      # - name: "Copy function.json files to dist"
+      #   shell: pwsh
+      #   run: |
+      #     $root = "./azure-functions"
+      #     $distRoot = "$root/dist/src"
+      #     Get-ChildItem -Path $root -Recurse -Filter "function.json" | ForEach-Object {
+      #       if ($_.FullName -like "*dist*") { return }  # Skip ones already in dist
+      #       $srcFuncDir = Split-Path $_.FullName -Parent
+      #       $funcName = Split-Path $srcFuncDir -Leaf
+      #       $destDir = Join-Path $distRoot $funcName
+      #       Copy-Item -Path $_.FullName -Destination $destDir -Force
+      #     }
 
       - name: "Debug: List dist folder contents"
         shell: pwsh
         run: |
-          Get-ChildItem -Path "./azure-functions/dist" -Recurse
+          Get-ChildItem -Path "./azure-functions/dist/src" -Recurse
 
       - name: "Run Azure Functions Action"
         uses: Azure/functions-action@v1
         with:
           app-name: "functionCloudNativeGroup25"
-          package: "./azure-functions/dist"
+          package: "./azure-functions/dist/src"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FUNCTIONAPP }}

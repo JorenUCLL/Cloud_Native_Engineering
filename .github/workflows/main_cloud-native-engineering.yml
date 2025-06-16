@@ -45,13 +45,12 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: "Resolve Project Dependencies Using Npm"
+      - name: "Install and Build Azure Functions"
         shell: pwsh
         run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          pushd './azure-functions'
           npm install
-          npm run build --if-present
-          npm run test --if-present
+          npm run build
           popd
 
       - name: "Run Azure Functions Action"

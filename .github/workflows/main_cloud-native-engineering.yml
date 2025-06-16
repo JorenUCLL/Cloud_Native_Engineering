@@ -53,19 +53,6 @@ jobs:
           npm run build
           popd
 
-      # - name: "Copy function.json files to dist"
-      #   shell: pwsh
-      #   run: |
-      #     $root = "./azure-functions"
-      #     $distRoot = "$root/dist"
-      #     Get-ChildItem -Path $root -Recurse -Filter "function.json" | ForEach-Object {
-      #       if ($_.FullName -like "*dist*") { return }  # Skip dist files
-      #       $srcFuncDir = Split-Path $_.FullName -Parent
-      #       $funcName = Split-Path $srcFuncDir -Leaf
-      #       $destDir = Join-Path $distRoot $funcName
-      #       Copy-Item -Path $_.FullName -Destination $destDir -Force
-      #     }
-
       - name: "Run Azure Functions Action"
         uses: Azure/functions-action@v1
         with:

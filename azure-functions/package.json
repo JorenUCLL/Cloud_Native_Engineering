@@ -2,7 +2,7 @@
   "name": "",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/*/*.js",
+  "main": "dist/src/*/index.js",
   "scripts": {
     "build": "tsc",
     "predeploy": "npm run build",

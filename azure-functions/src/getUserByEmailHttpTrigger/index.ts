@@ -3,6 +3,8 @@ import connectDB from "../repository/db";
 
 module.exports = async function (context, req) {
   try {
+    console.log("Eerste MongoDB URI:", process.env.MONGODB_URI);
+
     await connectDB();
     console.log("MongoDB URI:", process.env.MONGODB_URI);
 

@@ -1,7 +1,8 @@
 import userService from "../../back-end/service/userService";
+
 module.exports = async function (context, req) {
   try {
-    context.log("test Function triggered successfully.");
+    context.log("userByEmail Function triggered successfully.");
 
     const email = req.params.email || (req.body && req.body.email);
 
@@ -9,7 +10,7 @@ module.exports = async function (context, req) {
 
     context.res = {
       status: 200,
-      body: { message: "test Function triggered successfully.", email: email },
+      body: { message: "userByEmail Function triggered successfully.", email: email },
       headers: { "Content-Type": "application/json" },
     };
   } catch (err) {

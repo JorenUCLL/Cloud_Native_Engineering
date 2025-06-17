@@ -12,6 +12,7 @@ on:
 #   AZURE_FUNCTIONAPP_PUBLISH_PROFILE
 #
 # 2. Change these variables for your configuration:
+#test
 env:
   AZURE_FUNCTIONAPP_NAME: "functionCloudNativeGroup25"
   AZURE_FUNCTIONAPP_PACKAGE_PATH: "../azure-functions/dist"

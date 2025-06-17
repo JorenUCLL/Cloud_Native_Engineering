@@ -56,19 +56,19 @@ jobs:
       - name: "Copy function folders to dist"
         shell: pwsh
         run: |
-          $srcRoot = "./azure-functions/src"
+          $compiledRoot = "./azure-functions/dist/src"
           $distRoot = "./azure-functions/dist"
 
-          Get-ChildItem -Path $srcRoot -Directory | ForEach-Object {
+          Get-ChildItem -Path $compiledRoot -Directory | ForEach-Object {
             $funcName = $_.Name
-            $srcFuncDir = $_.FullName
+            $compiledFuncDir = $_.FullName
             $destFuncDir = Join-Path $distRoot $funcName
 
             if (-not (Test-Path $destFuncDir)) {
               New-Item -ItemType Directory -Path $destFuncDir | Out-Null
             }
 
-            Copy-Item -Path "$srcFuncDir/*" -Destination $destFuncDir -Recurse -Force
+            Copy-Item -Path "$compiledFuncDir/*" -Destination $destFuncDir -Recurse -Force
           }
 
       - name: "Debug: List dist folder contents"

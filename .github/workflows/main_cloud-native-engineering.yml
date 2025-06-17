@@ -98,6 +98,13 @@ jobs:
         run: |
           Copy-Item -Path "./azure-functions/host.json" -Destination "./azure-functions/dist" -Force
 
+      - name: Install production dependencies in dist
+        shell: pwsh
+        run: |
+          pushd './azure-functions/dist'
+          npm ci --omit=dev
+          popd
+
       - name: "Debug: List dist folder contents"
         shell: pwsh
         run: |

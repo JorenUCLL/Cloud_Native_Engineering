@@ -4,6 +4,7 @@ import connectDB from "../repository/db";
 module.exports = async function (context, req) {
   try {
     await connectDB();
+    console.log("MongoDB URI:", process.env.MONGODB_URI);
 
     const email = req.params.email || (req.body && req.body.email);
 

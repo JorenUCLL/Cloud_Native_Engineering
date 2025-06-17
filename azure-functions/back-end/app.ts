@@ -36,7 +36,7 @@ mongoose
 
 app.use(
     cors({
-        origin: 'cloud-native-engineering-afa3a4cpd5dxexfq.westeurope-01.azurewebsites.net',
+        origin: 'https://cloudnativeengineer9f10.z6.web.core.windows.net',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         credentials: true,
     })

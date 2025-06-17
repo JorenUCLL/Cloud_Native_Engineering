@@ -1,11 +1,10 @@
-version: "3.8"
 services:
   backend:
-    build: ./back-end
+    build: ./azure-functions/back-end
     ports:
       - "3000:3000"
     env_file:
-      - ./back-end/.env
+      - ./azure-functions/back-end/.env
 
   frontend:
     build: ./front-end

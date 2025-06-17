@@ -53,14 +53,18 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: "Install production dependencies in dist"
+      - name: "Ensure dist folder exists"
+        shell: pwsh
+        run: |
+          if (-Not (Test-Path "./azure-functions/dist")) {
+            New-Item -ItemType Directory -Path "./azure-functions/dist" | Out-Null
+          }
+
+      - name: "Copy package.json and package-lock.json to dist"
         shell: pwsh
         run: |
           Copy-Item -Path "./azure-functions/package.json" -Destination "./azure-functions/dist/package.json" -Force
           Copy-Item -Path "./azure-functions/package-lock.json" -Destination "./azure-functions/dist/package-lock.json" -Force
-          pushd './azure-functions/dist'
-          npm ci --omit=dev
-          popd
 
       - name: "Build Azure Functions"
         shell: pwsh
@@ -69,10 +73,12 @@ jobs:
           npm run build
           popd
 
-      - name: "Ensure dist folder exists"
+      - name: "Install production dependencies in dist"
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Force -Path "./azure-functions/dist"
+          pushd './azure-functions/dist'
+          npm ci --omit=dev
+          popd
 
       - name: "Copy compiled function folders to dist root"
         shell: pwsh

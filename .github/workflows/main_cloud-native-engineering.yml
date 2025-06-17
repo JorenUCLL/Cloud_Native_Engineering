@@ -62,15 +62,15 @@ jobs:
           Get-ChildItem -Path $root -Recurse -Filter "function.json" | ForEach-Object {
             if ($_.FullName -like "*dist*") { return }  # Skip ones already in dist
 
-            $relativePath = $_.FullName.Substring($root.Length).TrimStart('\','/')
-            $destPath = Join-Path $distRoot $relativePath
-            $destDir = Split-Path $destPath -Parent
+            $srcFuncDir = Split-Path $_.FullName -Parent
+            $funcName = Split-Path $srcFuncDir -Leaf
+            $destDir = Join-Path $distRoot $funcName
 
             if (-not (Test-Path $destDir)) {
               New-Item -ItemType Directory -Path $destDir | Out-Null
           }
 
-          Copy-Item -Path $_.FullName -Destination $destPath -Force
+          Copy-Item -Path $_.FullName -Destination $destDir -Force
           }
 
       - name: "Debug: List dist folder contents"

@@ -82,5 +82,5 @@ jobs:
         uses: Azure/functions-action@v1
         with:
           app-name: "functionCloudNativeGroup25"
-          package: "./azure-functions/dist/src"
+          package: "./azure-functions/dist"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FUNCTIONAPP }}

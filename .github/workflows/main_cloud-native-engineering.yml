@@ -58,11 +58,13 @@ jobs:
         run: |
           Remove-Item -Recurse -Force ./azure-functions/dist, ./azure-functions/node_modules -ErrorAction SilentlyContinue
 
-      - name: "Install Azure Functions dependencies"
+      - name: "Install production dependencies in dist"
         shell: pwsh
         run: |
-          pushd './azure-functions'
-          npm ci --production
+          Copy-Item -Path "./azure-functions/package.json" -Destination "./azure-functions/dist/package.json" -Force
+          Copy-Item -Path "./azure-functions/package-lock.json" -Destination "./azure-functions/dist/package-lock.json" -Force
+          pushd './azure-functions/dist'
+          npm ci --omit=dev
           popd
 
       - name: "Build Azure Functions"
@@ -71,11 +73,6 @@ jobs:
           pushd './azure-functions'
           npm run build
           popd
-
-      - name: "Copy node_modules to dist"
-        shell: pwsh
-        run: |
-          Copy-Item -Path "./azure-functions/node_modules" -Destination "./azure-functions/dist/node_modules" -Recurse -Force
 
       - name: "Copy compiled function folders to dist root"
         shell: pwsh

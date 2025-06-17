@@ -53,11 +53,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: "Clean dist and node_modules"
-        shell: pwsh
-        run: |
-          Remove-Item -Recurse -Force ./azure-functions/dist, ./azure-functions/node_modules -ErrorAction SilentlyContinue
-
       - name: "Install production dependencies in dist"
         shell: pwsh
         run: |

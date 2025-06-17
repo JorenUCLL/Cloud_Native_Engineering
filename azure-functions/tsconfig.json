@@ -9,5 +9,5 @@
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*", "back-end/**/*"]
+  "include": ["src/**/*", "back-end/**/*", "util"]
 }

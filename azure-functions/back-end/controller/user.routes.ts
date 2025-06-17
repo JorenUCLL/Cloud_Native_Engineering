@@ -1,38 +1,38 @@
-import express from 'express';
-import userService from '../service/userService';
-import { UserInput } from '../types/index';
+// import express from 'express';
+// import userService from '../service/userService';
+// import { UserInput } from '../types/index';
 
-const userRouter = express.Router();
+// const userRouter = express.Router();
 
-userRouter.get('/', async (req, res) => {
-    try {
-        console.log('test');
-        const users = await userService.getAllUsers();
-        res.json(users);
-    } catch (error) {
-        console.log('Error in GET /users:', error);
+// userRouter.get('/', async (req, res) => {
+//     try {
+//         console.log('test');
+//         const users = await userService.getAllUsers();
+//         res.json(users);
+//     } catch (error) {
+//         console.log('Error in GET /users:', error);
 
-        res.status(500).json({ error: 'Failed to fetch users.' });
-    }
-});
+//         res.status(500).json({ error: 'Failed to fetch users.' });
+//     }
+// });
 
-userRouter.get('/:email', async (req, res) => {
-    try {
-        const users = await userService.getUserByEmail(req.params.email);
-        res.json(users);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch users.' });
-    }
-});
+// userRouter.get('/:email', async (req, res) => {
+//     try {
+//         const users = await userService.getUserByEmail(req.params.email);
+//         res.json(users);
+//     } catch (error) {
+//         res.status(500).json({ error: 'Failed to fetch users.' });
+//     }
+// });
 
-userRouter.post('/login', async (req, res) => {
-    try {
-        const userInput = <UserInput>req.body;
-        const response = await userService.authenticate(userInput);
-        res.status(200).json({ message: 'Authentication succesful', ...response });
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to log in.' });
-    }
-});
+// userRouter.post('/login', async (req, res) => {
+//     try {
+//         const userInput = <UserInput>req.body;
+//         const response = await userService.authenticate(userInput);
+//         res.status(200).json({ message: 'Authentication succesful', ...response });
+//     } catch (error) {
+//         res.status(500).json({ error: 'Failed to log in.' });
+//     }
+// });
 
-export { userRouter };
+// export { userRouter };

@@ -1,21 +1,17 @@
-const userService = require("../../back-end/service/userService");
+import { use } from "react";
+import connectDB from "../repository/db";
+import { UserService } from "../service/userService";
 
-module.exports = async function (context, req) {
-  try {
-    context.log("getUsers function triggered.");
+export default async function (context, req) {
+  await connectDB();
+  const users = await UserService.getInstance().getAllUsers();
+  console.log(users);
 
-    const users = await userService.getAllUsers();
+  context.res = {
+    body: users,
 
-    context.res = {
-      status: 200,
-      body: users,
-      headers: { "Content-Type": "application/json" },
-    };
-  } catch (err) {
-    context.log.error("Error in getUsers function:", err);
-    context.res = {
-      status: 500,
-      body: { error: "Internal server error" },
-    };
-  }
-};
+    headers: { "Content-Type": "application/json" },
+  };
+
+  return context.res;
+}

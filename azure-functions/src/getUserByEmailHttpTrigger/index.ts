@@ -1,19 +1,28 @@
-// const userService = require("../../back-end/service/userService");
+import { UserService } from "../service/userService";
+import connectDB from "../repository/db";
 
 module.exports = async function (context, req) {
   try {
-    context.log("test Function triggered successfully.");
+    await connectDB();
 
     const email = req.params.email || (req.body && req.body.email);
 
-    // Uncomment when userService is ready and error-free
-    // const user = await userService.getUserByEmail(email);
+    if (!email) {
+      context.res = {
+        status: 400,
+        body: { error: "Email is required." },
+      };
+      return;
+    }
+
+    const response = await UserService.getInstance().getUserByEmail(email);
 
     context.res = {
       status: 200,
-      body: { message: "test Function triggered successfully.", email: email },
+      body: { user: response },
       headers: { "Content-Type": "application/json" },
     };
+    return context.res;
   } catch (err) {
     context.log.error("Error in function:", err);
     context.res = {

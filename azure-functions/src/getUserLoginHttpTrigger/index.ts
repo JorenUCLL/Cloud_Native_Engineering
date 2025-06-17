@@ -1,5 +1,10 @@
+import { UserService } from "../service/userService";
+import connectDB from "../repository/db";
+
 module.exports = async function (context, req) {
   try {
+    await connectDB();
+
     context.log("login function triggered.");
 
     const { email, password } = req.body || {};
@@ -9,20 +14,24 @@ module.exports = async function (context, req) {
         status: 400,
         body: { error: "Email and password are required." },
       };
-      return;
+      return context.res;
     }
 
-    const authResponse = await userService.authenticate({ email, password });
+    const authResponse = await UserService.getInstance().authenticate({
+      email,
+      password,
+    });
 
     context.res = {
       status: 200,
       body: {
         message: "Authentication successful (mock)",
         email,
-        token: authResponse.token
+        token: authResponse.token,
       },
       headers: { "Content-Type": "application/json" },
     };
+    return context.res;
   } catch (err) {
     context.log.error("Error in login function:", err);
     context.res = {

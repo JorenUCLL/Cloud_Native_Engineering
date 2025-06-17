@@ -1,5 +1,5 @@
 import { UserService } from "../service/userService";
-import connectDB from "../repository/db";
+import connectDB from "repository/db";
 
 module.exports = async function (context, req) {
   try {

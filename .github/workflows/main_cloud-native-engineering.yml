@@ -70,7 +70,8 @@ jobs:
               New-Item -ItemType Directory -Path $destFuncDir | Out-Null
             }
 
-            
+            # Copy function.json from src
+            Copy-Item -Path "$srcFuncDir/function.json" -Destination $destFuncDir -Force
 
             # Copy compiled JS files from dist/src
             Copy-Item -Path "$compiledFuncDir/*" -Destination $destFuncDir -Recurse -Force

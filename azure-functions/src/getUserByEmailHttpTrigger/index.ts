@@ -1,20 +1,16 @@
-import { app } from "@azure/functions";
-import userService from "../../back-end/service/userService";
+const userService = require("../../back-end/service/userService");
 
-interface RequestBody {
-  email?: string;
-}
-app.http("getUserByEmail", {
-  methods: ["GET", "POST"],
-  route: "users/{email}",
-  authLevel: "anonymous",
-  handler: async (request, context) => {
-    context.log("test Function triggered successfully.");
+module.exports = async function (context, req) {
+  context.log("test Function triggered successfully.");
 
-    return {
-      status: 200,
-      jsonBody: { message: "test Function triggered successfully." },
-    };
-  },
-});
-export default app;
+  const email = req.params.email || (req.body && req.body.email);
+
+  // You can use userService here to fetch user by email, example:
+  // const user = await userService.getUserByEmail(email);
+
+  context.res = {
+    status: 200,
+    body: { message: "test Function triggered successfully.", email: email },
+    headers: { "Content-Type": "application/json" },
+  };
+};

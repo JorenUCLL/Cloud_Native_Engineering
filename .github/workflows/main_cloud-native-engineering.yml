@@ -74,6 +74,11 @@ jobs:
           npm run build
           popd
 
+      - name: "Ensure dist folder exists"
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "./azure-functions/dist"
+
       - name: "Copy compiled function folders to dist root"
         shell: pwsh
         run: |

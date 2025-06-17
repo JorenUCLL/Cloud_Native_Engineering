@@ -1,4 +1,4 @@
-const userService = require("../../back-end/service/userService");
+import userService from "../../back-end/service/userService";
 
 module.exports = async function (context, req) {
   try {

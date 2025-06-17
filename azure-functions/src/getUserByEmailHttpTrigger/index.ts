@@ -1,13 +1,11 @@
-// const userService = require("../../back-end/service/userService");
-
+import userService from "../../back-end/service/userService";
 module.exports = async function (context, req) {
   try {
     context.log("test Function triggered successfully.");
 
     const email = req.params.email || (req.body && req.body.email);
 
-    // Uncomment when userService is ready and error-free
-    // const user = await userService.getUserByEmail(email);
+    const user = await userService.getUserByEmail(email);
 
     context.res = {
       status: 200,

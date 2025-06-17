@@ -6,13 +6,15 @@ container_name="$AZURE_STORAGE_CONTAINER"
 sas_token="$AZURE_STORAGE_SAS_TOKEN"
 
 # Set the local folder path
-local_folder="front-end"
+local_folder="front-end/out"
 
 # Iterate over each file in the local folder and its subfolders
 find "$local_folder" -type f | while read -r file_path; do
     if [ -f "$file_path" ]; then
         # Extract the relative path from the local folder
         relative_path=${file_path#$local_folder/}
+
+        encoded_path=$(jq -sRr @uri <<< "$relative_path")
 
         # Construct the Blob Storage URL for the file
         blob_url="https://$storage_account.blob.core.windows.net/$container_name/$relative_path?$sas_token"

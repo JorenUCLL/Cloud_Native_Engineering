@@ -25,6 +25,16 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Install Dependencies
+        run: |
+          cd front-end
+          npm ci
+
+      - name: Build Frontend
+        run: |
+          cd front-end
+          npm run build
+
       - name: Run Upload Script
         run: |
           chmod +x ./upload-site.sh

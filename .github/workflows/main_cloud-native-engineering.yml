@@ -12,7 +12,6 @@ on:
 #   AZURE_FUNCTIONAPP_PUBLISH_PROFILE
 #
 # 2. Change these variables for your configuration:
-#test
 env:
   AZURE_FUNCTIONAPP_NAME: "functionCloudNativeGroup25"
   AZURE_FUNCTIONAPP_PACKAGE_PATH: "../azure-functions/dist"
@@ -30,12 +29,10 @@ jobs:
         run: |
           cd front-end
           npm ci
-
       - name: Build Frontend
         run: |
           cd front-end
           npm run build
-
       - name: Run Upload Script
         run: |
           chmod +x ./upload-site.sh
@@ -63,40 +60,32 @@ jobs:
           npm install
           npm run build
           popd
-
       - name: "Copy compiled function folders to dist root"
         shell: pwsh
         run: |
           $srcRoot = "./azure-functions/src"
           $compiledRoot = "./azure-functions/dist/src"
           $distRoot = "./azure-functions/dist"
-
           Get-ChildItem -Path $srcRoot -Directory | ForEach-Object {
             $funcName = $_.Name
             $srcFuncDir = $_.FullName
             $compiledFuncDir = Join-Path $compiledRoot $funcName
             $destFuncDir = Join-Path $distRoot $funcName
-
             if (-not (Test-Path $destFuncDir)) {
               New-Item -ItemType Directory -Path $destFuncDir | Out-Null
             }
-
             # Copy function.json from src only if it exists
             if (Test-Path "$srcFuncDir/function.json") {
               Copy-Item -Path "$srcFuncDir/function.json" -Destination $destFuncDir -Force
             }
-
             # Copy compiled JS files from dist/src
             Copy-Item -Path "$compiledFuncDir/*" -Destination $destFuncDir -Recurse -Force
           }
-
           # Copy shared folders into dist
           $sharedFolders = @("repository", "service", "helpers", "mongo-models", "util", "types")
-
           foreach ($folder in $sharedFolders) {
             $srcSharedDir = Join-Path $srcRoot $folder
             $destSharedDir = Join-Path $distRoot $folder
-
             if (Test-Path $srcSharedDir) {
               if (Test-Path $destSharedDir) {
                 Remove-Item -Recurse -Force $destSharedDir
@@ -107,17 +96,14 @@ jobs:
               Write-Host "Shared folder not found (skipping): $folder"
             }
           }
-
       - name: "Copy host.json to dist"
         shell: pwsh
         run: |
           Copy-Item -Path "./azure-functions/host.json" -Destination "./azure-functions/dist" -Force
-
       - name: "Debug: List dist folder contents"
         shell: pwsh
         run: |
           Get-ChildItem -Path "./azure-functions/dist" -Recurse
-
       - name: "Run Azure Functions Action"
         uses: Azure/functions-action@v1
         with:

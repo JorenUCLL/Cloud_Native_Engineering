@@ -1,4 +1,4 @@
-import connectDB from "repository/db";
+import connectDB from "../repository/db";
 import { UserService } from "../service/userService";
 
 export default async function (context, req) {

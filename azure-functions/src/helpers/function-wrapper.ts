@@ -77,5 +77,6 @@ const errorHandler = (error: Error | CustomError, context: any) => {
         "Content-Type": "application/json",
       },
     };
+    context.log.error("Error in function wrapper:", error);
   }
 };

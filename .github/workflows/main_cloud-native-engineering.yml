@@ -53,6 +53,20 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Install dependencies in Azure Functions folder
+        shell: pwsh
+        run: |
+          pushd './azure-functions'
+          npm ci
+          popd
+
+      - name: "Build Azure Functions"
+        shell: pwsh
+        run: |
+          pushd './azure-functions'
+          npm run build
+          popd
+
       - name: "Ensure dist folder exists"
         shell: pwsh
         run: |
@@ -65,13 +79,6 @@ jobs:
         run: |
           Copy-Item -Path "./azure-functions/package.json" -Destination "./azure-functions/dist/package.json" -Force
           Copy-Item -Path "./azure-functions/package-lock.json" -Destination "./azure-functions/dist/package-lock.json" -Force
-
-      - name: "Build Azure Functions"
-        shell: pwsh
-        run: |
-          pushd './azure-functions'
-          npm run build
-          popd
 
       - name: "Install production dependencies in dist"
         shell: pwsh

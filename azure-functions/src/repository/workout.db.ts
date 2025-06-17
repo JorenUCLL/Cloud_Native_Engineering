@@ -14,16 +14,10 @@ export class MongoWorkoutRepository {
 
   async getAllWorkouts(): Promise<IWorkout[]> {
     return await WorkoutModel.find()
-      .populate("type")
-      .populate("user")
-      .populate("exercises");
   }
 
   async getWorkoutByUser(userId: string): Promise<IWorkout[]> {
     return await WorkoutModel.find({ user: userId })
-      .populate("type")
-      .populate("user")
-      .populate("exercises");
   }
 
   async createWorkout(data: Partial<IWorkout>): Promise<IWorkout> {

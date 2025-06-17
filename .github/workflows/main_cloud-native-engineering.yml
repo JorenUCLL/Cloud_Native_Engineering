@@ -67,47 +67,32 @@ jobs:
           npm run build
           popd
 
-      - name: "Ensure dist folder exists"
+      - name: "Copy host.json and compiled code to dist"
         shell: pwsh
         run: |
-          if (-Not (Test-Path "./azure-functions/dist")) {
-            New-Item -ItemType Directory -Path "./azure-functions/dist" | Out-Null
-          }
+          Copy-Item -Path "./azure-functions/host.json" -Destination "./azure-functions/dist" -Force
 
-      - name: "Copy package.json and package-lock.json to dist"
-        shell: pwsh
-        run: |
-          Copy-Item -Path "./azure-functions/package.json" -Destination "./azure-functions/dist/package.json" -Force
-          Copy-Item -Path "./azure-functions/package-lock.json" -Destination "./azure-functions/dist/package-lock.json" -Force
-
-      - name: "Install production dependencies in dist"
-        shell: pwsh
-        run: |
-          pushd './azure-functions/dist'
-          npm ci --omit=dev
-          popd
-
-      - name: "Copy compiled function folders to dist root"
-        shell: pwsh
-        run: |
           $srcRoot = "./azure-functions/src"
           $compiledRoot = "./azure-functions/dist/src"
           $distRoot = "./azure-functions/dist"
+
           Get-ChildItem -Path $srcRoot -Directory | ForEach-Object {
             $funcName = $_.Name
             $srcFuncDir = $_.FullName
             $compiledFuncDir = Join-Path $compiledRoot $funcName
             $destFuncDir = Join-Path $distRoot $funcName
+
             if (-not (Test-Path $destFuncDir)) {
               New-Item -ItemType Directory -Path $destFuncDir | Out-Null
             }
-            # Copy function.json from src only if it exists
+
             if (Test-Path "$srcFuncDir/function.json") {
               Copy-Item -Path "$srcFuncDir/function.json" -Destination $destFuncDir -Force
             }
-            # Copy compiled JS files from dist/src
+
             Copy-Item -Path "$compiledFuncDir/*" -Destination $destFuncDir -Recurse -Force
           }
+
       - name: "Copy host.json to dist"
         shell: pwsh
         run: |

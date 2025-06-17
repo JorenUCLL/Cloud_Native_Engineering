@@ -53,7 +53,7 @@ jobs:
           npm run build
           popd
 
-      - name: "Copy function folders to dist"
+      - name: "Copy compiled function folders to dist root"
         shell: pwsh
         run: |
           $srcRoot = "./azure-functions/src"
@@ -63,21 +63,18 @@ jobs:
           Get-ChildItem -Path $srcRoot -Directory | ForEach-Object {
             $funcName = $_.Name
             $srcFuncDir = $_.FullName
-          $destFuncDir = Join-Path $distRoot $funcName
-
-            if (-not (Test-Path $destFuncDir)) {
-            New-Item -ItemType Directory -Path $destFuncDir | Out-Null
-          }
-
-          Copy-Item -Path "$srcFuncDir/function.json" -Destination $destFuncDir -Recurse -Force
-          }
-
-          Get-ChildItem -Path $compiledRoot -Directory | ForEach-Object {
-            $funcName = $_.Name
-            $compiledFuncDir = $_.FullName
+            $compiledFuncDir = Join-Path $compiledRoot $funcName
             $destFuncDir = Join-Path $distRoot $funcName
 
-          Copy-Item -Path "$compiledFuncDir/*" -Destination $destFuncDir -Recurse -Force
+            if (-not (Test-Path $destFuncDir)) {
+              New-Item -ItemType Directory -Path $destFuncDir | Out-Null
+            }
+
+            # Copy function.json from src
+            Copy-Item -Path "$srcFuncDir/function.json" -Destination $destFuncDir -Force
+
+            # Copy compiled JS files from dist/src
+            Copy-Item -Path "$compiledFuncDir/*" -Destination $destFuncDir -Recurse -Force
           }
 
       - name: "Copy host.json to dist"

@@ -19,6 +19,8 @@ import { mutate } from "swr";
 import TodaysWorkouts from "@/components/workouts/todaysWorkouts";
 import WeekWorkouts from "@/components/workouts/WeekWorkouts";
 
+//test
+
 const Home: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const [workouts, setWorkouts] = useState<Array<Workout>>([]);

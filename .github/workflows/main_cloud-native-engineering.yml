@@ -53,11 +53,22 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: "Install and Build Azure Functions"
+      - name: "Clean dist and node_modules"
+        shell: pwsh
+        run: |
+          Remove-Item -Recurse -Force ./azure-functions/dist, ./azure-functions/node_modules -ErrorAction SilentlyContinue
+
+      - name: "Install Azure Functions dependencies"
         shell: pwsh
         run: |
           pushd './azure-functions'
-          npm install
+          npm ci --production
+          popd
+
+      - name: "Build Azure Functions"
+        shell: pwsh
+        run: |
+          pushd './azure-functions'
           npm run build
           popd
 
@@ -91,10 +102,12 @@ jobs:
         shell: pwsh
         run: |
           Copy-Item -Path "./azure-functions/host.json" -Destination "./azure-functions/dist" -Force
+
       - name: "Debug: List dist folder contents"
         shell: pwsh
         run: |
           Get-ChildItem -Path "./azure-functions/dist" -Recurse
+
       - name: "Run Azure Functions Action"
         uses: Azure/functions-action@v1
         with:

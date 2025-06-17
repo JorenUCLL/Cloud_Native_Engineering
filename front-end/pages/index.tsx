@@ -94,6 +94,7 @@ const Home: React.FC = () => {
           >
             <WeekWorkouts workouts={workouts} />
           </section>
+          <p>dit is een test</p>
         </main>
       </div>
     </>

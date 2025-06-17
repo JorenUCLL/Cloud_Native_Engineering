@@ -60,6 +60,12 @@ jobs:
           npm install
           npm run build
           popd
+
+      - name: "Copy node_modules to dist"
+        shell: pwsh
+        run: |
+          Copy-Item -Path "./azure-functions/node_modules" -Destination "./azure-functions/dist/node_modules" -Recurse -Force
+
       - name: "Copy compiled function folders to dist root"
         shell: pwsh
         run: |

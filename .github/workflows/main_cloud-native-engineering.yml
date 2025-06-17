@@ -57,7 +57,7 @@ jobs:
         shell: pwsh
         run: |
           $root = "./azure-functions"
-          $distRoot = "$root/dist/src"
+          $distRoot = "$root/dist"
 
           Get-ChildItem -Path $root -Recurse -Filter "function.json" | ForEach-Object {
             if ($_.FullName -like "*dist*") { return }  # Skip ones already in dist
@@ -79,8 +79,8 @@ jobs:
           Get-ChildItem -Path "./azure-functions/dist/src" -Recurse
 
       - name: "Run Azure Functions Action"
-        uses: Azure/functions-action@v4
+        uses: Azure/functions-action@v1
         with:
           app-name: "functionCloudNativeGroup25"
-          package: "./azure-functions/dist/src"
+          package: "./azure-functions/dist"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FUNCTIONAPP }}

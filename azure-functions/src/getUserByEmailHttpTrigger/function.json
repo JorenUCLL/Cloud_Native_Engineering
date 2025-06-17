@@ -14,5 +14,5 @@
       "name": "$return"
     }
   ],
-  "scriptFile": "../dist/src/getUserByEmailHttpTrigger/index.js"
+  "scriptFile": "index.js"
 }

@@ -36,4 +36,9 @@ type AuthenticationResponse = {
     role: Role;
 };
 
-export { UserInput, AuthenticationResponse, Role, WorkoutInput, AchievementInput, TypeInput };
+type ExerciseInput = {
+    type: TypeInput;
+    workout: WorkoutInput;
+};
+
+export { UserInput, AuthenticationResponse, Role, WorkoutInput, AchievementInput, TypeInput, ExerciseInput };

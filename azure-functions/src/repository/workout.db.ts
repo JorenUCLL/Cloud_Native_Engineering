@@ -24,4 +24,8 @@ export class MongoWorkoutRepository {
     const workout = new WorkoutModel(data);
     return await workout.save();
   }
+
+  async getWorkoutById(id: string): Promise<IWorkout | null> {
+    return await WorkoutModel.findById(id);
+  }
 }

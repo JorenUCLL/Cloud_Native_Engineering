@@ -53,24 +53,22 @@ jobs:
           npm run build
           popd
 
-      - name: "Copy function.json files to dist"
+      - name: "Copy function folders to dist"
         shell: pwsh
         run: |
-          $root = "./azure-functions"
-          $distRoot = "$root/dist"
+          $srcRoot = "./azure-functions/src"
+          $distRoot = "./azure-functions/dist"
 
-          Get-ChildItem -Path $root -Recurse -Filter "function.json" | ForEach-Object {
-            if ($_.FullName -like "*dist*") { return }  # Skip ones already in dist
+          Get-ChildItem -Path $srcRoot -Directory | ForEach-Object {
+            $funcName = $_.Name
+            $srcFuncDir = $_.FullName
+            $destFuncDir = Join-Path $distRoot $funcName
 
-            $srcFuncDir = Split-Path $_.FullName -Parent
-            $funcName = Split-Path $srcFuncDir -Leaf
-            $destDir = Join-Path $distRoot $funcName
+            if (-not (Test-Path $destFuncDir)) {
+              New-Item -ItemType Directory -Path $destFuncDir | Out-Null
+            }
 
-            if (-not (Test-Path $destDir)) {
-              New-Item -ItemType Directory -Path $destDir | Out-Null
-          }
-
-          Copy-Item -Path $_.FullName -Destination $destDir -Force
+            Copy-Item -Path "$srcFuncDir/*" -Destination $destFuncDir -Recurse -Force
           }
 
       - name: "Debug: List dist folder contents"

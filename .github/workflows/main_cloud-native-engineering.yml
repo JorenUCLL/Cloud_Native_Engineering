@@ -69,7 +69,7 @@ jobs:
             New-Item -ItemType Directory -Path $destFuncDir | Out-Null
           }
 
-          Copy-Item -Path "$srcFuncDir/*" -Destination $destFuncDir -Recurse -Force
+          Copy-Item -Path "$srcFuncDir/function.json" -Destination $destFuncDir -Recurse -Force
           }
 
           Get-ChildItem -Path $compiledRoot -Directory | ForEach-Object {
@@ -79,6 +79,11 @@ jobs:
 
           Copy-Item -Path "$compiledFuncDir/*" -Destination $destFuncDir -Recurse -Force
           }
+
+      - name: "Copy host.json to dist"
+        shell: pwsh
+        run: |
+          Copy-Item -Path "./azure-functions/host.json" -Destination "./azure-functions/dist" -Force
 
       - name: "Debug: List dist folder contents"
         shell: pwsh

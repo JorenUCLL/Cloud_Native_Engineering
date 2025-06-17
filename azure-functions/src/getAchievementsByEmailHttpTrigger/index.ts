@@ -1,5 +1,5 @@
-import { WorkoutService } from "../service/workoutService";
 import { UserService } from "../service/userService";
+import { AchievementService } from "../service/achievementService";
 import connectDB from "../repository/db";
 
 module.exports = async function (context, req) {
@@ -27,11 +27,11 @@ module.exports = async function (context, req) {
       };
       return;
     }
-    const response = await WorkoutService.getInstance().getWorkoutByUser(user.id);
+    const response = await AchievementService.getInstance().getAchievementsByUser(user.id);
 
     context.res = {
       status: 200,
-      body: { workouts: response },
+      body: { achievements: response },
       headers: { "Content-Type": "application/json" },
     };
     return context.res;

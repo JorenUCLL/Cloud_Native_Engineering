@@ -81,21 +81,6 @@ jobs:
             # Copy compiled JS files from dist/src
             Copy-Item -Path "$compiledFuncDir/*" -Destination $destFuncDir -Recurse -Force
           }
-          # Copy shared folders into dist
-          $sharedFolders = @("repository", "service", "helpers", "mongo-models", "util", "types")
-          foreach ($folder in $sharedFolders) {
-            $srcSharedDir = Join-Path $srcRoot $folder
-            $destSharedDir = Join-Path $distRoot $folder
-            if (Test-Path $srcSharedDir) {
-              if (Test-Path $destSharedDir) {
-                Remove-Item -Recurse -Force $destSharedDir
-              }
-              Copy-Item -Path $srcSharedDir -Destination $destSharedDir -Recurse -Force
-              Write-Host "Copied shared folder: $folder"
-            } else {
-              Write-Host "Shared folder not found (skipping): $folder"
-            }
-          }
       - name: "Copy host.json to dist"
         shell: pwsh
         run: |

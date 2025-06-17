@@ -63,6 +63,40 @@ jobs:
           npm run build
           popd
 
+      - name: "Copy compiled function folders to dist root"
+        shell: pwsh
+        run: |
+          $srcRoot = "./azure-functions/src"
+          $compiledRoot = "./azure-functions/dist/src"
+          $distRoot = "./azure-functions/dist"
+
+          Get-ChildItem -Path $srcRoot -Directory | ForEach-Object {
+            $funcName = $_.Name
+            $srcFuncDir = $_.FullName
+            $compiledFuncDir = Join-Path $compiledRoot $funcName
+            $destFuncDir = Join-Path $distRoot $funcName
+
+            if (-not (Test-Path $destFuncDir)) {
+              New-Item -ItemType Directory -Path $destFuncDir | Out-Null
+            }
+
+            # Copy function.json from src
+            Copy-Item -Path "$srcFuncDir/function.json" -Destination $destFuncDir -Force
+
+            # Copy compiled JS files from dist/src
+            Copy-Item -Path "$compiledFuncDir/*" -Destination $destFuncDir -Recurse -Force
+          }
+
+      - name: "Copy host.json to dist"
+        shell: pwsh
+        run: |
+          Copy-Item -Path "./azure-functions/host.json" -Destination "./azure-functions/dist" -Force
+
+      - name: "Debug: List dist folder contents"
+        shell: pwsh
+        run: |
+          Get-ChildItem -Path "./azure-functions/dist" -Recurse
+
       - name: "Run Azure Functions Action"
         uses: Azure/functions-action@v1
         with:

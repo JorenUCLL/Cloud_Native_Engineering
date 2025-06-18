@@ -24,20 +24,11 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({ onClose, onCreate }) => {
   const [exerciseInput, setExerciseInput] = useState("");
   const [allTypes, setAllTypes] = useState<Type[]>([]);
   const [selectedExercise, setSelectedExercise] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [token, setToken] = useState<string>("");
 
   const [allExercises, setAllExercises] = useState<Exercise[]>([]);
 
   useEffect(() => {
-    const loggedInUser = sessionStorage.getItem("loggedInUser");
-    if (!loggedInUser) {
-      console.error("No user logged in");
-      return;
-    }
-    const loggedInData = JSON.parse(loggedInUser);
-    setEmail(loggedInData.email);
-    setToken(loggedInData.token);
+    
 
     (async () => {
       try {
@@ -66,9 +57,17 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({ onClose, onCreate }) => {
   };
 
   const handleCreate = async () => {
+    const loggedInUser = sessionStorage.getItem("loggedInUser");
+    if (!loggedInUser) {
+      console.error("No user logged in");
+      return;
+    }
+    const loggedInData = JSON.parse(loggedInUser);
+    const email = (loggedInData.email);
+    const token = (loggedInData.token);
     const user = await UserService.getUserByEmail(
       email, token);
-      
+
     console.log("Creating workout with data:",
       {
         title,

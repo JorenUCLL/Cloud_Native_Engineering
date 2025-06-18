@@ -53,11 +53,18 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({ onClose, onCreate }) => {
   };
 
   const handleCreate = () => {
+    console.log("Creating workout with data:", {
+      title,
+      date,
+      typeTitle,
+      exercises,
+    });
+    
     onCreate({
       title,
       date: new Date(date),
       type: { title: typeTitle },
-      exercises,
+      exercises,  
     });
   };
 

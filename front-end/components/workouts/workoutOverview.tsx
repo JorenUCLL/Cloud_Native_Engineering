@@ -96,7 +96,7 @@ const WorkoutOverview: React.FC<Props> = ({ workouts }) => {
                       })}
                     </p>
                     <p>{workout.type?.title}</p>
-                    <p>By: {workout.user?.firstName}</p>
+                    <p>By: {workout.user}</p>
                   </div>
                 ))
               ) : (

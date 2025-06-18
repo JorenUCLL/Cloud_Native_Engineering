@@ -1,24 +1,29 @@
 import { User } from "@/types";
 
 const loginUser = (user: { email: string; password: string }) => {
-  console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
-  return fetch("http://localhost:7071/api" + "/users/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(user),
-  });
+  return fetch(
+    "https://functioncloudnativegroup25.azurewebsites.net/api" + "/users/login",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    }
+  );
 };
 
 const getAllUsers = async (token: string): Promise<User[]> => {
-  const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await fetch(
+    "https://functioncloudnativegroup25.azurewebsites.net/api" + "/users",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
   const users: User[] = await response.json();
   return users;
@@ -29,7 +34,8 @@ const getUserByEmail = async (
   token: string
 ): Promise<User | null> => {
   const response = await fetch(
-    process.env.NEXT_PUBLIC_API_URL + `/users/${email}`,
+    "https://functioncloudnativegroup25.azurewebsites.net/api" +
+      `/users/${email}`,
     {
       method: "GET",
       headers: {

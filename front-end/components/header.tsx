@@ -37,11 +37,13 @@ const Header: React.FC = () => {
 
     console.log("User data:", user);
 
+    const userId = user.user.id || user.user._id;
+
     const workoutData: Workout = {
       title: data.title,
       date: data.date,
       type: { title: data.type.title },
-      user: user.user.id,
+      user: userId,
       exercises: data.exercises,
     };
 

@@ -25,8 +25,7 @@ const Profile: React.FC = () => {
     try {
       const data = await WorkoutService.getAllWorkouts();
       console.log("Fetched workouts in profile index:", data);
-      const workoutArray = data.workouts
-      const parsedData = workoutArray.map((workout: Workout) => ({
+      const parsedData = data.map((workout: Workout) => ({
         ...workout,
         date: new Date(workout.date),
       }));
@@ -68,27 +67,30 @@ const Profile: React.FC = () => {
 
   // Calculate workout statistics
   const getWorkoutStats = () => {
-    const userWorkouts = workouts.filter((w) => w.user?.email === user?.email);
-    const thisWeek = userWorkouts.filter((w) => {
-      const weekAgo = new Date();
-      weekAgo.setDate(weekAgo.getDate() - 7);
-      return w.date >= weekAgo;
-    });
+  const userWorkouts = workouts.filter((w) => w.user?.email === user?.email);
 
-    const workoutTypes = userWorkouts.reduce((acc, workout) => {
-      const type = workout.type?.title || "Unknown";
-      acc[type] = (acc[type] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+  const thisWeek = userWorkouts.filter((w) => {
+    const weekAgo = new Date();
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    return w.date >= weekAgo;
+  });
 
-    return {
-      total: userWorkouts.length,
-      thisWeek: thisWeek.length,
-      favoriteType:
-        Object.entries(workoutTypes).sort(([, a], [, b]) => b - a)[0]?.[0] ||
-        "None",
-    };
+  const workoutTypes = userWorkouts.reduce((acc, workout) => {
+    const type = workout.type?.title || "Unknown";
+    acc[type] = (acc[type] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const sortedEntries = Object.entries(workoutTypes).sort(([, a], [, b]) => b - a);
+  const favoriteType = sortedEntries.length > 0 ? sortedEntries[0][0] : "None";
+
+  return {
+    total: userWorkouts.length,
+    thisWeek: thisWeek.length,
+    favoriteType,
   };
+};
+
 
   const getRecentWorkouts = () => {
     return workouts

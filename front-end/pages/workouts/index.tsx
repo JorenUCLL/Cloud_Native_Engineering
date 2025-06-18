@@ -46,7 +46,8 @@ const Workouts: React.FC = () => {
     try {
       const data = await WorkoutService.getWorkoutsByUser(email);
       console.log("Fetched workouts:", data);
-      const parsedData = data.map((workout: Workout) => ({
+      const workoutsArray = data.workouts;
+      const parsedData = workoutsArray.map((workout: Workout) => ({
         ...workout,
         date: new Date(workout.date),
       }));

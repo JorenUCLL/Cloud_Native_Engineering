@@ -72,6 +72,7 @@ const Profile: React.FC = () => {
     };
   }
 
+  console.log(user.id, workouts[0].id)
   const userWorkouts = workouts.filter((w) => w.user === user.id);
   console.log("Filtered workouts for user:", user.email, userWorkouts);
 

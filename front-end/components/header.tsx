@@ -7,11 +7,13 @@ import Image from "next/image";
 import WorkoutModal from "./workouts/createWorkout";
 import { Workout } from "@/types";
 import WorkoutService from "@/services/WorkoutService";
+import QuoteModal from "@/components/quotes/QuoteModal";
 
 const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [workoutName, setWorkoutName] = useState("");
+  const [showQuote, setShowQuote] = useState(false);
 
   const handleCreateWorkout = async (data: {
     title: string;
@@ -108,6 +110,29 @@ const Header: React.FC = () => {
             />
           </button>
 
+          {showModal && (
+            <WorkoutModal
+              onClose={() => setShowModal(false)}
+              onCreate={handleCreateWorkout}
+            />
+          )}
+          <button
+            onClick={() => setShowQuote(true)}
+            title="Motivational Quote"
+            className={styles.navButton}
+            style={{ background: "none", border: "none", padding: 0 }}
+          >
+            <img
+              className={styles.navItem}
+              src="/pictures/quote.png"
+              alt="Motivational Quote"
+              style={{ background: "none", border: "none", padding: 0 }}
+            />
+          </button>
+          {showQuote && (
+            <QuoteModal isOpen={showQuote} onClose={() => setShowQuote(false)} />
+          )}
+
           <a href="/"></a>
           <a href="/"></a>
           <a href="/"></a>
@@ -136,12 +161,7 @@ const Header: React.FC = () => {
         </nav>
       </header>
 
-      {showModal && (
-        <WorkoutModal
-          onClose={() => setShowModal(false)}
-          onCreate={handleCreateWorkout}
-        />
-      )}
+
     </>
   );
 };

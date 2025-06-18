@@ -3,6 +3,17 @@ import { AchievementService } from "../service/achievementService";
 import connectDB from "../repository/db";
 
 module.exports = async function (context, req) {
+  if (req.method === "OPTIONS") {
+    context.res = {
+      status: 204,
+      headers: {
+        "Access-Control-Allow-Origin": "*", // or your specific origin
+        "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization",
+      },
+    };
+    return;
+  }
   try {
     console.log("Eerste MongoDB URI:", process.env.MONGODB_URI);
 
@@ -27,12 +38,18 @@ module.exports = async function (context, req) {
       };
       return;
     }
-    const response = await AchievementService.getInstance().getAchievementsByUser(user.email);
+    const response =
+      await AchievementService.getInstance().getAchievementsByUser(user.email);
 
     context.res = {
       status: 200,
       body: { achievements: response },
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
     };
     return context.res;
   } catch (err) {
@@ -40,6 +57,12 @@ module.exports = async function (context, req) {
     context.res = {
       status: 500,
       body: { error: "Internal server error" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*", // or your frontend URL
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization",
+      },
     };
   }
 };

@@ -2,6 +2,17 @@ import { UserService } from "../service/userService";
 import connectDB from "../repository/db";
 
 module.exports = async function (context, req) {
+  if (req.method === "OPTIONS") {
+    context.res = {
+      status: 204,
+      headers: {
+        "Access-Control-Allow-Origin": "*", // or your specific origin
+        "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization",
+      },
+    };
+    return;
+  }
   try {
     await connectDB();
 
@@ -29,7 +40,12 @@ module.exports = async function (context, req) {
         email,
         token: authResponse.token,
       },
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
     };
     return context.res;
   } catch (err) {
@@ -37,6 +53,12 @@ module.exports = async function (context, req) {
     context.res = {
       status: 500,
       body: { error: "Failed to log in." },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*", // or your frontend URL
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization",
+      },
     };
   }
 };

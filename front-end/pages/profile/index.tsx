@@ -153,13 +153,17 @@ const Profile: React.FC = () => {
     console.log("Favorite workout type:", favoriteTypeId);
 
     const favoriteType =
-      types.find((type) => String(type.id) === favoriteTypeId)?.title ||
-      "Unknown";
+      types.find((type) => String(type.id) === String(favoriteTypeId));
+
+      console.log("Favorite type object:", favoriteType);
+    const favoriteTypeTitle =
+      favoriteType?.title || "Unknown";
+    console.log("Favorite type title:", favoriteTypeTitle);
 
     return {
       total: userWorkouts.length,
       thisWeek: thisWeek.length,
-      favoriteType,
+      favoriteTypeTitle,
     };
   };
 

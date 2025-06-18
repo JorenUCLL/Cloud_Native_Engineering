@@ -1,7 +1,7 @@
 import { Type, User } from "@/types";
 
 const getAllTypes = async (): Promise<Type[]> => {
-  const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/types", {
+  const response = await fetch("http://localhost:7071/api" + "/types", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

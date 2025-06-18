@@ -1,6 +1,6 @@
 const getAchievementsByUser = async (email: string, token: string) => {
   const response = await fetch(
-    process.env.NEXT_PUBLIC_API_URL + `/achievements/user/${email}`,
+    "http://localhost:7071/api" + `/achievements/user/${email}`,
     {
       method: "GET",
       headers: {

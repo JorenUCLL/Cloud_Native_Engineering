@@ -125,8 +125,9 @@ const workoutTypes = userWorkouts.reduce((acc, workout) => {
 
   const sortedEntries = entries.sort((a, b) => b[1] - a[1]);
   console.log("sortedEntries:", sortedEntries);
+  const favoriteType = sortedEntries?.[0]?.[0] ?? "None";
+  console.log("favoriteType:", favoriteType);
 
-  const favoriteType = sortedEntries[0] && sortedEntries[0][0] ? sortedEntries[0][0] : "None";
 
   return {
     total: userWorkouts.length,

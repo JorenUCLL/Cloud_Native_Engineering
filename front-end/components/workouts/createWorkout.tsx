@@ -68,7 +68,7 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({ onClose, onCreate }) => {
     const user = await UserService.getUserByEmail(
       email, token);
 
-    console.log("User data:", user);
+    console.log("User id:", user.user.id);
 
     console.log("Creating workout with data:",
       {

@@ -27,7 +27,7 @@ module.exports = async function (context, req) {
       };
       return;
     }
-    const response = await WorkoutService.getInstance().getWorkoutByUser(user.id);
+    const response = await WorkoutService.getInstance().getWorkoutByUser(user.email);
 
     context.res = {
       status: 200,

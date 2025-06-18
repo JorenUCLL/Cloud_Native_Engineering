@@ -27,7 +27,7 @@ module.exports = async function (context, req) {
       };
       return;
     }
-    const response = await AchievementService.getInstance().getAchievementsByUser(user.id);
+    const response = await AchievementService.getInstance().getAchievementsByUser(user.email);
 
     context.res = {
       status: 200,

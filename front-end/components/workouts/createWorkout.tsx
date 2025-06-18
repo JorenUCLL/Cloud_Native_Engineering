@@ -66,25 +66,24 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({ onClose, onCreate }) => {
   };
 
   const handleCreate = async () => {
-    const user = await UserService.getUserByEmail(
-      email, token);
-      
-    console.log("Creating workout with data:",
-      {
-        title,
-        date,
-        type: { title: typeTitle },
-        user: user.user.id,
-        exercises,
-      }
-    );
+    const user = await UserService.getUserByEmail(email, token);
+    console.log(user);
+    console.log("createWorkout.tsx");
+
+    console.log("Creating workout with data:", {
+      title,
+      date,
+      type: { title: typeTitle },
+      user: user.user.id,
+      exercises,
+    });
 
     onCreate({
       title,
       date: new Date(date),
       type: { title: typeTitle },
       user: user.user.id,
-      exercises,  
+      exercises,
     });
   };
 

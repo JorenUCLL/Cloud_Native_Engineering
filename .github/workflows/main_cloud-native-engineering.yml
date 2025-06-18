@@ -98,11 +98,6 @@ jobs:
         run: |
           Copy-Item -Path "./azure-functions/host.json" -Destination "./azure-functions/dist" -Force
 
-      - name: "Copy package.json to dist"
-        shell: pwsh
-        run: |
-          Copy-Item -Path "./azure-functions/package-lock.json" -Destination "./azure-functions/dist" -Force
-
       - name: Install production dependencies in dist
         shell: pwsh
         run: |

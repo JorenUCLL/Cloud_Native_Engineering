@@ -21,29 +21,32 @@ const WorkoutCard: React.FC<Props> = ({ workout, bgColor }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const loggedInUser = localStorage.getItem("loggedInUser");
-      if (!loggedInUser || !workout.user) return;
+      const loggedInUser = sessionStorage.getItem("loggedInUser");
+      if (!loggedInUser) {
+        console.error("No user logged in");
+        return;
+      }
 
       const token = JSON.parse(loggedInUser).token;
-
       try {
-        const res = await UserService.getUserById(workout.user as string, token);
-        setUser(res.user);
-      } catch (err) {
-        console.error("Failed to fetch user:", err);
+        if (workout.user === undefined) {
+          console.error("Workout user is undefined");
+          return;
+        }
+        const fetchedUser = await UserService.getUserById(workout.user, token);
+        setUser(fetchedUser.user);
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
       }
     };
 
     fetchUser();
   }, [workout.user]);
-
   const d = new Date(workout.date);
   const weekday = d.toLocaleDateString("nl-BE", { weekday: "long" });
   const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
   const headerColor = darkenHex(bgColor);
-
-  console.log("WorkoutCard - User:", user?.firstName, user?.lastName);
 
   return (
     <article className={styles.card} style={{ background: bgColor }}>

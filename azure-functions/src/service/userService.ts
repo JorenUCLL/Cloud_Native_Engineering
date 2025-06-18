@@ -1,6 +1,6 @@
 import { MongoUserRepository } from "../repository/user.db";
 import { AuthenticationResponse, Role, UserInput } from "../types/index";
-import * as bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import { generateJwtToken } from "../util/jwt";
 
 export class UserService {

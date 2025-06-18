@@ -19,7 +19,7 @@ type WorkoutInput = {
     title: string;
     date: Date;
     type: TypeInput;
-    user: UserInput;
+    user: string;
     exercises?: string[];
 };
 

@@ -33,14 +33,14 @@ export class WorkoutService {
     title,
     date,
     type: typeInput,
-    user: userInput,
+    user: userId,
   }: WorkoutInput) {
     const type = await this.typeRepo.getTypeById(typeInput.title);
     if (!type) {
       throw new Error("There is no type like that");
     }
 
-    const user = await this.userRepo.getUserByEmail(userInput.email);
+    const user = await this.userRepo.getUserById(userId);
     if (!user) {
       throw new Error("There is no user like that");
     }

@@ -28,8 +28,7 @@ const Home: React.FC = () => {
 
   const fetchWorkouts = async () => {
     try {
-      const response = await WorkoutService.getAllWorkouts();
-      const data = await response.json();
+      const data = await WorkoutService.getAllWorkouts();
       const parsedData = data.map((workout: Workout) => ({
         ...workout,
         date: new Date(workout.date),

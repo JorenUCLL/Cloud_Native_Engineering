@@ -47,6 +47,8 @@ const UserLoginForm: React.FC = () => {
     }
     const newEmail = email.trim().toLowerCase();
     const user = { email: newEmail, password };
+    console.log("Logging in user:", user.email);
+
     const response = await UserService.loginUser(user);
 
     if (response.status === 200) {

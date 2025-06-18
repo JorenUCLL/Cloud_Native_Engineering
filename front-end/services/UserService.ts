@@ -1,7 +1,6 @@
 import { User } from "@/types";
 
 const loginUser = (user: { email: string; password: string }) => {
-  console.log("Logging in user:", user.email);
   return fetch(
     "https://functioncloudnativegroup25.azurewebsites.net/api" + "/users/login",
     {

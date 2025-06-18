@@ -67,9 +67,6 @@ const Profile: React.FC = () => {
 
   // Calculate workout statistics
   const getWorkoutStats = () => {
-  console.log("getWorkoutStats called");
-  console.log("User:", user);
-  console.log("Workouts:", workouts);
   const userWorkouts = workouts.filter((w) => w.user?.email === user?.email);
 
   const thisWeek = userWorkouts.filter((w) => {
@@ -84,7 +81,12 @@ const Profile: React.FC = () => {
     return acc;
   }, {} as Record<string, number>);
 
-  const sortedEntries = Object.entries(workoutTypes).sort(([, a], [, b]) => b - a);
+
+  console.log("workoutTypes:", workoutTypes);
+  const entries = Object.entries(workoutTypes);
+  console.log("entries:", entries);
+  const sortedEntries = entries.sort((a, b) => b[1] - a[1]);
+  console.log("sortedEntries:", sortedEntries);
   const favoriteType = sortedEntries.length > 0 ? sortedEntries[0][0] : "None";
 
   return {

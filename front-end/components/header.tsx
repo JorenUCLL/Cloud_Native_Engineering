@@ -5,15 +5,17 @@ import { useTranslation } from "next-i18next";
 import Language from "./languages/languages";
 import Image from "next/image";
 import WorkoutModal from "./workouts/createWorkout";
-import { Workout } from "@/types";
+import { User, Workout } from "@/types";
 import WorkoutService from "@/services/WorkoutService";
 import QuoteModal from "@/components/quotes/QuoteModal";
+import UserService from "@/services/UserService";
 
 const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [workoutName, setWorkoutName] = useState("");
   const [showQuote, setShowQuote] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
   const handleCreateWorkout = async (data: {
     title: string;
@@ -28,18 +30,14 @@ const Header: React.FC = () => {
       return;
     }
 
-    const user = JSON.parse(loggedInUser);
+    const user = await UserService.getUserByEmail(
+      JSON.parse(loggedInUser).email, JSON.parse(loggedInUser).token);
 
     const workoutData: Workout = {
       title: data.title,
       date: data.date,
       type: { title: data.type.title },
-      user: {
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-      },
+      user: user.user.id,
       exercises: data.exercises,
     };
 

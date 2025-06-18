@@ -1,7 +1,7 @@
 import { Workout } from "@/types";
 
 const getAllWorkouts = async () => {
-  return await fetch(
+  const response = await fetch(
     `https://functioncloudnativegroup25.azurewebsites.net/api/workouts`,
     {
       method: "GET",
@@ -10,10 +10,16 @@ const getAllWorkouts = async () => {
       },
     }
   );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch workouts");
+  }
+
+  return await response.json();
 };
 
 const getWorkoutsByUser = async (email: string) => {
-  return await fetch(
+  const response = await fetch(
     `https://functioncloudnativegroup25.azurewebsites.net/api/workouts/user/${email}`,
     {
       method: "GET",
@@ -22,6 +28,12 @@ const getWorkoutsByUser = async (email: string) => {
       },
     }
   );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch workouts for user");
+  }
+
+  return await response.json();
 };
 
 const createWorkout = async (workout: Workout) => {

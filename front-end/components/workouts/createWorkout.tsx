@@ -3,6 +3,7 @@ import styles from "../../styles/WorkoutModal.module.css";
 import { Exercise, Type } from "@/types";
 import TypeService from "@/services/TypeService";
 import ExerciseService from "@/services/ExerciseService";
+import UserService from "@/services/UserService";
 
 type WorkoutModalProps = {
   onClose: () => void;
@@ -10,6 +11,7 @@ type WorkoutModalProps = {
     title: string;
     date: Date;
     type: { title: string };
+    user: string;
     exercises: string[];
   }) => void;
 };
@@ -52,18 +54,16 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({ onClose, onCreate }) => {
     setExercises((prev) => prev.filter((ex) => ex !== exercise));
   };
 
-  const handleCreate = () => {
-    console.log("Creating workout with data:", {
-      title,
-      date,
-      typeTitle,
-      exercises,
-    });
-    
+  const handleCreate = async () => {
+    const userEmail = JSON.parse(sessionStorage.getItem("loggedInUser") || "{}").email;
+    const token = JSON.parse(sessionStorage.getItem("loggedInUser") || "{}").token;
+    const user = await UserService.getUserByEmail(userEmail, token);
+
     onCreate({
       title,
       date: new Date(date),
       type: { title: typeTitle },
+      user: user.user.id,
       exercises,  
     });
   };

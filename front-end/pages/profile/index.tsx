@@ -41,26 +41,46 @@ const Profile: React.FC = () => {
   }, 2000);
 
   useEffect(() => {
-    const loadData = async () => {
-      const userData = sessionStorage.getItem("loggedInUser");
-      if (userData) {
-        try {
-          const parsedData = JSON.parse(userData);
-          setToken(parsedData.token);
-          const fetchedUser = await UserService.getUserByEmail(parsedData.email, parsedData.token);
-          setUser(fetchedUser?.user ?? null);
-          const fetchedAchievements = await AchievementService.getAchievementsByUser(parsedData.email, parsedData.token);
-          setAchievements(fetchedAchievements);
-        } catch {
-          console.error("Error parsing session storage data");
-        }
-      }
-      await fetchWorkouts();
-      setLoading(false);
-    };
+  const loadData = async () => {
+    const userData = sessionStorage.getItem("loggedInUser");
 
-    loadData();
-  }, []);
+    if (!userData) {
+      console.warn("No user data found in session storage.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const parsedData = JSON.parse(userData);
+
+      setToken(parsedData.token);
+
+      const fetchedUser = await UserService.getUserByEmail(parsedData.email, parsedData.token);
+      const userObj = fetchedUser?.user ?? null;
+      setUser(userObj);
+
+      if (!userObj) {
+        console.warn("Fetched user is null.");
+        setLoading(false);
+        return;
+      }
+
+      // ✅ Now that we have a user, fetch workouts
+      await fetchWorkouts();
+
+      const fetchedAchievements = await AchievementService.getAchievementsByUser(parsedData.email, parsedData.token);
+      setAchievements(fetchedAchievements);
+
+    } catch (error) {
+      console.error("Error loading user/profile data:", error);
+    }
+
+    setLoading(false);
+  };
+
+  loadData();
+}, []);
+
 
   // Calculate workout statistics
  const getWorkoutStats = () => {

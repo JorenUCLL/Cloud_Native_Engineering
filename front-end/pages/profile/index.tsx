@@ -13,6 +13,7 @@ import styles from "../../styles/Profile.module.css";
 import homestyles from "../../styles/Home.module.css";
 import useInterval from "use-interval";
 import { mutate } from "swr";
+import TypeService from "@/services/TypeService";
 
 const Profile: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -20,6 +21,8 @@ const Profile: React.FC = () => {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState<string | null>(null);
+  const [workoutTypesMap, setWorkoutTypesMap] = useState<Record<string, string>>({});
+
 
   const fetchWorkouts = async () => {
     try {
@@ -83,10 +86,12 @@ const Profile: React.FC = () => {
   });
 
   const workoutTypes = userWorkouts.reduce((acc, workout) => {
-    const type = workout.type?.title || "Unknown";
-    acc[type] = (acc[type] || 0) + 1;
+    const type = workout.type;
+    const typeId = type && type.id ? type.id : "Unknown";
+    acc[typeId] = (acc[typeId] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
+
 
   console.log("workoutTypes:", workoutTypes);
   const entries = Object.entries(workoutTypes);

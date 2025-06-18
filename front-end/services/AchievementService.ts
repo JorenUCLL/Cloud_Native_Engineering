@@ -1,6 +1,7 @@
 const getAchievementsByUser = async (email: string, token: string) => {
   const response = await fetch(
-    "http://localhost:7071/api" + `/achievements/user/${email}`,
+    "https://functioncloudnativegroup25.azurewebsites.net/api" +
+      `/achievements/user/${email}`,
     {
       method: "GET",
       headers: {

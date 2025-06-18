@@ -4,9 +4,9 @@
       "authLevel": "anonymous",
       "type": "httpTrigger",
       "direction": "in",
-      "name": "req",
-      "methods": ["post"],
-      "route": "users/login"
+      "name": "request",
+      "methods": ["get", "post"],
+      "route": "users/getUserById/{id}"
     },
     {
       "type": "http",

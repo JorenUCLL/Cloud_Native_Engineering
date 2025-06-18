@@ -16,7 +16,7 @@ module.exports = async function (context, req) {
   try {
     await connectDB();
 
-    context.log("login function triggered.");
+    console.log("login function triggered.");
 
     const { email, password } = req.body || {};
 
@@ -32,6 +32,8 @@ module.exports = async function (context, req) {
       email,
       password,
     });
+
+    console.log(authResponse);
 
     context.res = {
       status: 200,

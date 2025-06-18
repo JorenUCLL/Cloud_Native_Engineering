@@ -1,5 +1,7 @@
-import { Workout } from "@/types";
+import { useEffect, useState } from "react";
+import { Workout, User } from "@/types";
 import styles from "@/styles/HomePage.module.css";
+import UserService from "@/services/UserService";
 
 type Props = {
   workout: Workout;
@@ -15,6 +17,31 @@ const darkenHex = (hex: string, factor = 0.15) => {
 };
 
 const WorkoutCard: React.FC<Props> = ({ workout, bgColor }) => {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const loggedInUser = sessionStorage.getItem("loggedInUser");
+      if (!loggedInUser) {
+        console.error("No user logged in");
+        return;
+      }
+
+      const token = JSON.parse(loggedInUser).token;
+      try {
+        if (workout.user === undefined) {
+          console.error("Workout user is undefined");
+          return;
+        }
+        const fetchedUser = await UserService.getUserById(workout.user, token);
+        setUser(fetchedUser.user);
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+      }
+    };
+
+    fetchUser();
+  }, [workout.user]);
   const d = new Date(workout.date);
   const weekday = d.toLocaleDateString("nl-BE", { weekday: "long" });
   const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -23,12 +50,10 @@ const WorkoutCard: React.FC<Props> = ({ workout, bgColor }) => {
 
   return (
     <article className={styles.card} style={{ background: bgColor }}>
-      {/* ─── dag helemaal bovenaan ─── */}
       <header className={styles.dayHeader} style={{ background: headerColor }}>
         {weekday}
       </header>
 
-      {/* inhoud in twee kolommen */}
       <div className={styles.cardGrid}>
         <div className={styles.leftCol}>
           <time className={styles.time}>{time}</time>
@@ -37,7 +62,7 @@ const WorkoutCard: React.FC<Props> = ({ workout, bgColor }) => {
 
         <div className={styles.rightCol}>
           <h3 className={styles.title}>{workout.title}</h3>
-          <p className={styles.by}>By {workout.user?.firstName}</p>
+          <p className={styles.by}>By {user?.firstName ?? "Unknown"}</p>
         </div>
       </div>
     </article>

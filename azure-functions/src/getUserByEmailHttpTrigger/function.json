@@ -5,8 +5,8 @@
       "type": "httpTrigger",
       "direction": "in",
       "name": "request",
-      "methods": ["get", "post", "options"],
-      "route": "users/{email}"
+      "methods": ["get", "post"],
+      "route": "users/getUser/{email}"
     },
     {
       "type": "http",

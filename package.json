@@ -2,8 +2,7 @@
   "name": "root",
   "private": true,
   "workspaces": [
-    "back-end",
-    "azure-functions"
+    "back-end"
   ],
   "dependencies": {
     "@azure/functions": "^4.7.2",

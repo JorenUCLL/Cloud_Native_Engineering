@@ -1,6 +1,6 @@
 import { MongoUserRepository } from "../repository/user.db";
 import { AuthenticationResponse, Role, UserInput } from "../types/index";
-import * as bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import { generateJwtToken } from "../util/jwt";
 
 export class UserService {
@@ -27,9 +27,16 @@ export class UserService {
     return user;
   }
 
+  async getUserById(id: string) {
+    const user = await this.userRepository.getUserById(id);
+    if (!user) {
+      throw new Error("There is no user with that ID.");
+    }
+    return user;
+  }
+
   async authenticate({ email, password }): Promise<AuthenticationResponse> {
-    const newEmail = email.trim().toLowerCase();
-    const user = await this.userRepository.getUserByEmail(newEmail);
+    const user = await this.userRepository.getUserByEmail(email);
 
     if (!user) {
       throw new Error("No user with that email");

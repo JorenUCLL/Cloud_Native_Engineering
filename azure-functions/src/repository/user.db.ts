@@ -30,4 +30,8 @@ export class MongoUserRepository {
   async getUserByEmail(email: string): Promise<IUser | null> {
     return await UserModel.findOne({ email });
   }
+
+  async getUserById(id: string): Promise<IUser | null> {
+    return await UserModel.findById(id);
+  }
 }

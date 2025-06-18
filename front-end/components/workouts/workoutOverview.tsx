@@ -3,6 +3,7 @@ import { Workout, User, Type } from "../../types/index";
 import Link from "next/link";
 import workoutStyles from "../../styles/Workout.module.css";
 import TypeService from "@/services/TypeService";
+import UserService from "@/services/UserService";
 
 type Props = {
   workouts: Array<Workout>;
@@ -12,8 +13,43 @@ type Props = {
 const WorkoutOverview: React.FC<Props> = ({ workouts }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [typeColorMap, setTypeColorMap] = useState<Record<string, string>>({});
+  const [userMap, setUserMap] = useState<Record<string, User>>({});
+
 
   const groupedWorkouts: { [key: string]: Workout[] } = {};
+
+  useEffect(() => {
+    const loggedInUser = sessionStorage.getItem("loggedInUser");
+    if (!loggedInUser) {
+      setErrorMessage("You must be logged in to view workouts.");
+      return;
+    }
+    const parsedData = JSON.parse(loggedInUser);
+    const { email, token } = parsedData;
+
+  const fetchUsers = async () => {
+    const uniqueUserIds = Array.from(
+      new Set(workouts.map((w) => String(w.user)))
+    );
+
+    const newUserMap: Record<string, User> = { ...userMap };
+
+    for (const id of uniqueUserIds) {
+      if (!newUserMap[id]) {
+        try {
+          const user = await UserService.getUserById(id, token);
+          newUserMap[id] = user.user;
+        } catch (error) {
+          console.error(`Failed to fetch user with id ${id}`, error);
+        }
+      }
+    }
+
+    setUserMap(newUserMap);
+  };
+
+  fetchUsers();
+}, [workouts]);
 
   workouts.forEach((workout) => {
     const date = new Date(workout.date);
@@ -96,7 +132,10 @@ const WorkoutOverview: React.FC<Props> = ({ workouts }) => {
                       })}
                     </p>
                     <p>{workout.type?.title}</p>
-                    <p>By: {workout.user?.firstName}</p>
+                    <p>By:{" "}
+                      {workout.user && userMap[String(workout.user)]
+                        ? `${userMap[String(workout.user)].firstName} ${userMap[String(workout.user)].lastName}`
+                        : "Loading..."}</p>
                   </div>
                 ))
               ) : (

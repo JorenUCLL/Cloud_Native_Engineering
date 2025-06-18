@@ -31,7 +31,7 @@ type Workout = {
   title?: string;
   date: Date;
   type: Type;
-  user?: User;
+  user?: string;
   exercises?: String[];
 };
 

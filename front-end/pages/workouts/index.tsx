@@ -44,9 +44,10 @@ const Workouts: React.FC = () => {
 
   const fetchWorkouts = async (email: string) => {
     try {
-      const response = await WorkoutService.getWorkoutsByUser(email);
-      const data = await response.json();
-      const parsedData = data.map((workout: Workout) => ({
+      const data = await WorkoutService.getWorkoutsByUser(email);
+      console.log("Fetched workouts:", data);
+      const workoutsArray = data.workouts;
+      const parsedData = workoutsArray.map((workout: Workout) => ({
         ...workout,
         date: new Date(workout.date),
       }));
@@ -150,7 +151,7 @@ const Workouts: React.FC = () => {
                   </button>
                 </div>
 
-                <WorkoutOverview workouts={weeklyWorkouts} user={user} />
+                <WorkoutOverview workouts={weeklyWorkouts} user={user.user} />
               </div>
             ) : (
               <p>Please Log In</p>

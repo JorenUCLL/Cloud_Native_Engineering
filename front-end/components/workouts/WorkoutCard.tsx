@@ -43,6 +43,8 @@ const WorkoutCard: React.FC<Props> = ({ workout, bgColor }) => {
 
   const headerColor = darkenHex(bgColor);
 
+  console.log("WorkoutCard - User:", user);
+
   return (
     <article className={styles.card} style={{ background: bgColor }}>
       <header className={styles.dayHeader} style={{ background: headerColor }}>

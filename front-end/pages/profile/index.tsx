@@ -86,8 +86,7 @@ const Profile: React.FC = () => {
   });
 
   const workoutTypes = userWorkouts.reduce((acc, workout) => {
-    const type = workout.type;
-    const typeId = type && type.id ? type.id : "Unknown";
+  const typeId = workout.type?.id || "Unknown";
     acc[typeId] = (acc[typeId] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);

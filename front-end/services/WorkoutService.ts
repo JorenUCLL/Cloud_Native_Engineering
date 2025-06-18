@@ -15,6 +15,7 @@ const getAllWorkouts = async () => {
     throw new Error("Failed to fetch workouts");
   }
 
+  console.log("Response from getAllWorkouts:", response.json());
   return await response.json();
 };
 

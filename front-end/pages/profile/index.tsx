@@ -25,7 +25,8 @@ const Profile: React.FC = () => {
     try {
       const data = await WorkoutService.getAllWorkouts();
       console.log("Fetched workouts in profile index:", data);
-      const parsedData = data.map((workout: Workout) => ({
+      const workoutArray = data.workouts
+      const parsedData = workoutArray.map((workout: Workout) => ({
         ...workout,
         date: new Date(workout.date),
       }));

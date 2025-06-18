@@ -123,6 +123,7 @@ const Profile: React.FC = () => {
   };
 
   const getUserInitials = (wrappedUser : {user: User}) => {
+    const user = wrappedUser.user;
   console.log("getUserInitials called with user:", user);
   console.log("First name:", user.firstName, "Type:", typeof wrappedUser.user.firstName);
   console.log("Last name:", user.lastName, "Type:", typeof wrappedUser.user.lastName);

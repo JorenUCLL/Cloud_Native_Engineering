@@ -13,7 +13,6 @@ import styles from "../../styles/Profile.module.css";
 import homestyles from "../../styles/Home.module.css";
 import useInterval from "use-interval";
 import { mutate } from "swr";
-import TypeService from "@/services/TypeService";
 
 const Profile: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -73,7 +72,7 @@ const Profile: React.FC = () => {
     };
   }
 
-  const userWorkouts = workouts.filter((w) => w.user?.email === user.email);
+  const userWorkouts = workouts.filter((w) => w.user === user.id);
   console.log("Filtered workouts for user:", user.email, userWorkouts);
 
   const thisWeek = userWorkouts.filter((w) => {
@@ -116,7 +115,7 @@ const Profile: React.FC = () => {
 
   const getRecentWorkouts = () => {
     return workouts
-      .filter((w) => w.user?.email === user?.email)
+      .filter((w) => w.user === user?.id)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, 5);
   };

@@ -279,7 +279,7 @@ const Profile: React.FC = () => {
                 <Target className={styles.statIcon} />
               </div>
               <div className={styles.statCardContent}>
-                <div className={styles.statNumber}>{stats.favoriteType}</div>
+                <div className={styles.statNumber}>{stats.favoriteTypeTitle}</div>
                 <p className={styles.statDescription}>Het meeste</p>
               </div>
             </div>

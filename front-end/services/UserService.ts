@@ -35,7 +35,7 @@ const getUserByEmail = async (
 ): Promise<User | null> => {
   const response = await fetch(
     "https://functioncloudnativegroup25.azurewebsites.net/api" +
-      `/users/${email}`,
+      `/users/getuser/${email}`,
     {
       method: "GET",
       headers: {

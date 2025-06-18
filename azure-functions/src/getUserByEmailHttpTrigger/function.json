@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "request",
       "methods": ["get", "post"],
-      "route": "users/{email}"
+      "route": "users/getUser/{email}"
     },
     {
       "type": "http",

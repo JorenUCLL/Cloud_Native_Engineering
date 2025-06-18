@@ -35,7 +35,6 @@ const Header: React.FC = () => {
       JSON.parse(loggedInUser).token
     );
 
-    console.log(user);
 
     const workoutData: Workout = {
       title: data.title,

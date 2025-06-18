@@ -27,6 +27,14 @@ export class UserService {
     return user;
   }
 
+  async getUserById(id: string) {
+    const user = await this.userRepository.getUserById(id);
+    if (!user) {
+      throw new Error("There is no user with that ID.");
+    }
+    return user;
+  }
+
   async authenticate({ email, password }): Promise<AuthenticationResponse> {
     const user = await this.userRepository.getUserByEmail(email);
 

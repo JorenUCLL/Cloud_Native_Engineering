@@ -152,12 +152,12 @@ const Profile: React.FC = () => {
       sortedEntries.length > 0 ? sortedEntries[0][0] : "None";
     console.log("Favorite workout type:", favoriteTypeId);
 
-    const favoriteType =
-      types.find((type) => String(type.id) === String(favoriteTypeId));
+    const favoriteType = types.find(
+      (type) => String(type.id) === String(favoriteTypeId)
+    );
 
-      console.log("Favorite type object:", favoriteType);
-    const favoriteTypeTitle =
-      favoriteType?.title || "Unknown";
+    console.log("Favorite type object:", favoriteType);
+    const favoriteTypeTitle = favoriteType?.title || "Unknown";
     console.log("Favorite type title:", favoriteTypeTitle);
 
     return {
@@ -291,7 +291,9 @@ const Profile: React.FC = () => {
                 <Target className={styles.statIcon} />
               </div>
               <div className={styles.statCardContent}>
-                <div className={styles.statNumber}>{stats.favoriteType}</div>
+                <div className={styles.statNumber}>
+                  {stats.favoriteTypeTitle}
+                </div>
                 <p className={styles.statDescription}>Het meeste</p>
               </div>
             </div>

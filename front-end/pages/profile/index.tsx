@@ -3,7 +3,7 @@ import type React from "react";
 import Header from "@/components/header";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import type { User, Workout, Achievement } from "@/types";
+import type { User, Workout, Achievement, Type } from "@/types";
 import WorkoutService from "@/services/WorkoutService";
 import UserService from "@/services/UserService";
 import AchievementService from "@/services/AchievementService";
@@ -13,6 +13,7 @@ import styles from "../../styles/Profile.module.css";
 import homestyles from "../../styles/Home.module.css";
 import useInterval from "use-interval";
 import { mutate } from "swr";
+import TypeService from "@/services/TypeService";
 
 const Profile: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -20,6 +21,7 @@ const Profile: React.FC = () => {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState<string | null>(null);
+  const [types, setTypes] = useState<Type[]>([]);
 
   const fetchWorkouts = async () => {
     try {
@@ -78,6 +80,9 @@ const Profile: React.FC = () => {
           );
         setAchievements(fetchedAchievements);
         console.log("Fetched achievements:", fetchedAchievements);
+
+        const fetchedTypes = await TypeService.getAllTypes();
+        setTypes(fetchedTypes);
       } catch (error) {
         console.error("Error loading user/profile data:", error);
       }
@@ -131,14 +136,18 @@ const Profile: React.FC = () => {
     console.log("Sorted entries:", sortedEntries);
 
     // Safe access
-    const favoriteType =
+    const favoriteTypeId =
       sortedEntries.length > 0 ? sortedEntries[0][0] : "None";
-    console.log("Favorite workout type:", favoriteType);
+    console.log("Favorite workout type:", favoriteTypeId);
+
+    const favoriteType =
+      types.find((type) => String(type.id) === favoriteTypeId)?.title ||
+      "Unknown";
 
     return {
       total: userWorkouts.length,
       thisWeek: thisWeek.length,
-      // favoriteType,
+      favoriteType,
     };
   };
 
@@ -266,9 +275,7 @@ const Profile: React.FC = () => {
                 <Target className={styles.statIcon} />
               </div>
               <div className={styles.statCardContent}>
-                <div className={styles.statNumber}>
-                  {/* {workoutTypesMap[stats.favoriteType] || stats.favoriteType} */}
-                </div>
+                <div className={styles.statNumber}>{stats.favoriteType}</div>
                 <p className={styles.statDescription}>Het meeste</p>
               </div>
             </div>

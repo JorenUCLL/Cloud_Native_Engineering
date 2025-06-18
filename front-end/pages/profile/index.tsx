@@ -73,13 +73,25 @@ const Profile: React.FC = () => {
         // ✅ Now that we have a user, fetch workouts
         await fetchWorkouts();
 
-        const fetchedAchievements =
+        const fetchedAchievementsResponse =
           await AchievementService.getAchievementsByUser(
             parsedData.email,
             parsedData.token
           );
-        setAchievements(fetchedAchievements);
-        console.log("Fetched achievements:", fetchedAchievements);
+        const fetchedAchievements = Array.isArray(
+          fetchedAchievementsResponse.achievements
+        )
+          ? fetchedAchievementsResponse.achievements
+          : [];
+        const normalizedAchievements = fetchedAchievements
+          .map((a: any) => ({
+            ...a,
+            id: a.id || a._id,
+            user: typeof a.user === "object" ? a.user.id || a.user._id : a.user,
+          }))
+          .filter((a: any) => String(a.user) === String(userObj.id));
+        setAchievements(normalizedAchievements);
+        console.log("Fetched achievements:", normalizedAchievements);
 
         const fetchedTypes = await TypeService.getAllTypes();
         setTypes(fetchedTypes);

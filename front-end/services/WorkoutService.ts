@@ -1,7 +1,7 @@
 import { Workout } from "@/types";
 
 const getAllWorkouts = async () => {
-  return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/workouts`, {
+  return await fetch(`http://localhost:7071/api/workouts`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

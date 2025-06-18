@@ -2,7 +2,7 @@ import { User } from "@/types";
 
 const loginUser = (user: { email: string; password: string }) => {
   console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
-  return fetch(process.env.NEXT_PUBLIC_API_URL + "/users/login", {
+  return fetch("http://localhost:7071/api" + "/users/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

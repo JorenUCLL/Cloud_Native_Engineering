@@ -33,7 +33,6 @@ class QuoteService {
         { text: "The only place where success comes before work is in the dictionary.", author: "Vidal Sassoon" },
         { text: "The harder you work for something, the greater you’ll feel when you achieve it.", author: "Unknown" },
         { text: "Don’t wish for a good body, work for it.", author: "Unknown" },
-        { text: "The pain you feel today will be the strength you need tomorrow.", author: "Unknown" },
         { text: "You don’t have to be extreme, just consistent.", author: "Unknown" },
         { text: "Your body can stand almost anything. It’s your mind that you have to convince.", author: "Andrew Murphy" },
         { text: "The only way to define your limits is by going beyond them.", author: "Arthur Clarke" },
@@ -54,6 +53,7 @@ class QuoteService {
         { text: "Set your goals high, and don’t stop till you get there.", author: "Bo Jackson" },
         { text: "It’s going to be a journey. It’s not a sprint to get in shape.", author: "Kerri Walsh Jennings" },
         { text: "You’re only one workout away from a good mood.", author: "Unknown" },
+        { text: "Plant the seed to enjoy the tree.", author: "Jack van Hecke" },
     ];
 
     private static lastQuotes: number[] = [];

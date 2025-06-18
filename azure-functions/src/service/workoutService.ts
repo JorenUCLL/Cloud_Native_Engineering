@@ -40,6 +40,7 @@ export class WorkoutService {
       throw new Error("There is no type like that");
     }
 
+    console.log(userId);
     const user = await this.userRepo.getUserById(userId);
     if (!user) {
       throw new Error("There is no user like that");

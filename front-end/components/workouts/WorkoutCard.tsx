@@ -20,7 +20,7 @@ const WorkoutCard: React.FC<Props> = ({ workout, bgColor }) => {
   const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
   const headerColor = darkenHex(bgColor);
-  console.log(workout.user?.email, "workout.user?.email");
+  console.log(workout.user, "workout.user in WorkoutCard:", workout.user);
 
   return (
     <article className={styles.card} style={{ background: bgColor }}>

@@ -102,7 +102,7 @@ jobs:
         shell: pwsh
         run: |
           Copy-Item "./azure-functions/package.json" "./azure-functions/dist/package.json" -Force
-          Copy-Item "./package-lock.json" "./azure-functions/dist/package-lock.json" -Force
+          Copy-Item "./azure-functions/package-lock.json" "./azure-functions/dist/package-lock.json" -Force
 
       - name: Install production dependencies in dist
         shell: pwsh

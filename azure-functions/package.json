@@ -13,7 +13,6 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "": "file:",
     "@azure/functions": "^4.7.3",
     "@types/mongoose": "^5.11.96",
     "courses_api": "file:../back-end",

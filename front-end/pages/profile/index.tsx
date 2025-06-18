@@ -217,7 +217,7 @@ const Profile: React.FC = () => {
                     className={styles.avatarImage}
                   />
                   <div className={styles.avatarFallback}>
-                    {getUserInitials(user)}
+                    {getUserInitials({ user })}
                   </div>
                 </div>
                 <div className={styles.profileInfo}>

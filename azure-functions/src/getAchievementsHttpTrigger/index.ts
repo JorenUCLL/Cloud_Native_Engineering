@@ -3,8 +3,9 @@ import { AchievementService } from "../service/achievementService";
 
 export default async function (context, req) {
   try {
-    await connectDB();
-    const achievements = await AchievementService.getInstance().getAllAchievements();
+    // await connectDB();
+    const achievements =
+      await AchievementService.getInstance().getAllAchievements();
     context.log("Fetched achievements:", achievements);
 
     context.res = {

@@ -50,7 +50,7 @@ const Profile: React.FC = () => {
           const parsedData = JSON.parse(userData);
           setToken(parsedData.token);
           const fetchedUser = await UserService.getUserByEmail(parsedData.email, parsedData.token);
-          setUser(fetchedUser);
+          setUser(fetchedUser?.user ?? null);
           console.log("Fetched user in profile index:", fetchedUser);
           const fetchedAchievements = await AchievementService.getAchievementsByUser(parsedData.email, parsedData.token);
           setAchievements(fetchedAchievements);

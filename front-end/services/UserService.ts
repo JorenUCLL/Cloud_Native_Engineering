@@ -32,7 +32,7 @@ const getAllUsers = async (token: string): Promise<User[]> => {
 const getUserByEmail = async (
   email: string,
   token: string
-): Promise<User | null> => {
+): Promise<{ user: User } | null> => {
   const response = await fetch(
     "https://functioncloudnativegroup25.azurewebsites.net/api" +
       `/users/getUser/${email}`,
@@ -50,7 +50,7 @@ const getUserByEmail = async (
   }
 
   const user: User = await response.json();
-  return user;
+  return {user: user};
 };
 
 const UserService = {

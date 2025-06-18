@@ -151,7 +151,7 @@ const Workouts: React.FC = () => {
                   </button>
                 </div>
 
-                <WorkoutOverview workouts={weeklyWorkouts} user={user} />
+                <WorkoutOverview workouts={weeklyWorkouts} user={user.user} />
               </div>
             ) : (
               <p>Please Log In</p>

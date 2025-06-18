@@ -53,11 +53,33 @@ const getUserByEmail = async (
   return result;
 };
 
+const getUserById = async (
+  id: string,
+  token: string
+): Promise<{ user: User }> => {
+  const response = await fetch(
+    `https://functioncloudnativegroup25.azurewebsites.net/api/users/getUserById/${id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  if (!response.ok) {
+    throw new Error(`Failed to fetch user with ID: ${id}`);
+  }
+  const result = await response.json(); // This is: { user: User }
+  return result;
+};
+
 
 const UserService = {
   loginUser,
   getUserByEmail,
   getAllUsers,
+  getUserById,
 };
 
 export default UserService;

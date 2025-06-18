@@ -21,7 +21,6 @@ const Profile: React.FC = () => {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState<string | null>(null);
-  const [workoutTypesMap, setWorkoutTypesMap] = useState<Record<string, string>>({});
 
   const fetchWorkouts = async () => {
     try {
@@ -65,70 +64,56 @@ const Profile: React.FC = () => {
     loadData();
   }, []);
 
-  useEffect(() => {
-    const fetchTypes = async () => {
-      try {
-        const types = await TypeService.getAllTypes();
-        const map: Record<string, string> = {};
-        types.forEach(type => {
-          if (type.id !== undefined) {
-            map[type.id] = type.title || "Unknown";
-          }
-        });
-        setWorkoutTypesMap(map);
-      } catch (e) {
-        console.error("Failed to fetch workout types", e);
-      }
-    };
-    fetchTypes();
-  }, []);
-
   // Calculate workout statistics
-  const getWorkoutStats = () => {
-    if (!user || workouts.length === 0) {
-      return {
-        total: 0,
-        thisWeek: 0,
-        // favoriteType: "None",
-      };
-    }
+ const getWorkoutStats = () => {
+  if (!user || workouts.length === 0) {
+    console.log("No user or workouts yet");
+    return {
+      total: 0,
+      thisWeek: 0,
+    };
+  }
 
-    const userWorkouts = workouts.filter((w) => w.user?.email === user.email);
+  const userWorkouts = workouts.filter((w) => w.user?.email === user.email);
+  console.log("Filtered workouts for user:", user.email, userWorkouts);
 
-    const thisWeek = userWorkouts.filter((w) => {
-      const weekAgo = new Date();
-      weekAgo.setDate(weekAgo.getDate() - 7);
-      return w.date >= weekAgo;
-    });
+  const thisWeek = userWorkouts.filter((w) => {
+    const weekAgo = new Date();
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    return w.date >= weekAgo;
+  });
 
-    const workoutTypes = userWorkouts.reduce((acc, workout) => {
-      const typeId = typeof workout.type === "string" ? workout.type : "Unknown";
-      acc[typeId] = (acc[typeId] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+  const workoutTypes = userWorkouts.reduce((acc, workout) => {
+    const typeId = typeof workout.type === "string" ? workout.type : "Unknown";
+    acc[typeId] = (acc[typeId] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
 
-    // console.log("workoutTypes:", workoutTypes);
-    const entries = Object.entries(workoutTypes);
-    // console.log("entries:", entries);
+  console.log("Workout types count:", workoutTypes);
+  const entries = Object.entries(workoutTypes);
+  console.log("Entries of workout types:", entries);
 
-    if (entries.length === 0) {
-      return {
-        total: userWorkouts.length,
-        thisWeek: thisWeek.length,
-        // favoriteType: "None",
-      };
-    }
-
-    const sortedEntries = entries.sort((a, b) => b[1] - a[1]);
-    // console.log("sortedEntries:", sortedEntries);
-    // const favoriteType = sortedEntries?.[0]?.[0] ?? "None";
-
+  if (entries.length === 0) {
     return {
       total: userWorkouts.length,
       thisWeek: thisWeek.length,
-      // favoriteType,
     };
+  }
+
+  const sortedEntries = entries.sort((a, b) => b[1] - a[1]);
+  console.log("Sorted entries:", sortedEntries);
+
+  // Safe access
+  const favoriteType = sortedEntries.length > 0 ? sortedEntries[0][0] : "None";
+  console.log("Favorite workout type:", favoriteType);
+
+  return {
+    total: userWorkouts.length,
+    thisWeek: thisWeek.length,
+    // favoriteType,
   };
+};
+
 
   const getRecentWorkouts = () => {
     return workouts
@@ -138,17 +123,40 @@ const Profile: React.FC = () => {
   };
 
   const getUserInitials = (user: User) => {
-    if (user.firstName && user.lastName) {
-      return `${user.firstName[0]}${user.lastName[0]}`;
+  console.log("getUserInitials called with user:", user);
+
+  if (user.firstName?.length && user.lastName?.length) {
+    console.log("Using firstName and lastName:", user.firstName, user.lastName);
+    return `${user.firstName[0]}${user.lastName[0]}`;
+  }
+
+  if (user.name?.length) {
+    const names = user.name.split(" ");
+    console.log("Split user.name into:", names);
+    if (
+      names.length > 1 &&
+      names[0].length > 0 &&
+      names[names.length - 1].length > 0
+    ) {
+      console.log("Using first and last name parts:", names[0][0], names[names.length - 1][0]);
+      return `${names[0][0]}${names[names.length - 1][0]}`;
+    } else if (names[0].length > 0) {
+      console.log("Using first name part only:", names[0][0]);
+      return names[0][0];
+    } else {
+      console.warn("Name parts empty:", names);
     }
-    if (user.name) {
-      const names = user.name.split(" ");
-      return names.length > 1
-        ? `${names[0][0]}${names[names.length - 1][0]}`
-        : names[0][0];
-    }
+  }
+
+  if (user.email?.length) {
+    console.log("Using email first letter:", user.email[0].toUpperCase());
     return user.email[0].toUpperCase();
-  };
+  }
+
+  console.warn("Unable to get initials for user:", user);
+  return "?";
+};
+
 
   const getUserDisplayName = (user: User) => {
     if (user.firstName && user.lastName) {

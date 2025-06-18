@@ -4,7 +4,7 @@ import { Exercise, Type } from "@/types";
 import TypeService from "@/services/TypeService";
 import ExerciseService from "@/services/ExerciseService";
 import UserService from "@/services/UserService";
-
+import { User } from "@/types";
 type WorkoutModalProps = {
   onClose: () => void;
   onCreate: (data: {
@@ -24,10 +24,21 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({ onClose, onCreate }) => {
   const [exerciseInput, setExerciseInput] = useState("");
   const [allTypes, setAllTypes] = useState<Type[]>([]);
   const [selectedExercise, setSelectedExercise] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [token, setToken] = useState<string>("");
 
   const [allExercises, setAllExercises] = useState<Exercise[]>([]);
 
   useEffect(() => {
+    const loggedInUser = sessionStorage.getItem("loggedInUser");
+    if (!loggedInUser) {
+      console.error("No user logged in");
+      return;
+    }
+    const loggedInData = JSON.parse(loggedInUser);
+    setEmail(loggedInData.email);
+    setToken(loggedInData.token);
+
     (async () => {
       try {
         const types = await TypeService.getAllTypes();
@@ -55,10 +66,9 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({ onClose, onCreate }) => {
   };
 
   const handleCreate = async () => {
-    const userEmail = JSON.parse(sessionStorage.getItem("loggedInUser") || "{}").email;
-    const token = JSON.parse(sessionStorage.getItem("loggedInUser") || "{}").token;
-    const user = await UserService.getUserByEmail(userEmail, token);
-
+    const user = await UserService.getUserByEmail(
+      email, token);
+      
     console.log("Creating workout with data:",
       {
         title,

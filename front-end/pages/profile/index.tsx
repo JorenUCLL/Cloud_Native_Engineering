@@ -41,33 +41,40 @@ const Profile: React.FC = () => {
     }
   }, 2000);
 
-  useEffect(() => {
+ useEffect(() => {
+  const loadData = async () => {
     const userData = sessionStorage.getItem("loggedInUser");
     if (userData) {
       try {
         const parsedData = JSON.parse(userData);
         setToken(parsedData.token);
-        UserService.getUserByEmail(parsedData.email, parsedData.token).then(
-          (user) => {
-            setUser(user);
-            setAchievements(user?.achievements || []);
-          }
-        );
-        AchievementService.getAchievementsByUser(
-          parsedData.email,
-          parsedData.token
-        ).then((data) => setAchievements(data));
+        const fetchedUser = await UserService.getUserByEmail(parsedData.email, parsedData.token);
+        setUser(fetchedUser);
+        const fetchedAchievements = await AchievementService.getAchievementsByUser(parsedData.email, parsedData.token);
+        setAchievements(fetchedAchievements);
       } catch {
         console.error("Error parsing session storage data");
       }
     }
-    fetchWorkouts();
+    await fetchWorkouts();
     setLoading(false);
-  }, []);
+  };
+
+  loadData();
+}, []);
+
 
   // Calculate workout statistics
-  const getWorkoutStats = () => {
-  const userWorkouts = workouts.filter((w) => w.user?.email === user?.email);
+ const getWorkoutStats = () => {
+  if (!user || workouts.length === 0) {
+    return {
+      total: 0,
+      thisWeek: 0,
+      favoriteType: "None",
+    };
+  }
+
+  const userWorkouts = workouts.filter((w) => w.user?.email === user.email);
 
   const thisWeek = userWorkouts.filter((w) => {
     const weekAgo = new Date();
@@ -81,13 +88,22 @@ const Profile: React.FC = () => {
     return acc;
   }, {} as Record<string, number>);
 
-
   console.log("workoutTypes:", workoutTypes);
   const entries = Object.entries(workoutTypes);
   console.log("entries:", entries);
+
+  if (entries.length === 0) {
+    return {
+      total: userWorkouts.length,
+      thisWeek: thisWeek.length,
+      favoriteType: "None",
+    };
+  }
+
   const sortedEntries = entries.sort((a, b) => b[1] - a[1]);
   console.log("sortedEntries:", sortedEntries);
-  const favoriteType = sortedEntries.length > 0 ? sortedEntries[0][0] : "None";
+
+  const favoriteType = sortedEntries[0] && sortedEntries[0][0] ? sortedEntries[0][0] : "None";
 
   return {
     total: userWorkouts.length,
@@ -95,6 +111,7 @@ const Profile: React.FC = () => {
     favoriteType,
   };
 };
+
 
 
   const getRecentWorkouts = () => {

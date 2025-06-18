@@ -28,6 +28,7 @@ const WorkoutCard: React.FC<Props> = ({ workout, bgColor }) => {
 
       try {
         const res = await UserService.getUserById(workout.user as string, token);
+        console.log("Fetched user:", res.user);
         setUser(res.user);
       } catch (err) {
         console.error("Failed to fetch user:", err);
@@ -42,8 +43,6 @@ const WorkoutCard: React.FC<Props> = ({ workout, bgColor }) => {
   const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
   const headerColor = darkenHex(bgColor);
-
-  console.log("WorkoutCard - User:", user);
 
   return (
     <article className={styles.card} style={{ background: bgColor }}>

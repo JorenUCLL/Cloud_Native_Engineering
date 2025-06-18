@@ -31,7 +31,11 @@ const Header: React.FC = () => {
     }
 
     const user = await UserService.getUserByEmail(
-      JSON.parse(loggedInUser).email, JSON.parse(loggedInUser).token);
+      JSON.parse(loggedInUser).email,
+      JSON.parse(loggedInUser).token
+    );
+
+    console.log(user);
 
     const workoutData: Workout = {
       title: data.title,
@@ -128,7 +132,10 @@ const Header: React.FC = () => {
             />
           </button>
           {showQuote && (
-            <QuoteModal isOpen={showQuote} onClose={() => setShowQuote(false)} />
+            <QuoteModal
+              isOpen={showQuote}
+              onClose={() => setShowQuote(false)}
+            />
           )}
 
           <a href="/"></a>
@@ -158,8 +165,6 @@ const Header: React.FC = () => {
           )}
         </nav>
       </header>
-
-
     </>
   );
 };

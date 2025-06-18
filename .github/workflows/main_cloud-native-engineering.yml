@@ -111,10 +111,10 @@ jobs:
           npm ci --omit=dev
           popd
 
-      - name: "Debug: List dist folder contents"
-        shell: pwsh
-        run: |
-          Get-ChildItem -Path "./azure-functions/dist" -Recurse
+      # - name: "Debug: List dist folder contents"
+      #   shell: pwsh
+      #   run: |
+      #     Get-ChildItem -Path "./azure-functions/dist" -Recurse
 
       - name: "Run Azure Functions Action"
         uses: Azure/functions-action@v1

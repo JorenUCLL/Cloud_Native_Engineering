@@ -23,7 +23,6 @@ const Profile: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);
   const [workoutTypesMap, setWorkoutTypesMap] = useState<Record<string, string>>({});
 
-
   const fetchWorkouts = async () => {
     try {
       const data = await WorkoutService.getAllWorkouts();
@@ -44,96 +43,92 @@ const Profile: React.FC = () => {
     }
   }, 2000);
 
- useEffect(() => {
-  const loadData = async () => {
-    const userData = sessionStorage.getItem("loggedInUser");
-    if (userData) {
-      try {
-        const parsedData = JSON.parse(userData);
-        setToken(parsedData.token);
-        const fetchedUser = await UserService.getUserByEmail(parsedData.email, parsedData.token);
-        setUser(fetchedUser);
-        const fetchedAchievements = await AchievementService.getAchievementsByUser(parsedData.email, parsedData.token);
-        setAchievements(fetchedAchievements);
-      } catch {
-        console.error("Error parsing session storage data");
-      }
-    }
-    await fetchWorkouts();
-    setLoading(false);
-  };
-
-  loadData();
-}, []);
-
-useEffect(() => {
-  const fetchTypes = async () => {
-    try {
-      const types = await TypeService.getAllTypes();
-      const map: Record<string, string> = {};
-      types.forEach(type => {
-        if (type.id !== undefined) {
-          map[type.id] = type.title || "Unknown";
+  useEffect(() => {
+    const loadData = async () => {
+      const userData = sessionStorage.getItem("loggedInUser");
+      if (userData) {
+        try {
+          const parsedData = JSON.parse(userData);
+          setToken(parsedData.token);
+          const fetchedUser = await UserService.getUserByEmail(parsedData.email, parsedData.token);
+          setUser(fetchedUser);
+          const fetchedAchievements = await AchievementService.getAchievementsByUser(parsedData.email, parsedData.token);
+          setAchievements(fetchedAchievements);
+        } catch {
+          console.error("Error parsing session storage data");
         }
-      });
-      setWorkoutTypesMap(map);
-    } catch (e) {
-      console.error("Failed to fetch workout types", e);
-    }
-  };
-  fetchTypes();
-}, []);
+      }
+      await fetchWorkouts();
+      setLoading(false);
+    };
 
+    loadData();
+  }, []);
 
+  useEffect(() => {
+    const fetchTypes = async () => {
+      try {
+        const types = await TypeService.getAllTypes();
+        const map: Record<string, string> = {};
+        types.forEach(type => {
+          if (type.id !== undefined) {
+            map[type.id] = type.title || "Unknown";
+          }
+        });
+        setWorkoutTypesMap(map);
+      } catch (e) {
+        console.error("Failed to fetch workout types", e);
+      }
+    };
+    fetchTypes();
+  }, []);
 
   // Calculate workout statistics
- const getWorkoutStats = () => {
-  if (!user || workouts.length === 0) {
-    return {
-      total: 0,
-      thisWeek: 0,
-      favoriteType: "None",
-    };
-  }
+  const getWorkoutStats = () => {
+    if (!user || workouts.length === 0) {
+      return {
+        total: 0,
+        thisWeek: 0,
+        // favoriteType: "None",
+      };
+    }
 
-  const userWorkouts = workouts.filter((w) => w.user?.email === user.email);
+    const userWorkouts = workouts.filter((w) => w.user?.email === user.email);
 
-  const thisWeek = userWorkouts.filter((w) => {
-    const weekAgo = new Date();
-    weekAgo.setDate(weekAgo.getDate() - 7);
-    return w.date >= weekAgo;
-  });
+    const thisWeek = userWorkouts.filter((w) => {
+      const weekAgo = new Date();
+      weekAgo.setDate(weekAgo.getDate() - 7);
+      return w.date >= weekAgo;
+    });
 
-  const workoutTypes = userWorkouts.reduce((acc, workout) => {
-    const typeId =
-      typeof workout.type === "string"
-        ? workout.type
-        : workout.type?.id || "Unknown";
-    acc[typeId] = (acc[typeId] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
+    const workoutTypes = userWorkouts.reduce((acc, workout) => {
+      const typeId = typeof workout.type === "string" ? workout.type : "Unknown";
+      acc[typeId] = (acc[typeId] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
 
-  const entries = Object.entries(workoutTypes);
-  if (!entries || entries.length === 0) {
+    // console.log("workoutTypes:", workoutTypes);
+    const entries = Object.entries(workoutTypes);
+    // console.log("entries:", entries);
+
+    if (entries.length === 0) {
+      return {
+        total: userWorkouts.length,
+        thisWeek: thisWeek.length,
+        // favoriteType: "None",
+      };
+    }
+
+    const sortedEntries = entries.sort((a, b) => b[1] - a[1]);
+    // console.log("sortedEntries:", sortedEntries);
+    // const favoriteType = sortedEntries?.[0]?.[0] ?? "None";
+
     return {
       total: userWorkouts.length,
       thisWeek: thisWeek.length,
-      favoriteType: "None",
+      // favoriteType,
     };
-  }
-
-  const sortedEntries = entries.sort((a, b) => b[1] - a[1]);
-  const favoriteType = (sortedEntries[0] && sortedEntries[0][0]) || "None";
-
-  return {
-    total: userWorkouts.length,
-    thisWeek: thisWeek.length,
-    favoriteType,
   };
-};
-
-
-
 
   const getRecentWorkouts = () => {
     return workouts
@@ -252,9 +247,8 @@ useEffect(() => {
               </div>
               <div className={styles.statCardContent}>
                 <div className={styles.statNumber}>
-                  {workoutTypesMap[stats.favoriteType] || stats.favoriteType}
+                  {/* {workoutTypesMap[stats.favoriteType] || stats.favoriteType} */}
                 </div>
-
                 <p className={styles.statDescription}>Het meeste</p>
               </div>
             </div>

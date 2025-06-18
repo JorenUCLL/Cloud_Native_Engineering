@@ -29,12 +29,10 @@ jobs:
         run: |
           cd front-end
           npm ci
-
       - name: Build Frontend
         run: |
           cd front-end
           npm run build
-
       - name: Run Upload Script
         run: |
           chmod +x ./upload-site.sh
@@ -55,17 +53,25 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: "Install and Build Azure Functions"
+      - name: Install dependencies in Azure Functions folder
         shell: pwsh
         run: |
           pushd './azure-functions'
-          npm install
+          npm ci
+          popd
+
+      - name: "Build Azure Functions"
+        shell: pwsh
+        run: |
+          pushd './azure-functions'
           npm run build
           popd
 
-      - name: "Copy compiled function folders to dist root"
+      - name: "Copy host.json and compiled code to dist"
         shell: pwsh
         run: |
+          Copy-Item -Path "./azure-functions/host.json" -Destination "./azure-functions/dist" -Force
+
           $srcRoot = "./azure-functions/src"
           $compiledRoot = "./azure-functions/dist/src"
           $distRoot = "./azure-functions/dist"
@@ -80,37 +86,24 @@ jobs:
               New-Item -ItemType Directory -Path $destFuncDir | Out-Null
             }
 
-            # Copy function.json from src only if it exists
             if (Test-Path "$srcFuncDir/function.json") {
               Copy-Item -Path "$srcFuncDir/function.json" -Destination $destFuncDir -Force
             }
 
-            # Copy compiled JS files from dist/src
             Copy-Item -Path "$compiledFuncDir/*" -Destination $destFuncDir -Recurse -Force
-          }
-
-          # Copy shared folders into dist
-          $sharedFolders = @("repository", "service", "helpers", "mongo-models", "util", "types")
-
-          foreach ($folder in $sharedFolders) {
-            $srcSharedDir = Join-Path $srcRoot $folder
-            $destSharedDir = Join-Path $distRoot $folder
-
-            if (Test-Path $srcSharedDir) {
-              if (Test-Path $destSharedDir) {
-                Remove-Item -Recurse -Force $destSharedDir
-              }
-              Copy-Item -Path $srcSharedDir -Destination $destSharedDir -Recurse -Force
-              Write-Host "Copied shared folder: $folder"
-            } else {
-              Write-Host "Shared folder not found (skipping): $folder"
-            }
           }
 
       - name: "Copy host.json to dist"
         shell: pwsh
         run: |
           Copy-Item -Path "./azure-functions/host.json" -Destination "./azure-functions/dist" -Force
+
+      - name: Install production dependencies in dist
+        shell: pwsh
+        run: |
+          pushd './azure-functions/dist'
+          npm ci --omit=dev
+          popd
 
       - name: "Debug: List dist folder contents"
         shell: pwsh

@@ -50,6 +50,10 @@ const getUserByEmail = async (
   }
 
   const result = await response.json(); // This is: { user: User }
+
+  if (result.user && !result.user.id && result.user._id) {
+    result.user.id = result.user._id;
+  }
   return result;
 };
 
@@ -71,9 +75,11 @@ const getUserById = async (
     throw new Error(`Failed to fetch user with ID: ${id}`);
   }
   const result = await response.json(); // This is: { user: User }
+  if (result.user && !result.user.id && result.user._id) {
+    result.user.id = result.user._id;
+  }
   return result;
 };
-
 
 const UserService = {
   loginUser,

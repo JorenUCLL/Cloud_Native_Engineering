@@ -122,19 +122,19 @@ const Profile: React.FC = () => {
       .slice(0, 5);
   };
 
-  const getUserInitials = (user: User) => {
+  const getUserInitials = (wrappedUser : {user: User}) => {
   console.log("getUserInitials called with user:", user);
-  console.log("First name:", user.firstName, "Type:", typeof user.firstName);
-  console.log("Last name:", user.lastName, "Type:", typeof user.lastName);
+  console.log("First name:", user.firstName, "Type:", typeof wrappedUser.user.firstName);
+  console.log("Last name:", user.lastName, "Type:", typeof wrappedUser.user.lastName);
 
 
-  if (user.firstName?.length && user.lastName?.length) {
-    console.log("Using firstName and lastName:", user.firstName, user.lastName);
-    return `${user.firstName[0]}${user.lastName[0]}`;
+  if (wrappedUser.user.firstName?.length && wrappedUser.user.lastName?.length) {
+    console.log("Using firstName and lastName:", wrappedUser.user.firstName, wrappedUser.user.lastName);
+    return `${wrappedUser.user.firstName[0]}${wrappedUser.user.lastName[0]}`;
   }
 
-  if (user.name?.length) {
-    const names = user.name.split(" ");
+  if (wrappedUser.user.name?.length) {
+    const names = wrappedUser.user.name.split(" ");
     console.log("Split user.name into:", names);
     if (
       names.length > 1 &&
@@ -151,9 +151,9 @@ const Profile: React.FC = () => {
     }
   }
 
-  if (user.email?.length) {
-    console.log("Using email first letter:", user.email[0].toUpperCase());
-    return user.email[0].toUpperCase();
+  if (wrappedUser.user.email?.length) {
+    console.log("Using email first letter:", wrappedUser.user.email[0].toUpperCase());
+    return wrappedUser.user.email[0].toUpperCase();
   }
 
   console.warn("Unable to get initials for user:", user);

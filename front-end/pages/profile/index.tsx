@@ -124,6 +124,9 @@ const Profile: React.FC = () => {
 
   const getUserInitials = (user: User) => {
   console.log("getUserInitials called with user:", user);
+  console.log("First name:", user.firstName, "Type:", typeof user.firstName);
+  console.log("Last name:", user.lastName, "Type:", typeof user.lastName);
+
 
   if (user.firstName?.length && user.lastName?.length) {
     console.log("Using firstName and lastName:", user.firstName, user.lastName);

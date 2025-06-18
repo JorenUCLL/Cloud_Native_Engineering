@@ -28,9 +28,7 @@ export class UserService {
   }
 
   async authenticate({ email, password }): Promise<AuthenticationResponse> {
-    const newEmail = email.trim().toLowerCase();
-    console.log("Authenticating user:", newEmail);
-    const user = await this.userRepository.getUserByEmail(newEmail);
+    const user = await this.userRepository.getUserByEmail(email);
 
     if (!user) {
       throw new Error("No user with that email");

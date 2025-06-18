@@ -98,7 +98,7 @@ const Profile: React.FC = () => {
           ...t,
           id: t.id || t._id,
         }));
-        setTypes(fetchedTypes);
+        setTypes(normalizedTypes);
       } catch (error) {
         console.error("Error loading user/profile data:", error);
       }

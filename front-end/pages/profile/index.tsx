@@ -25,7 +25,6 @@ const Profile: React.FC = () => {
   const fetchWorkouts = async () => {
     try {
       const data = await WorkoutService.getAllWorkouts();
-      console.log("Fetched workouts in profile index:", data);
       const parsedData = data.map((workout: Workout) => ({
         ...workout,
         date: new Date(workout.date),
@@ -51,7 +50,6 @@ const Profile: React.FC = () => {
           setToken(parsedData.token);
           const fetchedUser = await UserService.getUserByEmail(parsedData.email, parsedData.token);
           setUser(fetchedUser?.user ?? null);
-          console.log("Fetched user in profile index:", fetchedUser);
           const fetchedAchievements = await AchievementService.getAchievementsByUser(parsedData.email, parsedData.token);
           setAchievements(fetchedAchievements);
         } catch {
@@ -124,9 +122,6 @@ const Profile: React.FC = () => {
   };
 
   const getUserInitials = (user: User) => {
-  console.log("getUserInitials called with user:", user);
-  console.log("First name:", user.firstName, "Type:", typeof user.firstName);
-  console.log("Last name:", user.lastName, "Type:", typeof user.lastName);
 
   if (user.firstName?.length && user.lastName?.length) {
     return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();

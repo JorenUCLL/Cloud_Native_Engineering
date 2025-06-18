@@ -94,6 +94,10 @@ const Profile: React.FC = () => {
         console.log("Fetched achievements:", normalizedAchievements);
 
         const fetchedTypes = await TypeService.getAllTypes();
+        const normalizedTypes = fetchedTypes.map((t: any) => ({
+          ...t,
+          id: t.id || t._id,
+        }));
         setTypes(fetchedTypes);
       } catch (error) {
         console.error("Error loading user/profile data:", error);

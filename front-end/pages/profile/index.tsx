@@ -122,42 +122,28 @@ const Profile: React.FC = () => {
       .slice(0, 5);
   };
 
-  const getUserInitials = (wrappedUser : {user: User}) => {
-    const user = wrappedUser.user;
+  const getUserInitials = (user: User) => {
   console.log("getUserInitials called with user:", user);
-  console.log("First name:", user.firstName, "Type:", typeof wrappedUser.user.firstName);
-  console.log("Last name:", user.lastName, "Type:", typeof wrappedUser.user.lastName);
+  console.log("First name:", user.firstName, "Type:", typeof user.firstName);
+  console.log("Last name:", user.lastName, "Type:", typeof user.lastName);
 
-
-  if (wrappedUser.user.firstName?.length && wrappedUser.user.lastName?.length) {
-    console.log("Using firstName and lastName:", wrappedUser.user.firstName, wrappedUser.user.lastName);
-    return `${wrappedUser.user.firstName[0]}${wrappedUser.user.lastName[0]}`;
+  if (user.firstName?.length && user.lastName?.length) {
+    return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();
   }
 
-  if (wrappedUser.user.name?.length) {
-    const names = wrappedUser.user.name.split(" ");
-    console.log("Split user.name into:", names);
-    if (
-      names.length > 1 &&
-      names[0].length > 0 &&
-      names[names.length - 1].length > 0
-    ) {
-      console.log("Using first and last name parts:", names[0][0], names[names.length - 1][0]);
-      return `${names[0][0]}${names[names.length - 1][0]}`;
-    } else if (names[0].length > 0) {
-      console.log("Using first name part only:", names[0][0]);
-      return names[0][0];
+  if (user.name?.length) {
+    const names = user.name.split(" ");
+    if (names.length > 1) {
+      return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase();
     } else {
-      console.warn("Name parts empty:", names);
+      return names[0][0].toUpperCase();
     }
   }
 
-  if (wrappedUser.user.email?.length) {
-    console.log("Using email first letter:", wrappedUser.user.email[0].toUpperCase());
-    return wrappedUser.user.email[0].toUpperCase();
+  if (user.email?.length) {
+    return user.email[0].toUpperCase();
   }
 
-  console.warn("Unable to get initials for user:", user);
   return "?";
 };
 
@@ -217,7 +203,7 @@ const Profile: React.FC = () => {
                     className={styles.avatarImage}
                   />
                   <div className={styles.avatarFallback}>
-                    {getUserInitials({ user })}
+                    {getUserInitials( user )}
                   </div>
                 </div>
                 <div className={styles.profileInfo}>

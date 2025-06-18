@@ -67,6 +67,9 @@ const Profile: React.FC = () => {
 
   // Calculate workout statistics
   const getWorkoutStats = () => {
+  console.log("getWorkoutStats called");
+  console.log("User:", user);
+  console.log("Workouts:", workouts);
   const userWorkouts = workouts.filter((w) => w.user?.email === user?.email);
 
   const thisWeek = userWorkouts.filter((w) => {

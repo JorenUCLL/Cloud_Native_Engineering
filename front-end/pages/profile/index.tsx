@@ -66,6 +66,25 @@ const Profile: React.FC = () => {
   loadData();
 }, []);
 
+useEffect(() => {
+  const fetchTypes = async () => {
+    try {
+      const types = await TypeService.getAllTypes();
+      const map: Record<string, string> = {};
+      types.forEach(type => {
+        if (type.id !== undefined) {
+          map[type.id] = type.title || "Unknown";
+        }
+      });
+      setWorkoutTypesMap(map);
+    } catch (e) {
+      console.error("Failed to fetch workout types", e);
+    }
+  };
+  fetchTypes();
+}, []);
+
+
 
   // Calculate workout statistics
  const getWorkoutStats = () => {
@@ -85,11 +104,11 @@ const Profile: React.FC = () => {
     return w.date >= weekAgo;
   });
 
-  const workoutTypes = userWorkouts.reduce((acc, workout) => {
-  const typeId = workout.type?.id || "Unknown";
-    acc[typeId] = (acc[typeId] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
+const workoutTypes = userWorkouts.reduce((acc, workout) => {
+  const typeId = typeof workout.type === "string" ? workout.type : "Unknown";
+  acc[typeId] = (acc[typeId] || 0) + 1;
+  return acc;
+}, {} as Record<string, number>);
 
 
   console.log("workoutTypes:", workoutTypes);
@@ -234,7 +253,10 @@ const Profile: React.FC = () => {
                 <Target className={styles.statIcon} />
               </div>
               <div className={styles.statCardContent}>
-                <div className={styles.statNumber}>{stats.favoriteType}</div>
+                <div className={styles.statNumber}>
+                  {workoutTypesMap[stats.favoriteType] || stats.favoriteType}
+                </div>
+
                 <p className={styles.statDescription}>Het meeste</p>
               </div>
             </div>

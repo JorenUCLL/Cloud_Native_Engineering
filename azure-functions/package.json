@@ -9,14 +9,11 @@
     "watch": "tsc -w",
     "clean": "rimraf dist",
     "prestart": "npm run clean && npm run build",
-    "start": "func start",
-    "test": "echo \"No tests yet...\""
+    "start": "func start"
   },
   "dependencies": {
-    "": "file:",
     "@azure/functions": "^4.7.3",
     "@types/mongoose": "^5.11.96",
-    "courses_api": "file:../back-end",
     "func": "^1.3.5",
     "mongoose": "^8.16.0"
   },
@@ -25,8 +22,5 @@
     "azure-functions-core-tools": "^4.x",
     "rimraf": "^5.0.0",
     "typescript": "^4.9.5"
-  },
-  "compilerOptions": {
-    "skipLibCheck": true
   }
 }

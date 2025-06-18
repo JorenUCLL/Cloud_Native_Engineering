@@ -128,7 +128,7 @@ const Profile: React.FC = () => {
   return {
     total: userWorkouts.length,
     thisWeek: thisWeek.length,
-    // favoriteType,
+    favoriteType,
   };
 };
 
@@ -260,7 +260,7 @@ const Profile: React.FC = () => {
               </div>
               <div className={styles.statCardContent}>
                 <div className={styles.statNumber}>
-                  {/* {workoutTypesMap[stats.favoriteType] || stats.favoriteType} */}
+                  {stats.favoriteType}
                 </div>
                 <p className={styles.statDescription}>Het meeste</p>
               </div>

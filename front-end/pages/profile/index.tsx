@@ -104,18 +104,17 @@ useEffect(() => {
     return w.date >= weekAgo;
   });
 
-const workoutTypes = userWorkouts.reduce((acc, workout) => {
-  const typeId = typeof workout.type === "string" ? workout.type : "Unknown";
-  acc[typeId] = (acc[typeId] || 0) + 1;
-  return acc;
-}, {} as Record<string, number>);
+  const workoutTypes = userWorkouts.reduce((acc, workout) => {
+    const typeId =
+      typeof workout.type === "string"
+        ? workout.type
+        : workout.type?.id || "Unknown";
+    acc[typeId] = (acc[typeId] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
 
-
-  console.log("workoutTypes:", workoutTypes);
   const entries = Object.entries(workoutTypes);
-  console.log("entries:", entries);
-
-  if (entries.length === 0) {
+  if (!entries || entries.length === 0) {
     return {
       total: userWorkouts.length,
       thisWeek: thisWeek.length,
@@ -124,10 +123,7 @@ const workoutTypes = userWorkouts.reduce((acc, workout) => {
   }
 
   const sortedEntries = entries.sort((a, b) => b[1] - a[1]);
-  console.log("sortedEntries:", sortedEntries);
-  const favoriteType = sortedEntries?.[0]?.[0] ?? "None";
-  console.log("favoriteType:", favoriteType);
-
+  const favoriteType = (sortedEntries[0] && sortedEntries[0][0]) || "None";
 
   return {
     total: userWorkouts.length,
@@ -135,6 +131,7 @@ const workoutTypes = userWorkouts.reduce((acc, workout) => {
     favoriteType,
   };
 };
+
 
 
 
